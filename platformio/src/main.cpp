@@ -8,48 +8,39 @@
 #include <ClockTools.h>
 #include <HttpTools.h>
 #include <ui.h>
+#include <vars.h>
+#include <structs.h>
 
 using namespace esp_panel::drivers;
 
 void fetchData() {
     LOG_DEBUG("fetch data");
     JsonDocument doc;
-    int offset;
 
     if (!getJsonFromUrl(doc, "http://192.168.1.17")) {
         LOG_WARN("Failed to get data from dashboard server.");
         return;
     }
 
-    lvgl_port_lock(-1);
+    for (int j = 0; j < 2; j++) {
+        ArrayOfString routes(3);
+        ArrayOfString destinations(3);
+        ArrayOfString dueTimes(3);
 
-    auto topStop = doc["bus_stops"][0];
-    lv_label_set_text(objects.top__stop_name, topStop["name"] | "");
-    auto buses = topStop["buses"];
-    lv_label_set_text(objects.top__row1__bus_route, buses[0]["route"] | "");
-    lv_label_set_text(objects.top__row1__bus_destination, buses[0]["destination"] | "");
-    lv_label_set_text(objects.top__row1__bus_due, buses[0]["due"] | "");
-    lv_label_set_text(objects.top__row2__bus_route, buses[1]["route"] | "");
-    lv_label_set_text(objects.top__row2__bus_destination, buses[1]["destination"] | "");
-    lv_label_set_text(objects.top__row2__bus_due, buses[1]["due"] | "");
-    lv_label_set_text(objects.top__row3__bus_route, buses[2]["route"] | "");
-    lv_label_set_text(objects.top__row3__bus_destination, buses[2]["destination"] | "");
-    lv_label_set_text(objects.top__row3__bus_due, buses[2]["due"] | "");
+        for (int i = 0; i < 3; i++) {
+            routes.at(i, doc["bus_stops"][j]["buses"][i]["route"] | "");
+            destinations.at(i, doc["bus_stops"][j]["buses"][i]["destination"] | "");
+            dueTimes.at(i, doc["bus_stops"][j]["buses"][i]["due"] | "");
+        }
 
-    auto bottomStop = doc["bus_stops"][1];
-    lv_label_set_text(objects.bottom__stop_name, bottomStop["name"] | "");
-    buses = bottomStop["buses"];
-    lv_label_set_text(objects.bottom__row1__bus_route, buses[0]["route"] | "");
-    lv_label_set_text(objects.bottom__row1__bus_destination, buses[0]["destination"] | "");
-    lv_label_set_text(objects.bottom__row1__bus_due, buses[0]["due"] | "");
-    lv_label_set_text(objects.bottom__row2__bus_route, buses[1]["route"] | "");
-    lv_label_set_text(objects.bottom__row2__bus_destination, buses[1]["destination"] | "");
-    lv_label_set_text(objects.bottom__row2__bus_due, buses[1]["due"] | "");
-    lv_label_set_text(objects.bottom__row3__bus_route, buses[2]["route"] | "");
-    lv_label_set_text(objects.bottom__row3__bus_destination, buses[2]["destination"] | "");
-    lv_label_set_text(objects.bottom__row3__bus_due, buses[2]["due"] | "");
+        flow::setGlobalVariable(j == 0 ? FLOW_GLOBAL_VARIABLE_BUS_STOP_1_NAME : FLOW_GLOBAL_VARIABLE_BUS_STOP_2_NAME, Value(doc["bus_stops"][j]["name"] | ""));
+        flow::setGlobalVariable(j == 0 ? FLOW_GLOBAL_VARIABLE_BUS_STOP_1_ROUTES : FLOW_GLOBAL_VARIABLE_BUS_STOP_2_ROUTES, routes);
+        flow::setGlobalVariable(j == 0 ? FLOW_GLOBAL_VARIABLE_BUS_STOP_1_DESTINATIONS : FLOW_GLOBAL_VARIABLE_BUS_STOP_2_DESTINATIONS, destinations);
+        flow::setGlobalVariable(j == 0 ? FLOW_GLOBAL_VARIABLE_BUS_STOP_1_TIMES : FLOW_GLOBAL_VARIABLE_BUS_STOP_2_TIMES, dueTimes);
+    }
 
-    lvgl_port_unlock();
+    flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_TEMPERATURE, Value(doc["weather"]["temperature"] | "", VALUE_TYPE_STRING));
+    flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_RAIN_CHANCE, Value(doc["weather"]["rain"] | "", VALUE_TYPE_STRING));
 }
 
 void setup()
@@ -70,16 +61,21 @@ void setup()
 
     LOG_DEBUG("Creating UI");
     ui_init();
-
     fetchData();
 }
 
 
 void loop()
-{
-    fetchData();
+ {
+    static unsigned long lastFetchTime = ::millis();
+    const unsigned long fetchInterval = 30000;
+    unsigned long currentTime = ::millis();
+
+    if (currentTime - lastFetchTime >= fetchInterval) {
+        lastFetchTime = currentTime;
+        fetchData();
+    }
+
     ui_tick();
-    LOG_TRACE("Idle loop");
-    delay(30000);
-}
+ }
 

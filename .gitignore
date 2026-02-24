@@ -3,3 +3,7 @@
 .DS_Store
 eez-studio/src
 .history
+eez-studio/waveshare-dashboard.eez-project-ui-state
+platformio/lib/ui
+platformio/.pio
+platformio/.vscode
