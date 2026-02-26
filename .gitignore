@@ -7,3 +7,5 @@ eez-studio/waveshare-dashboard.eez-project-ui-state
 platformio/lib/ui
 platformio/.pio
 platformio/.vscode
+.venv
+__pycache__
