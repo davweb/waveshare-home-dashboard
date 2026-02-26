@@ -3,17 +3,8 @@
 #include "Wireless.h"
 #include "WirelessConfig.h"
 
-// If we have a static IP we don't need to wait as long for the connection
-#ifdef WIFI_IP_ADDRESS
-    #define CONNECTION_INTERVAL_MS 40
-    #define CONNECTION_TIMEOUT_MS 400
-#else
-    #define CONNECTION_INTERVAL_MS 500
-    #define CONNECTION_TIMEOUT_MS 10000
-#endif
 
-
-bool startWiFi() {
+void startWiFi() {
     #ifndef WIFI_SSID
         LOG_ERROR("No WiFi credentials provided");
         return false;
@@ -33,29 +24,12 @@ bool startWiFi() {
             }
             else {
                 LOG_ERROR("Failed to set static IP address", ipAddress);
-                return false;
             }
         #else
             LOG_DEBUG("Using DHCP IP address");
         #endif
 
         WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-
-        int time = 0;
-
-        while (!isWiFiConnected() && time < CONNECTION_TIMEOUT_MS) {
-            delay(CONNECTION_INTERVAL_MS);
-            time += CONNECTION_INTERVAL_MS;
-            LOG_TRACE("Have waited", time, "ms for WiFi connection");
-        }
-
-        if (!isWiFiConnected()) {
-            LOG_ERROR("Failed to connect to WiFi network", WIFI_SSID);
-            return false;
-        }
-
-        LOG_INFO("Connected to WiFi network", WIFI_SSID, "with IP address", getLocalIpAddress());
-        return true;
     #endif
 }
 
