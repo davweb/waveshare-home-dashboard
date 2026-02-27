@@ -12,16 +12,24 @@ bool getJsonFromUrl(JsonDocument &doc, String url) {
     }
 
     HTTPClient http;
-    String response;
     LOG_DEBUG("Getting JSON from URL", url);
 
     if (http.begin(url)) {
         int statusCode = http.GET();
 
         if (statusCode == 200) {
-            response = http.getString();
+            DeserializationError error = deserializeJson(doc, http.getStream());
+            http.end();
+
+            if (error) {
+                LOG_ERROR("deserializeJson() failed: ", error.c_str());
+                return false;
+            }
+
+            return true;
         } else {
             LOG_ERROR("HTTP GET failed with status code", statusCode);
+            http.end();
             return false;
         }
     }
@@ -29,7 +37,4 @@ bool getJsonFromUrl(JsonDocument &doc, String url) {
         LOG_ERROR("Failed to make HTTP request");
         return false;
     }
-
-    deserializeJson(doc, response);
-    return true;
 }
