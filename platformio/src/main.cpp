@@ -60,7 +60,10 @@ void fetchData() {
         flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_TEMPERATURE, Value(doc["weather"]["temperature"] | "", VALUE_TYPE_STRING));
         flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_RAIN_CHANCE, Value(doc["weather"]["rain"] | "", VALUE_TYPE_STRING));
         flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_RECYCLING_DATE, Value(doc["recycling"]["date"] | "", VALUE_TYPE_STRING));
+        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_RECYCLING_SHORT_DATE, Value(doc["recycling"]["short_date"] | "", VALUE_TYPE_STRING));
         flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_RECYCLING_TYPE, Value(doc["recycling"]["type"] | "", VALUE_TYPE_STRING));
+        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_SUN_TYPE, Value(doc["weather"]["sun"]["event"] | "", VALUE_TYPE_STRING));
+        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_SUN_TIME, Value(doc["weather"]["sun"]["time"] | "", VALUE_TYPE_STRING));
 
         lvgl_port_unlock();
     }
