@@ -15,19 +15,6 @@
 
 using namespace esp_panel::drivers;
 
-void display_boot_image() {
-    if (lvgl_port_lock(portMAX_DELAY)) {
-        lv_obj_t * img = lv_img_create(lv_scr_act());
-        lv_img_set_src(img, &img_start_up);
-        lv_obj_center(img);
-        lvgl_port_unlock();
-    }
-    else {
-        LOG_ERROR("Failed to lock LVGL mutex to display boot image");
-        return;
-    }
-}
-
 void fetchData() {
     LOG_DEBUG("fetch data");
     JsonDocument doc;
@@ -73,6 +60,40 @@ void fetchData() {
     }
 }
 
+const char *get_var_time() {
+    time_t now = time(nullptr);
+    struct tm timeinfo;
+    localtime_r(&now, &timeinfo);
+
+    static char time_str[10];
+    snprintf(time_str, sizeof(time_str), "%d:%02d", timeinfo.tm_hour, timeinfo.tm_min);
+    return time_str;
+}
+
+void set_var_time(const char *value) {
+    // Do nothing
+}
+
+const char *get_var_date() {
+    time_t now = time(nullptr);
+    struct tm timeinfo;
+    localtime_r(&now, &timeinfo);
+
+    static char date_str[64];
+    char weekday[24];
+    char month[24];
+
+    strftime(weekday, sizeof(weekday), "%A", &timeinfo);
+    strftime(month, sizeof(month), "%B", &timeinfo);
+
+    snprintf(date_str, sizeof(date_str), "%s %d %s", weekday, timeinfo.tm_mday, month);
+    return date_str;
+}
+
+void set_var_date(const char *value) {
+    // Do nothing
+}
+
 void setup()
 {
     Serial.begin(115200);
@@ -86,8 +107,6 @@ void setup()
 
     LOG_DEBUG("Initializing LVGL");
     lvgl_port_init(board->getLCD(), board->getTouch());
-
-    display_boot_image();
 
     startWiFi();
 
