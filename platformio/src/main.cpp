@@ -30,9 +30,9 @@ void fetchData() {
 
     for (int j = 0; j < 2; j++) {
         for (int i = 0; i < 3; i++) {
-            strcpy(bus_routes[j][i], doc["bus_stops"][j]["buses"][i]["route"] | "");
-            strcpy(bus_destinations[j][i], doc["bus_stops"][j]["buses"][i]["destination"] | "");
-            strcpy(bus_due_times[j][i], doc["bus_stops"][j]["buses"][i]["due"] | "");
+            strlcpy(bus_routes[j][i], doc["bus_stops"][j]["buses"][i]["route"] | "", sizeof(bus_routes[j][i]));
+            strlcpy(bus_destinations[j][i], doc["bus_stops"][j]["buses"][i]["destination"] | "", sizeof(bus_destinations[j][i]));
+            strlcpy(bus_due_times[j][i], doc["bus_stops"][j]["buses"][i]["due"] | "", sizeof(bus_due_times[j][i]));
         }
     }
 
@@ -125,7 +125,14 @@ void setup()
     startWiFi();
 
     LOG_DEBUG("Creating UI");
+
+    while (!lvgl_port_lock(portMAX_DELAY)) {
+        LOG_WARN("Failed to lock LVGL mutex, retrying...");
+        delay(10);
+    }
+
     ui_init();
+    lvgl_port_unlock();
 }
 
 
