@@ -7,7 +7,6 @@
 void startWiFi() {
     #ifndef WIFI_SSID
         LOG_ERROR("No WiFi credentials provided");
-        return false;
     #else
         WiFi.mode(WIFI_MODE_STA);
 

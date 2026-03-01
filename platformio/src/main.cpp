@@ -15,6 +15,10 @@
 
 using namespace esp_panel::drivers;
 
+char bus_routes[2][3][4];
+char bus_destinations[2][3][32];
+char bus_due_times[2][3][6];
+
 void fetchData() {
     LOG_DEBUG("fetch data");
     JsonDocument doc;
@@ -24,33 +28,42 @@ void fetchData() {
         return;
     }
 
+    for (int j = 0; j < 2; j++) {
+        for (int i = 0; i < 3; i++) {
+            strcpy(bus_routes[j][i], doc["bus_stops"][j]["buses"][i]["route"] | "");
+            strcpy(bus_destinations[j][i], doc["bus_stops"][j]["buses"][i]["destination"] | "");
+            strcpy(bus_due_times[j][i], doc["bus_stops"][j]["buses"][i]["due"] | "");
+        }
+    }
+
     //Lock the LVGL mutex
     if (lvgl_port_lock(portMAX_DELAY)) {
 
         for (int j = 0; j < 2; j++) {
-            ArrayOfString routes(3);
-            ArrayOfString destinations(3);
-            ArrayOfString dueTimes(3);
+            ArrayOfString eez_routes(3);
+            ArrayOfString eez_destinations(3);
+            ArrayOfString eez_due_times(3);
 
             for (int i = 0; i < 3; i++) {
-                routes.at(i, doc["bus_stops"][j]["buses"][i]["route"] | "");
-                destinations.at(i, doc["bus_stops"][j]["buses"][i]["destination"] | "");
-                dueTimes.at(i, doc["bus_stops"][j]["buses"][i]["due"] | "");
+                eez_routes.at(i, bus_routes[j][i]);
+                eez_destinations.at(i, bus_destinations[j][i]);
+                eez_due_times.at(i, bus_due_times[j][i]);
             }
 
-            flow::setGlobalVariable(j == 0 ? FLOW_GLOBAL_VARIABLE_BUS_STOP_1_NAME : FLOW_GLOBAL_VARIABLE_BUS_STOP_2_NAME, Value(doc["bus_stops"][j]["name"] | ""));
-            flow::setGlobalVariable(j == 0 ? FLOW_GLOBAL_VARIABLE_BUS_STOP_1_ROUTES : FLOW_GLOBAL_VARIABLE_BUS_STOP_2_ROUTES, routes);
-            flow::setGlobalVariable(j == 0 ? FLOW_GLOBAL_VARIABLE_BUS_STOP_1_DESTINATIONS : FLOW_GLOBAL_VARIABLE_BUS_STOP_2_DESTINATIONS, destinations);
-            flow::setGlobalVariable(j == 0 ? FLOW_GLOBAL_VARIABLE_BUS_STOP_1_TIMES : FLOW_GLOBAL_VARIABLE_BUS_STOP_2_TIMES, dueTimes);
+            flow::setGlobalVariable(j == 0 ? FLOW_GLOBAL_VARIABLE_BUS_STOP_1_NAME : FLOW_GLOBAL_VARIABLE_BUS_STOP_2_NAME, StringValue(doc["bus_stops"][j]["name"] | ""));
+            flow::setGlobalVariable(j == 0 ? FLOW_GLOBAL_VARIABLE_BUS_STOP_1_ROUTES : FLOW_GLOBAL_VARIABLE_BUS_STOP_2_ROUTES, eez_routes);
+            flow::setGlobalVariable(j == 0 ? FLOW_GLOBAL_VARIABLE_BUS_STOP_1_DESTINATIONS : FLOW_GLOBAL_VARIABLE_BUS_STOP_2_DESTINATIONS, eez_destinations);
+            flow::setGlobalVariable(j == 0 ? FLOW_GLOBAL_VARIABLE_BUS_STOP_1_TIMES : FLOW_GLOBAL_VARIABLE_BUS_STOP_2_TIMES, eez_due_times);
         }
 
-        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_TEMPERATURE, Value(doc["weather"]["temperature"] | "", VALUE_TYPE_STRING));
-        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_RAIN_CHANCE, Value(doc["weather"]["rain"] | "", VALUE_TYPE_STRING));
-        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_RECYCLING_DATE, Value(doc["recycling"]["date"] | "", VALUE_TYPE_STRING));
-        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_RECYCLING_SHORT_DATE, Value(doc["recycling"]["short_date"] | "", VALUE_TYPE_STRING));
-        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_RECYCLING_TYPE, Value(doc["recycling"]["type"] | "", VALUE_TYPE_STRING));
-        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_SUN_TYPE, Value(doc["weather"]["sun"]["event"] | "", VALUE_TYPE_STRING));
-        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_SUN_TIME, Value(doc["weather"]["sun"]["time"] | "", VALUE_TYPE_STRING));
+        // Use StringValue rather than Value directly to ensure the string is copied into the global variable rather than just referencing the temporary string in the JsonDocument
+        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_TEMPERATURE, StringValue(doc["weather"]["temperature"] | ""));
+        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_RAIN_CHANCE, StringValue(doc["weather"]["rain"] | ""));
+        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_RECYCLING_DATE, StringValue(doc["recycling"]["date"] | ""));
+        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_RECYCLING_SHORT_DATE, StringValue(doc["recycling"]["short_date"] | ""));
+        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_RECYCLING_TYPE, StringValue(doc["recycling"]["type"] | ""));
+        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_SUN_TYPE, StringValue(doc["weather"]["sun"]["event"] | ""));
+        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_SUN_TIME, StringValue(doc["weather"]["sun"]["time"] | ""));
 
         lvgl_port_unlock();
     }
@@ -86,6 +99,7 @@ const char *get_var_date() {
     strftime(weekday, sizeof(weekday), "%A", &timeinfo);
     strftime(month, sizeof(month), "%B", &timeinfo);
 
+    // We have to use snprintf to get the day of the month without leading zeros or leading spaces
     snprintf(date_str, sizeof(date_str), "%s %d %s", weekday, timeinfo.tm_mday, month);
     return date_str;
 }
@@ -147,7 +161,6 @@ void loop()
             }
         }
 
-        // currentTime will be in 1970 before we set the clock
         if (lastFetchTime == 0 || (currentTime - lastFetchTime >= fetchInterval)) {
             lastFetchTime = currentTime;
             fetchData();
