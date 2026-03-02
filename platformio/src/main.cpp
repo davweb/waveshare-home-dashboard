@@ -17,7 +17,7 @@ using namespace esp_panel::drivers;
 
 char bus_routes[2][3][4];
 char bus_destinations[2][3][32];
-char bus_due_times[2][3][6];
+char bus_due_times[2][3][8];
 
 void fetchData() {
     LOG_DEBUG("fetch data");
