@@ -2,12 +2,26 @@
 #include <DebugLog.h>
 #include "Wireless.h"
 #include "WirelessConfig.h"
+#include "esp_bt.h"
 
-
-void startWiFi() {
+bool startWiFi() {
     #ifndef WIFI_SSID
         LOG_ERROR("No WiFi credentials provided");
+        return false;
     #else
+        // Release Bluetooth memory as we are not using Bluetooth
+        esp_bt_controller_mem_release(ESP_BT_MODE_BTDM);
+
+        // Disable Wifi sleep to prevent interrupt storms on wake
+        WiFi.setSleep(false);
+
+        // Save credentials to NVS flash and enable auto reconnect
+        WiFi.persistent(true);
+        WiFi.setAutoReconnect(true);
+
+        //Disable IPv6 to speed up connection time as we are not using it
+        WiFi.enableIPv6(false);
+
         WiFi.mode(WIFI_MODE_STA);
 
         #ifdef WIFI_IP_ADDRESS
@@ -23,12 +37,24 @@ void startWiFi() {
             }
             else {
                 LOG_ERROR("Failed to set static IP address", ipAddress);
+                return false;
             }
         #else
             LOG_DEBUG("Using DHCP IP address");
         #endif
 
         WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+
+        uint8_t result = WiFi.waitForConnectResult();
+
+        if (result == WL_CONNECTED) {
+            LOG_INFO("Connected to WiFi network");
+        }
+        else {
+            LOG_ERROR("Failed to connect to WiFi network");
+        }
+
+        return result == WL_CONNECTED;
     #endif
 }
 

@@ -117,12 +117,16 @@ void setup()
         delay(5000);
     #endif
 
+    bool wifiConnected = startWiFi();
+
+    if (wifiConnected) {
+        setRtcClock();
+    }
+
     Board *board = initialiseBoard();
 
     LOG_DEBUG("Initializing LVGL");
     lvgl_port_init(board->getLCD(), board->getTouch());
-
-    startWiFi();
 
     LOG_DEBUG("Creating UI");
 
@@ -163,8 +167,6 @@ void loop()
                 flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_WIFI_CONNECTED, Value(true));
                 lvgl_port_unlock();
                 wifiConnected = true;
-
-                setRtcClock();
             }
         }
 
@@ -173,8 +175,6 @@ void loop()
             fetchData();
         }
     }
-
-    uint32_t time_till_next_ms = 10;
 
     // Lock the mutex with a reasonable timeout so we don't randomly skip UI updates
     if (lvgl_port_lock(10)) {

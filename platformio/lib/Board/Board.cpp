@@ -29,8 +29,8 @@ Board * initialiseBoard() {
              * of SRAM memory.
              */
             if (lcd_bus->getBasicAttributes().type == ESP_PANEL_BUS_TYPE_RGB) {
-                Serial.println("Enable bounce buffer 2");
-                static_cast<BusRGB *>(lcd_bus)->configRGB_BounceBufferSize(lcd->getFrameWidth() * 10);
+                // Increase bounce buffer size to 20 lines to cope with Wifi load
+                static_cast<BusRGB *>(lcd_bus)->configRGB_BounceBufferSize(lcd->getFrameWidth() * 20);
             }
         #endif
     #endif
