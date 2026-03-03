@@ -31,6 +31,7 @@ Board * initialiseBoard() {
             if (lcd_bus->getBasicAttributes().type == ESP_PANEL_BUS_TYPE_RGB) {
                 // Increase bounce buffer size to 20 lines to cope with Wifi load
                 static_cast<BusRGB *>(lcd_bus)->configRGB_BounceBufferSize(lcd->getFrameWidth() * 20);
+                LOG_DEBUG("Bounce buffer enabled with size for 20 lines");
             }
         #endif
     #endif

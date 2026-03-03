@@ -3,6 +3,7 @@
 #include "Wireless.h"
 #include "WirelessConfig.h"
 #include "esp_bt.h"
+#include "esp_wifi.h"
 
 bool startWiFi() {
     #ifndef WIFI_SSID
@@ -14,6 +15,7 @@ bool startWiFi() {
 
         // Disable Wifi sleep to prevent interrupt storms on wake
         WiFi.setSleep(false);
+        esp_wifi_set_ps(WIFI_PS_NONE);
 
         // Save credentials to NVS flash and enable auto reconnect
         WiFi.persistent(true);
