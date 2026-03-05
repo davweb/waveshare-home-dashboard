@@ -15,3 +15,4 @@ platformio/sdkconfig.release
 __pycache__
 .claude
 
+platformio/sdkconfig.old

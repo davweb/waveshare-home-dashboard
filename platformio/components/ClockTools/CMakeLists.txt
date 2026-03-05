@@ -1,7 +1,7 @@
 idf_component_register(
     SRCS "ClockTools.cpp"
     INCLUDE_DIRS "."
-    REQUIRES HttpTools lwip freertos
+    REQUIRES lwip freertos
 )
 
 ## Suppress false-positive format-truncation: snprintf date/time buffers are

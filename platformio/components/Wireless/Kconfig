@@ -1,0 +1,47 @@
+menu "WiFi configuration"
+
+    config WIFI_SSID
+        string "WiFi SSID"
+        default ""
+        help
+            Network name to connect to. Set in sdkconfig.defaults.local.
+
+    config WIFI_PASSWORD
+        string "WiFi password"
+        default ""
+        help
+            WiFi password. Leave empty for open networks.
+            Set in sdkconfig.defaults.local.
+
+    config WIFI_USE_STATIC_IP
+        bool "Use static IP address"
+        default n
+        help
+            Assign a fixed IP instead of using DHCP.
+
+    config WIFI_IP_ADDRESS
+        string "Static IP address"
+        default ""
+        depends on WIFI_USE_STATIC_IP
+
+    config WIFI_GATEWAY
+        string "Gateway"
+        default ""
+        depends on WIFI_USE_STATIC_IP
+
+    config WIFI_SUBNET
+        string "Subnet mask"
+        default "255.255.255.0"
+        depends on WIFI_USE_STATIC_IP
+
+    config WIFI_DNS1
+        string "Primary DNS"
+        default "8.8.8.8"
+        depends on WIFI_USE_STATIC_IP
+
+    config WIFI_DNS2
+        string "Secondary DNS"
+        default "8.8.4.4"
+        depends on WIFI_USE_STATIC_IP
+
+endmenu

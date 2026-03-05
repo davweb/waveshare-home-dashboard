@@ -31,6 +31,9 @@ CONFIG_ESP_MAIN_TASK_STACK_SIZE=16384
 # Logging
 CONFIG_LOG_DEFAULT_LEVEL_DEBUG=y
 
+# Timezone (POSIX TZ string — see components/ClockTools/Kconfig for examples)
+CONFIG_CLOCK_POSIX_TZ="GMT0BST,M3.5.0/1,M10.5.0"
+
 # Custom partition table (partitions.csv — factory app fills 16 MB flash)
 CONFIG_PARTITION_TABLE_CUSTOM=y
 CONFIG_PARTITION_TABLE_CUSTOM_FILENAME="partitions.csv"

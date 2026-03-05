@@ -1,0 +1,18 @@
+menu "Clock configuration"
+
+    config CLOCK_POSIX_TZ
+        string "POSIX timezone string"
+        default "UTC0"
+        help
+            POSIX TZ string for the local timezone, applied before NTP sync.
+
+            Examples:
+              UTC0
+              GMT0BST,M3.5.0/1,M10.5.0    (UK / Ireland with BST)
+              CET-1CEST,M3.5.0,M10.5.0/3  (Central Europe)
+              EST5EDT,M3.2.0,M11.1.0       (US Eastern)
+              PST8PDT,M3.2.0,M11.1.0       (US Pacific)
+
+            See https://www.gnu.org/software/libc/manual/html_node/TZ-Variable.html
+
+endmenu

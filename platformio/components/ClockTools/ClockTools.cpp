@@ -2,41 +2,20 @@
 #include "esp_sntp.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-#include <ArduinoJson.h>
 #include <time.h>
 #include <string.h>
+#include "sdkconfig.h"
 #include "ClockTools.h"
-#include "HttpTools.h"
 
 static const char *TAG = "ClockTools";
 
-static char timezone_str[64] = "UTC";
+static char timezone_str[64] = CONFIG_CLOCK_POSIX_TZ;
 
-// Fetch time from NTP server and set the RTC
+// Sync time via NTP using the configured POSIX timezone
 bool setRtcClock() {
-    JsonDocument doc;
-    int offset = 0;
-
-    if (!getJsonFromUrl(doc, "http://ip-api.com/json/?fields=status,timezone,offset")) {
-        ESP_LOGW(TAG, "Failed to get timezone from IP API. Using UTC.");
-    }
-    else {
-        strlcpy(timezone_str, doc["timezone"] | "UTC", sizeof(timezone_str));
-        offset = doc["offset"] | 0;
-        ESP_LOGI(TAG, "Timezone %s with offset %d", timezone_str, offset);
-    }
-
-    // Build POSIX TZ string from UTC offset (sign is inverted vs UTC offset)
-    char tz_posix[16];
-    int hours = -offset / 3600;
-    int mins = abs(offset % 3600) / 60;
-    if (mins != 0) {
-        snprintf(tz_posix, sizeof(tz_posix), "UTC%+d:%02d", hours, mins);
-    } else {
-        snprintf(tz_posix, sizeof(tz_posix), "UTC%+d", hours);
-    }
-    setenv("TZ", tz_posix, 1);
+    setenv("TZ", CONFIG_CLOCK_POSIX_TZ, 1);
     tzset();
+    ESP_LOGI(TAG, "Timezone: %s", CONFIG_CLOCK_POSIX_TZ);
 
     esp_sntp_setoperatingmode(SNTP_OPMODE_POLL);
     esp_sntp_setservername(0, "pool.ntp.org");

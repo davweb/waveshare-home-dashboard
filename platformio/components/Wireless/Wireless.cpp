@@ -6,8 +6,8 @@
 #include "esp_netif.h"
 #include "esp_event.h"
 #include "nvs_flash.h"
+#include "sdkconfig.h"
 #include "Wireless.h"
-#include "WirelessConfig.h"
 
 static const char *TAG = "Wireless";
 
@@ -41,101 +41,92 @@ static void wifi_event_handler(void *arg, esp_event_base_t event_base,
 }
 
 bool startWiFi() {
-    #ifndef WIFI_SSID
-        ESP_LOGE(TAG, "No WiFi credentials provided");
+    if (CONFIG_WIFI_SSID[0] == '\0') {
+        ESP_LOGE(TAG, "No WiFi credentials configured.");
         return false;
-    #else
-        esp_err_t ret = nvs_flash_init();
-        if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
-            nvs_flash_erase();
-            nvs_flash_init();
-        }
+    }
 
-        ESP_ERROR_CHECK(esp_netif_init());
-        ESP_ERROR_CHECK(esp_event_loop_create_default());
+    esp_err_t ret = nvs_flash_init();
+    if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
+        nvs_flash_erase();
+        nvs_flash_init();
+    }
 
-        s_sta_netif = esp_netif_create_default_wifi_sta();
+    ESP_ERROR_CHECK(esp_netif_init());
+    ESP_ERROR_CHECK(esp_event_loop_create_default());
 
-        #ifdef WIFI_IP_ADDRESS
-            esp_netif_dhcpc_stop(s_sta_netif);
+    s_sta_netif = esp_netif_create_default_wifi_sta();
 
-            esp_netif_ip_info_t ip_info = {};
-            ip4addr_aton(WIFI_IP_ADDRESS, (ip4_addr_t *)&ip_info.ip);
-            ip4addr_aton(WIFI_GATEWAY, (ip4_addr_t *)&ip_info.gw);
-            ip4addr_aton(WIFI_SUBNET, (ip4_addr_t *)&ip_info.netmask);
-            ESP_ERROR_CHECK(esp_netif_set_ip_info(s_sta_netif, &ip_info));
+#if CONFIG_WIFI_USE_STATIC_IP
+    esp_netif_dhcpc_stop(s_sta_netif);
 
-            esp_netif_dns_info_t dns1 = {};
-            ip4addr_aton(WIFI_DNS1, (ip4_addr_t *)&dns1.ip.u_addr.ip4);
-            dns1.ip.type = ESP_IPADDR_TYPE_V4;
-            esp_netif_set_dns_info(s_sta_netif, ESP_NETIF_DNS_MAIN, &dns1);
+    esp_netif_ip_info_t ip_info = {};
+    ip_info.ip.addr      = esp_ip4addr_aton(CONFIG_WIFI_IP_ADDRESS);
+    ip_info.gw.addr      = esp_ip4addr_aton(CONFIG_WIFI_GATEWAY);
+    ip_info.netmask.addr = esp_ip4addr_aton(CONFIG_WIFI_SUBNET);
+    ESP_ERROR_CHECK(esp_netif_set_ip_info(s_sta_netif, &ip_info));
 
-            esp_netif_dns_info_t dns2 = {};
-            ip4addr_aton(WIFI_DNS2, (ip4_addr_t *)&dns2.ip.u_addr.ip4);
-            dns2.ip.type = ESP_IPADDR_TYPE_V4;
-            esp_netif_set_dns_info(s_sta_netif, ESP_NETIF_DNS_BACKUP, &dns2);
+    esp_netif_dns_info_t dns1 = {};
+    dns1.ip.u_addr.ip4.addr = esp_ip4addr_aton(CONFIG_WIFI_DNS1);
+    dns1.ip.type = ESP_IPADDR_TYPE_V4;
+    esp_netif_set_dns_info(s_sta_netif, ESP_NETIF_DNS_MAIN, &dns1);
 
-            ESP_LOGD(TAG, "Using static IP address: %s", WIFI_IP_ADDRESS);
-        #else
-            ESP_LOGD(TAG, "Using DHCP IP address");
-        #endif
+    esp_netif_dns_info_t dns2 = {};
+    dns2.ip.u_addr.ip4.addr = esp_ip4addr_aton(CONFIG_WIFI_DNS2);
+    dns2.ip.type = ESP_IPADDR_TYPE_V4;
+    esp_netif_set_dns_info(s_sta_netif, ESP_NETIF_DNS_BACKUP, &dns2);
 
-        wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
-        ESP_ERROR_CHECK(esp_wifi_init(&cfg));
+    ESP_LOGD(TAG, "Using static IP address: %s", CONFIG_WIFI_IP_ADDRESS);
+#else
+    ESP_LOGD(TAG, "Using DHCP IP address");
+#endif
 
-        s_wifi_event_group = xEventGroupCreate();
+    wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
+    ESP_ERROR_CHECK(esp_wifi_init(&cfg));
 
-        ESP_ERROR_CHECK(esp_event_handler_instance_register(WIFI_EVENT, ESP_EVENT_ANY_ID,
-                                                            &wifi_event_handler, NULL, NULL));
-        ESP_ERROR_CHECK(esp_event_handler_instance_register(IP_EVENT, IP_EVENT_STA_GOT_IP,
-                                                            &wifi_event_handler, NULL, NULL));
+    s_wifi_event_group = xEventGroupCreate();
 
-        wifi_config_t wifi_config = {};
-        strlcpy((char *)wifi_config.sta.ssid, WIFI_SSID, sizeof(wifi_config.sta.ssid));
-        strlcpy((char *)wifi_config.sta.password, WIFI_PASSWORD, sizeof(wifi_config.sta.password));
+    ESP_ERROR_CHECK(esp_event_handler_instance_register(WIFI_EVENT, ESP_EVENT_ANY_ID,
+                                                        &wifi_event_handler, NULL, NULL));
+    ESP_ERROR_CHECK(esp_event_handler_instance_register(IP_EVENT, IP_EVENT_STA_GOT_IP,
+                                                        &wifi_event_handler, NULL, NULL));
 
-        ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
-        ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_STA, &wifi_config));
-        ESP_ERROR_CHECK(esp_wifi_set_ps(WIFI_PS_NONE));
-        ESP_ERROR_CHECK(esp_wifi_start());
+    wifi_config_t wifi_config = {};
+    strlcpy((char *)wifi_config.sta.ssid,     CONFIG_WIFI_SSID,     sizeof(wifi_config.sta.ssid));
+    strlcpy((char *)wifi_config.sta.password, CONFIG_WIFI_PASSWORD, sizeof(wifi_config.sta.password));
 
-        EventBits_t bits = xEventGroupWaitBits(s_wifi_event_group,
-                                               WIFI_CONNECTED_BIT | WIFI_FAIL_BIT,
-                                               pdFALSE, pdFALSE,
-                                               pdMS_TO_TICKS(30000));
+    ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
+    ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_STA, &wifi_config));
+    ESP_ERROR_CHECK(esp_wifi_set_ps(WIFI_PS_NONE));
+    ESP_ERROR_CHECK(esp_wifi_start());
 
-        if (bits & WIFI_CONNECTED_BIT) {
-            ESP_LOGI(TAG, "Connected to WiFi network");
-            return true;
-        } else {
-            ESP_LOGE(TAG, "Failed to connect to WiFi network");
-            return false;
-        }
-    #endif
+    EventBits_t bits = xEventGroupWaitBits(s_wifi_event_group,
+                                           WIFI_CONNECTED_BIT | WIFI_FAIL_BIT,
+                                           pdFALSE, pdFALSE,
+                                           pdMS_TO_TICKS(30000));
+
+    if (bits & WIFI_CONNECTED_BIT) {
+        ESP_LOGI(TAG, "Connected to WiFi network");
+        return true;
+    } else {
+        ESP_LOGE(TAG, "Failed to connect to WiFi network");
+        return false;
+    }
 }
 
 bool stopWiFi() {
-    #ifndef WIFI_SSID
-        ESP_LOGE(TAG, "No WiFi credentials provided");
+    esp_err_t err = esp_wifi_disconnect();
+    if (err == ESP_OK) {
+        ESP_LOGI(TAG, "Disconnected from WiFi network");
+        return true;
+    } else {
+        ESP_LOGE(TAG, "Failed to disconnect from WiFi network");
         return false;
-    #else
-        esp_err_t err = esp_wifi_disconnect();
-        if (err == ESP_OK) {
-            ESP_LOGI(TAG, "Disconnected from WiFi network");
-            return true;
-        } else {
-            ESP_LOGE(TAG, "Failed to disconnect from WiFi network");
-            return false;
-        }
-    #endif
+    }
 }
 
 bool isWiFiConnected() {
-    #ifndef WIFI_SSID
-        return false;
-    #else
-        return s_wifi_connected;
-    #endif
+    return s_wifi_connected;
 }
 
 const char* getLocalIpAddress() {

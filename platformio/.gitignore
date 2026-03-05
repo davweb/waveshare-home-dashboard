@@ -3,6 +3,10 @@ build/
 build_release/
 sdkconfig
 
+# Local settings not for committing (WiFi credentials, etc.)
+# See sdkconfig.defaults for the template/documentation
+sdkconfig.defaults.local
+
 # IDF Component Manager downloads
 managed_components/
 dependencies.lock
