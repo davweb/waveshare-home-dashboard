@@ -7,4 +7,4 @@
  * @param url The URL to fetch the JSON from.
  * @return `true` if the JSON was fetched and parsed successfully, `false` otherwise.
  */
-boolean getJsonFromUrl(JsonDocument &doc, String url);
+bool getJsonFromUrl(JsonDocument &doc, const char *url);

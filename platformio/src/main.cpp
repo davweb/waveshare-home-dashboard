@@ -1,5 +1,7 @@
-#include <Arduino.h>
-#include <DebugLog.h>
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "esp_log.h"
+#include "esp_timer.h"
 #include <esp_display_panel.hpp>
 #include <lvgl.h>
 #include <lvgl_v8_port.h>
@@ -13,6 +15,8 @@
 #include <images.h>
 #include <screens.h>
 
+static const char *TAG = "main";
+
 using namespace esp_panel::drivers;
 
 char bus_routes[2][3][4];
@@ -20,11 +24,11 @@ char bus_destinations[2][3][32];
 char bus_due_times[2][3][8];
 
 void fetchData() {
-    LOG_DEBUG("fetch data");
+    ESP_LOGD(TAG, "fetch data");
     JsonDocument doc;
 
     if (!getJsonFromUrl(doc, "http://192.168.1.17")) {
-        LOG_WARN("Failed to get data from dashboard server.");
+        ESP_LOGW(TAG, "Failed to get data from dashboard server.");
         return;
     }
 
@@ -68,7 +72,7 @@ void fetchData() {
         lvgl_port_unlock();
     }
     else {
-        LOG_ERROR("Failed to lock LVGL mutex to update data");
+        ESP_LOGE(TAG, "Failed to lock LVGL mutex to update data");
         return;
     }
 }
@@ -108,13 +112,11 @@ void set_var_date(const char *value) {
     // Do nothing
 }
 
-void setup()
+extern "C" void app_main(void)
 {
-    Serial.begin(115200);
-
     #ifndef NDEBUG
         // Wait for serial port to connect
-        delay(5000);
+        vTaskDelay(pdMS_TO_TICKS(5000));
     #endif
 
     bool wifiConnected = startWiFi();
@@ -125,61 +127,61 @@ void setup()
 
     Board *board = initialiseBoard();
 
-    LOG_DEBUG("Initializing LVGL");
+    ESP_LOGD(TAG, "Initializing LVGL");
     lvgl_port_init(board->getLCD(), board->getTouch());
 
-    LOG_DEBUG("Creating UI");
+    ESP_LOGD(TAG, "Creating UI");
 
     while (!lvgl_port_lock(portMAX_DELAY)) {
-        LOG_WARN("Failed to lock LVGL mutex, retrying...");
-        delay(10);
+        ESP_LOGW(TAG, "Failed to lock LVGL mutex, retrying...");
+        vTaskDelay(pdMS_TO_TICKS(10));
     }
 
     ui_init();
     lvgl_port_unlock();
+
+    static bool prevWifiConnected = false;
+    static uint64_t fetchInterval = 30000; // Fetch data every 30 seconds
+    static uint64_t lastFetchTime = 0;
+
+    while (true) {
+        uint64_t currentTime = esp_timer_get_time() / 1000ULL;
+
+        if (!isWiFiConnected()) {
+            //If WiFi was connected but now isn't, update the global variable
+            if (prevWifiConnected) {
+                ESP_LOGW(TAG, "WiFi Disconnected");
+
+                if (lvgl_port_lock(portMAX_DELAY)) {
+                    flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_WIFI_CONNECTED, Value(false));
+                    lvgl_port_unlock();
+                    prevWifiConnected = false;
+                }
+            }
+        }
+        else {
+            if (!prevWifiConnected) {
+                ESP_LOGI(TAG, "WiFi Connected");
+
+                if (lvgl_port_lock(portMAX_DELAY)) {
+                    flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_WIFI_CONNECTED, Value(true));
+                    lvgl_port_unlock();
+                    prevWifiConnected = true;
+                }
+            }
+
+            if (lastFetchTime == 0 || (currentTime - lastFetchTime >= fetchInterval)) {
+                lastFetchTime = currentTime;
+                fetchData();
+            }
+        }
+
+        // Lock the mutex with a reasonable timeout so we don't randomly skip UI updates
+        if (lvgl_port_lock(10)) {
+            ui_tick();
+            lvgl_port_unlock();
+        }
+
+        vTaskDelay(pdMS_TO_TICKS(1));
+    }
 }
-
-
-void loop()
- {
-    static boolean wifiConnected = false;
-    static unsigned long fetchInterval = 30000; // Fetch data every 30 seconds
-    static unsigned long lastFetchTime = 0;
-    unsigned long currentTime = ::millis();
-
-    if (!isWiFiConnected()) {
-        //If WiFi was connected but now isn't, update the global variable
-        if (wifiConnected) {
-            LOG_WARN("WiFi Disconnected");
-
-            if (lvgl_port_lock(portMAX_DELAY)) {
-                flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_WIFI_CONNECTED, Value(false));
-                lvgl_port_unlock();
-                wifiConnected = false;
-            }
-        }
-    }
-    else {
-        if (!wifiConnected) {
-            LOG_INFO("WiFi Connected");
-
-            if (lvgl_port_lock(portMAX_DELAY)) {
-                flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_WIFI_CONNECTED, Value(true));
-                lvgl_port_unlock();
-                wifiConnected = true;
-            }
-        }
-
-        if (lastFetchTime == 0 || (currentTime - lastFetchTime >= fetchInterval)) {
-            lastFetchTime = currentTime;
-            fetchData();
-        }
-    }
-
-    // Lock the mutex with a reasonable timeout so we don't randomly skip UI updates
-    if (lvgl_port_lock(10)) {
-        ui_tick();
-        lvgl_port_unlock();
-    }
- }
-

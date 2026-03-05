@@ -1,6 +1,4 @@
-#include <Arduino.h>
-
 bool setRtcClock();
-String getTimezone();
-String getCurrentTime();
-String getCurrentDateTime();
+const char* getTimezone();
+const char* getCurrentTime();
+const char* getCurrentDateTime();

@@ -1,0 +1,24 @@
+# PSRAM (Octal mode for ESP32-S3)
+CONFIG_SPIRAM=y
+CONFIG_SPIRAM_MODE_OCT=y
+CONFIG_SPIRAM_SPEED_80M=y
+CONFIG_SPIRAM_BOOT_INIT=y
+CONFIG_SPIRAM_ALLOW_BSS_SEG_EXTERNAL_MEMORY=y
+
+# Disable Bluetooth (memory saving, replaces esp_bt_controller_mem_release call)
+CONFIG_BT_ENABLED=n
+
+# USB CDC console (replaces ARDUINO_USB_CDC_ON_BOOT=1)
+CONFIG_ESP_CONSOLE_USB_CDC=y
+
+# Flash size
+CONFIG_ESPTOOLPY_FLASHSIZE_16MB=y
+
+# HTTP client
+CONFIG_ESP_HTTP_CLIENT_ENABLE_HTTPS=n
+
+# Main task stack (needs headroom for HTTP + JSON parsing)
+CONFIG_ESP_MAIN_TASK_STACK_SIZE=16384
+
+# Logging
+CONFIG_LOG_DEFAULT_LEVEL_DEBUG=y

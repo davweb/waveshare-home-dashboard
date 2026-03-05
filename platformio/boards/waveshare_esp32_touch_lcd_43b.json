@@ -4,15 +4,10 @@
       "ldscript": "esp32s3_out.ld",
       "memory_type": "qio_opi"
     },
+    "espidf": {
+      "ldscript": "esp32s3_out.ld"
+    },
     "core": "esp32",
-    "extra_flags": [
-      "-D BOARD_HAS_PSRAM",
-      "-D ARDUINO_ESP32_S3_BOX",
-      "-D ARDUINO_USB_MODE=1",
-      "-D ARDUINO_USB_CDC_ON_BOOT=1",
-      "-D ESP_PANEL_BOARD_DEFAULT_USE_SUPPORTED",
-	    "-D BOARD_WAVESHARE_ESP32_S3_TOUCH_LCD_4_3_B"
-    ],
     "f_cpu": "240000000L",
     "f_flash": "80000000L",
     "flash_mode": "qio",
@@ -33,7 +28,8 @@
     "openocd_target": "esp32s3.cfg"
   },
   "frameworks": [
-    "arduino"
+    "arduino",
+    "espidf"
   ],
   "name": "Waveshare ESP32-S3-Touch-LCD-4.3B",
   "upload": {

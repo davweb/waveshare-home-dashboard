@@ -1,0 +1,32 @@
+dependencies:
+  esp-lib-utils:
+    dependencies: []
+    source:
+      path: /Users/dave/git/waveshare-espidf/platformio/.pio/libdeps/release/esp-lib-utils
+      type: local
+    version: 0.3.0
+  espressif/esp32_io_expander:
+    component_hash: c34d64ac6022fb351dc8e2a24eff5b60884c91fd8c50f96dd7d1b1728fae16d8
+    dependencies:
+    - name: espressif/esp-lib-utils
+      registry_url: https://components.espressif.com
+      require: public
+      version: 0.2.*
+    - name: idf
+      require: private
+      version: '>=5.1'
+    source:
+      registry_url: https://components.espressif.com/
+      type: service
+    version: 1.1.1
+  idf:
+    source:
+      type: idf
+    version: 5.5.2
+direct_dependencies:
+- espressif/esp-lib-utils
+- espressif/esp32_io_expander
+- idf
+manifest_hash: 9c0a2292572571c8c710b6f7c8f12555c0527cda8944491e3aabe22d90d76d42
+target: esp32s3
+version: 2.0.0

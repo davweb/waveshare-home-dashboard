@@ -1,11 +1,9 @@
-#include <Arduino.h>
-
 /**
  * Connect to the WiFi network, logging the result.
  *
  * @return `true` if the WiFi network was connected to successfully, `false` otherwise.
  */
-boolean startWiFi();
+bool startWiFi();
 
 /**
  * Disconnect from the WiFi network, logging the result.
@@ -27,11 +25,11 @@ bool isWiFiConnected();
  * @return The local IP address of the device as a string if the device is
  * connected to a WiFi network, an empty string otherwise.
 */
-String getLocalIpAddress();
+const char* getLocalIpAddress();
 
 /**
  * Get the Mac address of the device a string.
  *
  * @return The MAC address of the device as a string.
 */
-String getMacAddress();
+const char* getMacAddress();
