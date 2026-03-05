@@ -1,0 +1,15 @@
+## IDF Component Manager manifest for external dependencies
+dependencies:
+  idf: ">=5.1"
+
+  ## Display panel and IO expander (Espressif component registry)
+  ## esp-lib-utils is omitted here — it's a transitive dep of the above and
+  ## pinning it caused a version conflict (io_expander 1.1.* requires 0.2.*)
+  espressif/esp32_display_panel: "1.0.*"
+  espressif/esp32_io_expander: "1.1.*"
+
+  ## LVGL graphics library
+  lvgl/lvgl: "8.4.*"
+
+  ## JSON parsing (header-only)
+  bblanchon/arduinojson: "7.4.*"

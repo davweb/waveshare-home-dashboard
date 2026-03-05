@@ -1,12 +1,23 @@
-# PlatformIO
-.pio
+# ESP-IDF build artifacts
+build/
+build_release/
+sdkconfig
+
+# IDF Component Manager downloads
+managed_components/
+dependencies.lock
+
+# eez-framework (cloned via setup.sh)
+components/eez-framework/
+
+# Generated UI files (copied from eez-studio by copy_ui.py)
+components/ui/
+
+# Claude Code local settings (personal tool permissions)
+.claude/settings.local.json
+
+# IDE
 .vscode/.browse.c_cpp.db*
 .vscode/c_cpp_properties.json
 .vscode/launch.json
 .vscode/ipch
-
-# ESP-IDF
-managed_components/
-sdkconfig
-sdkconfig.debug
-sdkconfig.release

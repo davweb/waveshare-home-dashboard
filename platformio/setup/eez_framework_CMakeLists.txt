@@ -1,0 +1,22 @@
+## ESP-IDF component registration for eez-framework.
+## This file replaces the repo's CMakeLists.txt which has the ESP-IDF block commented out.
+##
+## To install: git clone https://github.com/eez-open/eez-framework.git components/eez-framework
+##             cp setup/eez_framework_CMakeLists.txt components/eez-framework/CMakeLists.txt
+
+get_filename_component(_EEZ_DIR ${CMAKE_CURRENT_LIST_FILE} PATH)
+
+file(GLOB_RECURSE _EEZ_C_SRCS   "${_EEZ_DIR}/src/eez/*.c")
+file(GLOB_RECURSE _EEZ_CXX_SRCS "${_EEZ_DIR}/src/eez/*.cpp")
+
+idf_component_register(
+    SRCS ${_EEZ_C_SRCS} ${_EEZ_CXX_SRCS}
+    INCLUDE_DIRS "src" "src/eez/libs/agg"
+    PRIV_REQUIRES lvgl__lvgl
+)
+
+target_compile_definitions(${COMPONENT_LIB} PUBLIC
+    EEZ_FOR_LVGL
+    EEZ_PLATFORM_ESP32
+    LV_LVGL_H_INCLUDE_SIMPLE
+)

@@ -5,7 +5,7 @@ import shutil
 import sys
 
 SOURCE_DIR = os.path.join("..", "eez-studio", "src", "ui")
-TARGET_DIR = os.path.join("lib", "ui")
+TARGET_DIR = os.path.join("components", "ui")
 
 # Check if source directory exists
 if not os.path.exists(SOURCE_DIR):
