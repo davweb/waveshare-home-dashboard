@@ -18,7 +18,7 @@ bool setRtcClock() {
     ESP_LOGI(TAG, "Timezone: %s", CONFIG_CLOCK_POSIX_TZ);
 
     esp_sntp_setoperatingmode(SNTP_OPMODE_POLL);
-    esp_sntp_setservername(0, "pool.ntp.org");
+    esp_sntp_setservername(0, "uk.pool.ntp.org");
     esp_sntp_init();
 
     // Wait up to 15 * 2s = 30s for time to sync

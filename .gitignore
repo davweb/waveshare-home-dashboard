@@ -7,10 +7,7 @@ platformio/components/ui
 platformio/components/eez-framework
 platformio/build/
 platformio/managed_components/
-platformio/dependencies.lock
 platformio/sdkconfig
-platformio/sdkconfig.debug
-platformio/sdkconfig.release
 .venv
 __pycache__
 .claude

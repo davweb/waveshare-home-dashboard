@@ -1,0 +1,18 @@
+# Release build overrides — applied on top of sdkconfig.defaults.
+# Usage:
+#   SDKCONFIG_DEFAULTS="sdkconfig.defaults;sdkconfig.release" idf.py -B build_release build
+
+# Optimise for performance instead of debug (-O2 instead of -Og)
+CONFIG_COMPILER_OPTIMIZATION_PERF=y
+
+# Silence most logging (WARN and above only)
+CONFIG_LOG_DEFAULT_LEVEL_WARN=y
+CONFIG_LOG_DEFAULT_LEVEL=2
+
+# Strip debug symbols from the binary and set NDEBUG
+# https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/kconfig-reference.html#config-compiler-optimization-assertion-level
+CONFIG_COMPILER_OPTIMIZATION_ASSERTIONS_ENABLE=n
+CONFIG_COMPILER_OPTIMIZATION_ASSERTIONS_SILENT=n
+CONFIG_COMPILER_OPTIMIZATION_ASSERTIONS_DISABLE=y
+
+CONFIG_LV_USE_PERF_MONITOR=n

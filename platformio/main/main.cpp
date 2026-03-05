@@ -114,16 +114,7 @@ void set_var_date(const char *value) {
 
 extern "C" void app_main(void)
 {
-    #ifndef NDEBUG
-        // Wait for serial port to connect
-        vTaskDelay(pdMS_TO_TICKS(5000));
-    #endif
-
     bool wifiConnected = startWiFi();
-
-    if (wifiConnected) {
-        setRtcClock();
-    }
 
     Board *board = initialiseBoard();
 
@@ -168,6 +159,8 @@ extern "C" void app_main(void)
                     lvgl_port_unlock();
                     prevWifiConnected = true;
                 }
+
+                setRtcClock();
             }
 
             if (lastFetchTime == 0 || (currentTime - lastFetchTime >= fetchInterval)) {

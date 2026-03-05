@@ -51,3 +51,17 @@ CONFIG_SPIRAM_MALLOC_ALWAYSINTERNAL=4096
 # With SPIRAM_USE_MALLOC enabled, malloc falls back to PSRAM when internal RAM is full,
 # giving the LVGL+eez-framework heap effectively unlimited room in the 8MB PSRAM.
 CONFIG_LV_MEM_CUSTOM=y
+
+# Recommended here to fix tearing issues
+# https://docs.espressif.com/projects/esp-faq/en/latest/software-framework/peripherals/lcd.html#why-do-i-get-drift-overall-drift-of-the-display-when-esp32-s3-is-driving-an-rgb-lcd-screen
+CONFIG_SPIRAM_FETCH_INSTRUCTIONS=y
+CONFIG_SPIRAM_RODATA=y
+CONFIG_ESP32S3_DATA_CACHE_LINE_64B=y
+
+# Enable debug symbols
+# https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/kconfig-reference.html#config-compiler-optimization-assertion-level
+CONFIG_COMPILER_OPTIMIZATION_ASSERTIONS_ENABLE=y
+CONFIG_COMPILER_OPTIMIZATION_ASSERTIONS_SILENT=n
+CONFIG_COMPILER_OPTIMIZATION_ASSERTIONS_DISABLE=n
+
+CONFIG_LV_USE_PERF_MONITOR=y

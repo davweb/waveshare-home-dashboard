@@ -47,6 +47,7 @@ bool startWiFi() {
     }
 
     esp_err_t ret = nvs_flash_init();
+
     if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
         nvs_flash_erase();
         nvs_flash_init();
@@ -57,31 +58,32 @@ bool startWiFi() {
 
     s_sta_netif = esp_netif_create_default_wifi_sta();
 
-#if CONFIG_WIFI_USE_STATIC_IP
-    esp_netif_dhcpc_stop(s_sta_netif);
+    #if CONFIG_WIFI_USE_STATIC_IP
+        esp_netif_dhcpc_stop(s_sta_netif);
 
-    esp_netif_ip_info_t ip_info = {};
-    ip_info.ip.addr      = esp_ip4addr_aton(CONFIG_WIFI_IP_ADDRESS);
-    ip_info.gw.addr      = esp_ip4addr_aton(CONFIG_WIFI_GATEWAY);
-    ip_info.netmask.addr = esp_ip4addr_aton(CONFIG_WIFI_SUBNET);
-    ESP_ERROR_CHECK(esp_netif_set_ip_info(s_sta_netif, &ip_info));
+        esp_netif_ip_info_t ip_info = {};
+        ip_info.ip.addr      = esp_ip4addr_aton(CONFIG_WIFI_IP_ADDRESS);
+        ip_info.gw.addr      = esp_ip4addr_aton(CONFIG_WIFI_GATEWAY);
+        ip_info.netmask.addr = esp_ip4addr_aton(CONFIG_WIFI_SUBNET);
+        ESP_ERROR_CHECK(esp_netif_set_ip_info(s_sta_netif, &ip_info));
 
-    esp_netif_dns_info_t dns1 = {};
-    dns1.ip.u_addr.ip4.addr = esp_ip4addr_aton(CONFIG_WIFI_DNS1);
-    dns1.ip.type = ESP_IPADDR_TYPE_V4;
-    esp_netif_set_dns_info(s_sta_netif, ESP_NETIF_DNS_MAIN, &dns1);
+        esp_netif_dns_info_t dns1 = {};
+        dns1.ip.u_addr.ip4.addr = esp_ip4addr_aton(CONFIG_WIFI_DNS1);
+        dns1.ip.type = ESP_IPADDR_TYPE_V4;
+        esp_netif_set_dns_info(s_sta_netif, ESP_NETIF_DNS_MAIN, &dns1);
 
-    esp_netif_dns_info_t dns2 = {};
-    dns2.ip.u_addr.ip4.addr = esp_ip4addr_aton(CONFIG_WIFI_DNS2);
-    dns2.ip.type = ESP_IPADDR_TYPE_V4;
-    esp_netif_set_dns_info(s_sta_netif, ESP_NETIF_DNS_BACKUP, &dns2);
+        esp_netif_dns_info_t dns2 = {};
+        dns2.ip.u_addr.ip4.addr = esp_ip4addr_aton(CONFIG_WIFI_DNS2);
+        dns2.ip.type = ESP_IPADDR_TYPE_V4;
+        esp_netif_set_dns_info(s_sta_netif, ESP_NETIF_DNS_BACKUP, &dns2);
 
-    ESP_LOGD(TAG, "Using static IP address: %s", CONFIG_WIFI_IP_ADDRESS);
-#else
-    ESP_LOGD(TAG, "Using DHCP IP address");
-#endif
+        ESP_LOGD(TAG, "Using static IP address: %s", CONFIG_WIFI_IP_ADDRESS);
+    #else
+        ESP_LOGD(TAG, "Using DHCP IP address");
+    #endif
 
     wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
+
     ESP_ERROR_CHECK(esp_wifi_init(&cfg));
 
     s_wifi_event_group = xEventGroupCreate();
