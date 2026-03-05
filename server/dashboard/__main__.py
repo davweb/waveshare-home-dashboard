@@ -12,10 +12,12 @@ class DashboardHandler(BaseHTTPRequestHandler):
 
     def do_GET(self) -> None:  # pylint: disable=invalid-name
         """Server any and all GET requests with the same JSON response"""
+        body = json.dumps(get_data()).encode()
         self.send_response(200)
         self.send_header('Content-type', 'application/Json')
+        self.send_header('Content-Length', str(len(body)))
         self.end_headers()
-        self.wfile.write(json.dumps(get_data()).encode())
+        self.wfile.write(body)
 
     def log_message(self, message_format, *args) -> None:  # pylint: disable=arguments-differ
         """Log a message"""

@@ -35,21 +35,6 @@ class DataSource(ABC):
         """Return a schedule job to run the data source"""
 
 
-class DateDataSource(DataSource):
-    """DataSource to Return day and date as String"""
-
-    def get_name(self) -> str:
-        return 'date'
-
-    def get_data(self) -> str:
-        return datetime.now().strftime('%A %d %B')
-
-    def format_data(self, data):
-        return data
-
-    def get_schedule(self):
-        return schedule.every().day.at('00:00')
-
 
 class BusDataSource(DataSource):
     """DataSource for bus times"""
@@ -158,7 +143,6 @@ class RecyclingDataSource(DataSource):
 
 
 DATA_SOURCES = [
-    DateDataSource(),
     BusDataSource(),
     WeatherDataSource(),
     RecyclingDataSource()
