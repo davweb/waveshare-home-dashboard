@@ -3,14 +3,14 @@
 eez-studio/src
 .history
 eez-studio/waveshare-dashboard.eez-project-ui-state
-platformio/components/ui
-platformio/components/eez-framework
-platformio/build/
-platformio/managed_components/
-platformio/sdkconfig
+esp-idf/components/ui
+esp-idf/components/eez-framework
+esp-idf/build/
+esp-idf/managed_components/
+esp-idf/sdkconfig
 .venv
 __pycache__
 .claude
 
-platformio/sdkconfig.old
-platformio/sdkconfig.local
+esp-idf/sdkconfig.old
+esp-idf/sdkconfig.local
