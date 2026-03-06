@@ -4,4 +4,4 @@
 
 using namespace esp_panel::board;
 
-Board * initialiseBoard();
+Board * initialiseDisplayPanel();

@@ -19,6 +19,7 @@ using namespace esp_panel::drivers;
 
 static SemaphoreHandle_t lvgl_mux = nullptr;                  // LVGL mutex
 static TaskHandle_t lvgl_task_handle = nullptr;
+static void (*s_ui_tick_cb)(void) = nullptr;
 static esp_timer_handle_t lvgl_tick_timer = NULL;
 static void *lvgl_buf[LVGL_PORT_BUFFER_NUM_MAX] = {};
 
@@ -735,6 +736,9 @@ static void lvgl_port_task(void *arg)
     while (1) {
         if (lvgl_port_lock(-1)) {
             task_delay_ms = lv_timer_handler();
+            if (s_ui_tick_cb) {
+                s_ui_tick_cb();
+            }
             lvgl_port_unlock();
         }
         if (task_delay_ms > LVGL_PORT_TASK_MAX_DELAY_MS) {
@@ -842,6 +846,11 @@ bool lvgl_port_unlock(void)
     xSemaphoreGiveRecursive(lvgl_mux);
 
     return true;
+}
+
+void lvgl_port_set_ui_tick_cb(void (*cb)(void))
+{
+    s_ui_tick_cb = cb;
 }
 
 bool lvgl_port_deinit(void)

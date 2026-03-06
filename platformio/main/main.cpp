@@ -5,7 +5,7 @@
 #include <esp_display_panel.hpp>
 #include <lvgl.h>
 #include <lvgl_v8_port.h>
-#include <Board.h>
+#include <DisplayPanel.h>
 #include <Wireless.h>
 #include <ClockTools.h>
 #include <HttpTools.h>
@@ -114,9 +114,10 @@ void set_var_date(const char *value) {
 
 extern "C" void app_main(void)
 {
-    bool wifiConnected = startWiFi();
+    // Start WiFi synchronously so we don't have DMA contention with the initial UI setup
+    startWiFi();
 
-    Board *board = initialiseBoard();
+    Board *board = initialiseDisplayPanel();
 
     ESP_LOGD(TAG, "Initializing LVGL");
     lvgl_port_init(board->getLCD(), board->getTouch());
@@ -129,6 +130,7 @@ extern "C" void app_main(void)
     }
 
     ui_init();
+    lvgl_port_set_ui_tick_cb(ui_tick);
     lvgl_port_unlock();
 
     static bool prevWifiConnected = false;
@@ -169,12 +171,6 @@ extern "C" void app_main(void)
             }
         }
 
-        // Lock the mutex with a reasonable timeout so we don't randomly skip UI updates
-        if (lvgl_port_lock(10)) {
-            ui_tick();
-            lvgl_port_unlock();
-        }
-
-        vTaskDelay(pdMS_TO_TICKS(1));
+        vTaskDelay(pdMS_TO_TICKS(1000));
     }
 }

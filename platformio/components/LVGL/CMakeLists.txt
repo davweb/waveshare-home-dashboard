@@ -1,5 +1,5 @@
 idf_component_register(
-    SRCS "lvgl_v8_port.cpp"
+    SRCS "lvgl_v8_port.cpp" "DisplayPanel.cpp"
     INCLUDE_DIRS "."
     REQUIRES espressif__esp32_display_panel lvgl__lvgl freertos esp_timer
 )

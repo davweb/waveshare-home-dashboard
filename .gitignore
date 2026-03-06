@@ -13,3 +13,4 @@ __pycache__
 .claude
 
 platformio/sdkconfig.old
+platformio/sdkconfig.local

@@ -1,7 +1,7 @@
 #include "esp_log.h"
-#include "Board.h"
+#include "DisplayPanel.h"
 
-static const char *TAG = "Board";
+static const char *TAG = "DisplayPanel";
 
 using namespace esp_panel::drivers;
 
@@ -11,7 +11,7 @@ using namespace esp_panel::drivers;
 //
 //https://github.com/esp-arduino-libs/ESP32_Display_Panel/blob/master/examples/platformio/lvgl_v8_port/src/main.cpp
 
-Board * initialiseBoard() {
+Board * initialiseDisplayPanel() {
     Board *board = new Board();
     board->init();
 
@@ -41,9 +41,9 @@ Board * initialiseBoard() {
     bool result = board->begin();
 
     if (result) {
-        ESP_LOGD(TAG, "Board initialised successfully.");
+        ESP_LOGD(TAG, "Display panel initialised successfully.");
     } else {
-        ESP_LOGE(TAG, "Board initialisation failed.");
+        ESP_LOGE(TAG, "Display panel initialisation failed.");
     }
 
     return board;

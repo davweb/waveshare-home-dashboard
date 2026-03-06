@@ -169,6 +169,13 @@ bool lvgl_port_lock(int timeout_ms);
  */
 bool lvgl_port_unlock(void);
 
+/**
+ * @brief Register a callback to be called on every LVGL tick, inside the LVGL task with the mutex held.
+ *        Call this (while holding the LVGL lock) after ui_init() is complete.
+ *        Pass NULL to deregister.
+ */
+void lvgl_port_set_ui_tick_cb(void (*cb)(void));
+
 #ifdef __cplusplus
 }
 #endif
