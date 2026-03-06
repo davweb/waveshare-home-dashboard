@@ -62,6 +62,7 @@ void fetchData() {
 
         // Use StringValue rather than Value directly to ensure the string is copied into the global variable rather than just referencing the temporary string in the JsonDocument
         flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_TEMPERATURE, StringValue(doc["weather"]["temperature"] | ""));
+        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_FEELS_LIKE, StringValue(doc["weather"]["feels_like"] | ""));
         flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_RAIN_CHANCE, StringValue(doc["weather"]["rain"] | ""));
         flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_RECYCLING_DATE, StringValue(doc["recycling"]["date"] | ""));
         flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_RECYCLING_SHORT_DATE, StringValue(doc["recycling"]["short_date"] | ""));
