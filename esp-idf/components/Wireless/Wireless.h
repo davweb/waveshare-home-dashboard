@@ -1,9 +1,8 @@
 /**
  * Connect to the WiFi network, logging the result.
  *
- * @return `true` if the WiFi network was connected to successfully, `false` otherwise.
  */
-bool startWiFi();
+void startWiFi();
 
 /**
  * Disconnect from the WiFi network, logging the result.

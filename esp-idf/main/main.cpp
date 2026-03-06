@@ -29,6 +29,15 @@ void fetchData() {
 
     if (!getJsonFromUrl(doc, "http://192.168.1.17")) {
         ESP_LOGW(TAG, "Failed to get data from dashboard server.");
+
+        if (lvgl_port_lock(portMAX_DELAY)) {
+            flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_SERVER_CONNECTED, Value(false));
+            lvgl_port_unlock();
+        }
+        else {
+            ESP_LOGE(TAG, "Failed to lock LVGL mutex to update server connection status");
+        }
+
         return;
     }
 
@@ -69,6 +78,7 @@ void fetchData() {
         flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_RECYCLING_TYPE, StringValue(doc["recycling"]["type"] | ""));
         flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_SUN_TYPE, StringValue(doc["weather"]["sun"]["event"] | ""));
         flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_SUN_TIME, StringValue(doc["weather"]["sun"]["time"] | ""));
+        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_SERVER_CONNECTED, Value(true));
 
         lvgl_port_unlock();
     }
@@ -116,7 +126,6 @@ void set_var_date(const char *value) {
 extern "C" void app_main(void)
 {
     // Start WiFi synchronously so we don't have DMA contention with the initial UI setup
-    startWiFi();
 
     Board *board = initialiseDisplayPanel();
 
@@ -137,6 +146,8 @@ extern "C" void app_main(void)
     static bool prevWifiConnected = false;
     static uint64_t fetchInterval = 30000; // Fetch data every 30 seconds
     static uint64_t lastFetchTime = 0;
+
+    startWiFi();
 
     while (true) {
         uint64_t currentTime = esp_timer_get_time() / 1000ULL;
