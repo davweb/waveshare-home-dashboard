@@ -108,8 +108,8 @@ class WeatherDataSource(DataSource):
             event_time = sunrise
 
         return {
-            'temperature': f'{data["temperature"]:.0f}',
-            'feels_like': f'{data["feels_like"]:.0f}',
+            'temperature': round(data["temperature"]),
+            'feels_like': round(data["feels_like"]),
             'icon': data['icon'],
             'rain': f'{data["rain"]:.0f}',
             'sun': {

@@ -14,8 +14,27 @@
 #include <structs.h>
 #include <images.h>
 #include <screens.h>
+#include <actions.h>
 
 static const char *TAG = "main";
+
+void action_temperature_to_color(lv_event_t *e) {
+    int temp = flow::getUserProperty(ACTION_TEMPERATURE_TO_COLOR_PROPERTY_TEMPERATURE).getInt();
+
+    int color;
+    if      (temp <  0) color = 0x7EC8E3;
+    else if (temp <  5) color = 0x6B9FE4;
+    else if (temp < 10) color = 0x3DBFB8;
+    else if (temp < 15) color = 0x5DD96B;
+    else if (temp < 20) color = 0xC8D44A;
+    else if (temp < 25) color = 0xF5A623;
+    else if (temp < 30) color = 0xF46B1A;
+    else                color = 0xFF3B3B;
+
+    flow::setUserProperty(ACTION_TEMPERATURE_TO_COLOR_PROPERTY_COLOR, IntegerValue(color));
+
+    ESP_LOGD(TAG, "Converted temperature %d to color 0x%06X", temp, color);
+}
 
 using namespace esp_panel::drivers;
 
@@ -69,9 +88,11 @@ void fetchData() {
             flow::setGlobalVariable(j == 0 ? FLOW_GLOBAL_VARIABLE_BUS_STOP_1_TIMES : FLOW_GLOBAL_VARIABLE_BUS_STOP_2_TIMES, eez_due_times);
         }
 
-        // Use StringValue rather than Value directly to ensure the string is copied into the global variable rather than just referencing the temporary string in the JsonDocument
-        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_TEMPERATURE, StringValue(doc["weather"]["temperature"] | ""));
-        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_FEELS_LIKE, StringValue(doc["weather"]["feels_like"] | ""));
+        // Use IntegerValue and StringValue rather than Value directly to ensure
+        // the string is copied into the global variable rather than just
+        // referencing the temporary string in the JsonDocument
+        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_TEMPERATURE, IntegerValue(doc["weather"]["temperature"] | 0));
+        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_FEELS_LIKE, IntegerValue(doc["weather"]["feels_like"] | 0));
         flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_RAIN_CHANCE, StringValue(doc["weather"]["rain"] | ""));
         flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_RECYCLING_DATE, StringValue(doc["recycling"]["date"] | ""));
         flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_RECYCLING_SHORT_DATE, StringValue(doc["recycling"]["short_date"] | ""));
