@@ -6,3 +6,4 @@ eez-studio/waveshare-dashboard.eez-project-ui-state
 .venv
 __pycache__
 .claude
+server/run.sh
