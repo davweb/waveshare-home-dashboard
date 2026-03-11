@@ -36,6 +36,26 @@ void action_temperature_to_color(lv_event_t *e) {
     ESP_LOGD(TAG, "Converted temperature %d to color 0x%06X", temp, color);
 }
 
+void action_rain_chance_to_color(lv_event_t *e) {
+    int chance = flow::getUserProperty(ACTION_RAIN_CHANCE_TO_COLOR_PROPERTY_RAIN_CHANCE).getInt();
+
+    int color;
+    if      (chance <  10) color = 0xDDEEFF;
+    else if (chance <  20) color = 0xBBDDFF;
+    else if (chance <  30) color = 0x99CCFF;
+    else if (chance <  40) color = 0x77BBFF;
+    else if (chance <  50) color = 0x55AAFF;
+    else if (chance <  60) color = 0x3399EE;
+    else if (chance <  70) color = 0x1188DD;
+    else if (chance <  80) color = 0x0077CC;
+    else if (chance <  90) color = 0x0055AA;
+    else                   color = 0x003388;
+
+    flow::setUserProperty(ACTION_RAIN_CHANCE_TO_COLOR_PROPERTY_COLOR, IntegerValue(color));
+
+    ESP_LOGD(TAG, "Converted rain chance %d%% to color 0x%06X", chance, color);
+}
+
 using namespace esp_panel::drivers;
 
 char bus_stop_names[2][32];

@@ -309,6 +309,33 @@
       ],
       "name": "Temperature To Color",
       "implementationType": "native"
+    },
+    {
+      "objID": "726072d2-f2d5-4006-f0e7-ed704e5c2baa",
+      "components": [],
+      "connectionLines": [],
+      "localVariables": [],
+      "componentGroups": [],
+      "userProperties": [
+        {
+          "id": "858890cb-f68e-41b0-9f24-a1af29956c70",
+          "objID": "4480ebee-e6d1-4fb7-f155-7f72b89f82f4",
+          "name": "rain_chance",
+          "type": "integer",
+          "assignable": false,
+          "description": "Rain chance percentage"
+        },
+        {
+          "id": "dafc5a0d-5e02-4673-9fa2-47fc5e3e34db",
+          "objID": "d1afcbe6-4f74-4ec2-e4e6-3c66fb6c3458",
+          "name": "color",
+          "type": "integer",
+          "assignable": true,
+          "description": "Color as an Integer"
+        }
+      ],
+      "name": "Rain Chance to Color",
+      "implementationType": "native"
     }
   ],
   "userPages": [
@@ -1478,7 +1505,7 @@
                           },
                           "timeline": [],
                           "eventHandlers": [],
-                          "identifier": "Rain Label",
+                          "identifier": "Dashboard Rain",
                           "leftUnit": "px",
                           "topUnit": "px",
                           "widthUnit": "content",
@@ -1529,7 +1556,7 @@
                           },
                           "timeline": [],
                           "eventHandlers": [],
-                          "identifier": "",
+                          "identifier": "Dashboard Rain Percent",
                           "leftUnit": "px",
                           "topUnit": "px",
                           "widthUnit": "content",
@@ -2579,6 +2606,111 @@
               "useStackType": "literal"
             }
           ]
+        },
+        {
+          "objID": "c318e2c9-1fd5-47bd-8d7c-cbd457d5adaa",
+          "type": "WatchVariableActionComponent",
+          "left": 19,
+          "top": 708,
+          "width": 191,
+          "height": 53,
+          "customInputs": [],
+          "customOutputs": [],
+          "variable": "weather.rain_chance"
+        },
+        {
+          "objID": "a7ddf2d9-c95a-4fb7-8cf1-fb2f4d6e1271",
+          "type": "LVGLActionComponent",
+          "left": 816,
+          "top": 709,
+          "width": 388,
+          "height": 53,
+          "customInputs": [
+            {
+              "objID": "2dcd6c2a-cfac-4b28-c387-953e60c88100",
+              "name": "color",
+              "type": "integer"
+            }
+          ],
+          "customOutputs": [],
+          "actions": [
+            {
+              "objID": "f52ebe95-7b08-47fd-e260-2462b02a5787",
+              "action": "objStyleSetProperty",
+              "object": "dashboard_rain",
+              "objectType": "literal",
+              "property": "text_color",
+              "propertyType": "literal",
+              "value": "color",
+              "valueType": "expression",
+              "part": "MAIN",
+              "partType": "literal",
+              "state": "DEFAULT",
+              "stateType": "literal"
+            }
+          ]
+        },
+        {
+          "objID": "53283e5b-ff65-41fe-e534-7d5b5d707ed3",
+          "type": "CallActionActionComponent",
+          "left": 343,
+          "top": 708,
+          "width": 405,
+          "height": 77,
+          "customInputs": [
+            {
+              "objID": "55266872-df8a-4d26-ebcb-13bd4f4c21bb",
+              "name": "input_rain_chance",
+              "type": "integer"
+            }
+          ],
+          "customOutputs": [
+            {
+              "objID": "860d8e31-a076-4c62-fc76-040c274405df",
+              "name": "output_color",
+              "type": "integer"
+            }
+          ],
+          "action": "Rain Chance to Color",
+          "userPropertyValues": {
+            "objID": "59d25e5e-7495-44ca-ea90-eddc04d4b611",
+            "values": {
+              "858890cb-f68e-41b0-9f24-a1af29956c70": "input_rain_chance",
+              "dafc5a0d-5e02-4673-9fa2-47fc5e3e34db": "output_color"
+            }
+          }
+        },
+        {
+          "objID": "4ad16505-fe70-4cc8-94e0-de20c18d58d2",
+          "type": "LVGLActionComponent",
+          "left": 816,
+          "top": 785,
+          "width": 437,
+          "height": 53,
+          "customInputs": [
+            {
+              "objID": "14758040-2085-4b55-9980-c089547fafb5",
+              "name": "color",
+              "type": "integer"
+            }
+          ],
+          "customOutputs": [],
+          "actions": [
+            {
+              "objID": "6afa4d46-2927-4cd7-d0a3-496a64da7087",
+              "action": "objStyleSetProperty",
+              "object": "dashboard_rain_percent",
+              "objectType": "literal",
+              "property": "text_color",
+              "propertyType": "literal",
+              "value": "color",
+              "valueType": "expression",
+              "part": "MAIN",
+              "partType": "literal",
+              "state": "DEFAULT",
+              "stateType": "literal"
+            }
+          ]
         }
       ],
       "connectionLines": [
@@ -2637,6 +2769,27 @@
           "output": "CLICKED",
           "target": "43a3b750-d054-498d-b1a5-e1f2a49923e7",
           "input": "@seqin"
+        },
+        {
+          "objID": "57c72a3e-d23e-4380-a15c-b6b38e35905d",
+          "source": "c318e2c9-1fd5-47bd-8d7c-cbd457d5adaa",
+          "output": "variable",
+          "target": "53283e5b-ff65-41fe-e534-7d5b5d707ed3",
+          "input": "input_rain_chance"
+        },
+        {
+          "objID": "715b8ad5-0286-43c4-ce72-263da771994f",
+          "source": "53283e5b-ff65-41fe-e534-7d5b5d707ed3",
+          "output": "output_color",
+          "target": "a7ddf2d9-c95a-4fb7-8cf1-fb2f4d6e1271",
+          "input": "color"
+        },
+        {
+          "objID": "f217e5bd-b917-48e9-def1-57afe83f135d",
+          "source": "53283e5b-ff65-41fe-e534-7d5b5d707ed3",
+          "output": "output_color",
+          "target": "4ad16505-fe70-4cc8-94e0-de20c18d58d2",
+          "input": "color"
         }
       ],
       "localVariables": [],
@@ -3379,7 +3532,7 @@
                           },
                           "timeline": [],
                           "eventHandlers": [],
-                          "identifier": "Rain",
+                          "identifier": "Weather Rain",
                           "leftUnit": "px",
                           "topUnit": "px",
                           "widthUnit": "content",
@@ -3430,7 +3583,7 @@
                           },
                           "timeline": [],
                           "eventHandlers": [],
-                          "identifier": "",
+                          "identifier": "Weather Rain Percent",
                           "leftUnit": "px",
                           "topUnit": "px",
                           "widthUnit": "content",
@@ -4264,6 +4417,111 @@
               "stateType": "literal"
             }
           ]
+        },
+        {
+          "objID": "be7c9d35-2f53-4e18-c668-c7dcf2802f21",
+          "type": "WatchVariableActionComponent",
+          "left": -19,
+          "top": 1030,
+          "width": 191,
+          "height": 53,
+          "customInputs": [],
+          "customOutputs": [],
+          "variable": "weather.rain_chance"
+        },
+        {
+          "objID": "e39be017-2592-4609-9a96-81308b71bc69",
+          "type": "LVGLActionComponent",
+          "left": 778,
+          "top": 1016,
+          "width": 375,
+          "height": 53,
+          "customInputs": [
+            {
+              "objID": "42cfb8fa-ce74-40b1-894a-83c0407ea650",
+              "name": "color",
+              "type": "integer"
+            }
+          ],
+          "customOutputs": [],
+          "actions": [
+            {
+              "objID": "4b96bbe0-4e36-4458-ecd4-c23df249ec8a",
+              "action": "objStyleSetProperty",
+              "object": "weather_rain",
+              "objectType": "literal",
+              "property": "text_color",
+              "propertyType": "literal",
+              "value": "color",
+              "valueType": "expression",
+              "part": "MAIN",
+              "partType": "literal",
+              "state": "DEFAULT",
+              "stateType": "literal"
+            }
+          ]
+        },
+        {
+          "objID": "e95d86f0-d5dd-4eb3-cca5-7176b3908b94",
+          "type": "CallActionActionComponent",
+          "left": 305,
+          "top": 1030,
+          "width": 405,
+          "height": 77,
+          "customInputs": [
+            {
+              "objID": "25a57bff-c811-46ba-dcd9-40898cfacd96",
+              "name": "input_rain_chance",
+              "type": "integer"
+            }
+          ],
+          "customOutputs": [
+            {
+              "objID": "fe869c62-6c14-41a6-f6d3-bf0f41f70c59",
+              "name": "output_color",
+              "type": "integer"
+            }
+          ],
+          "action": "Rain Chance to Color",
+          "userPropertyValues": {
+            "objID": "a1f66260-941a-435b-d61f-4fa4201b53f7",
+            "values": {
+              "858890cb-f68e-41b0-9f24-a1af29956c70": "input_rain_chance",
+              "dafc5a0d-5e02-4673-9fa2-47fc5e3e34db": "output_color"
+            }
+          }
+        },
+        {
+          "objID": "190af980-de94-4629-8891-92b0082278cd",
+          "type": "LVGLActionComponent",
+          "left": 778,
+          "top": 1083,
+          "width": 425,
+          "height": 53,
+          "customInputs": [
+            {
+              "objID": "c43cd3b7-8d5e-4170-e6bd-b4d090e05706",
+              "name": "color",
+              "type": "integer"
+            }
+          ],
+          "customOutputs": [],
+          "actions": [
+            {
+              "objID": "1518f412-78be-4503-affc-8ecd4796c0cd",
+              "action": "objStyleSetProperty",
+              "object": "weather_rain_percent",
+              "objectType": "literal",
+              "property": "text_color",
+              "propertyType": "literal",
+              "value": "color",
+              "valueType": "expression",
+              "part": "MAIN",
+              "partType": "literal",
+              "state": "DEFAULT",
+              "stateType": "literal"
+            }
+          ]
         }
       ],
       "connectionLines": [
@@ -4314,6 +4572,27 @@
           "source": "616c0ea8-4e96-4ce2-cac3-4663cb49e10f",
           "output": "False",
           "target": "09de8227-6260-4467-f718-be5a02d8735a",
+          "input": "color"
+        },
+        {
+          "objID": "caadbb13-5a6c-4302-c053-c40eaa14f0a9",
+          "source": "be7c9d35-2f53-4e18-c668-c7dcf2802f21",
+          "output": "variable",
+          "target": "e95d86f0-d5dd-4eb3-cca5-7176b3908b94",
+          "input": "input_rain_chance"
+        },
+        {
+          "objID": "21979e2e-2231-4cc4-e9d6-cd07efcff3ac",
+          "source": "e95d86f0-d5dd-4eb3-cca5-7176b3908b94",
+          "output": "output_color",
+          "target": "e39be017-2592-4609-9a96-81308b71bc69",
+          "input": "color"
+        },
+        {
+          "objID": "578ca9b2-bbf4-4ab4-cb6c-4fefdbc2e2e4",
+          "source": "e95d86f0-d5dd-4eb3-cca5-7176b3908b94",
+          "output": "output_color",
+          "target": "190af980-de94-4629-8891-92b0082278cd",
           "input": "color"
         }
       ],
