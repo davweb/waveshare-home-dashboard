@@ -24,3 +24,4 @@ components/ui/*.c
 
 # IDE
 .vscode
+.cache

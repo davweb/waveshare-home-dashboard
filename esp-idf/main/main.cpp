@@ -40,7 +40,8 @@ using namespace esp_panel::drivers;
 
 char bus_routes[2][3][4];
 char bus_destinations[2][3][32];
-char bus_due_times[2][3][8];
+char bus_due_labels[2][3][8];
+int bus_due_seconds[2][3];
 
 void fetchData() {
     ESP_LOGD(TAG, "fetch data");
@@ -64,7 +65,8 @@ void fetchData() {
         for (int i = 0; i < 3; i++) {
             strlcpy(bus_routes[j][i], doc["bus_stops"][j]["buses"][i]["route"] | "", sizeof(bus_routes[j][i]));
             strlcpy(bus_destinations[j][i], doc["bus_stops"][j]["buses"][i]["destination"] | "", sizeof(bus_destinations[j][i]));
-            strlcpy(bus_due_times[j][i], doc["bus_stops"][j]["buses"][i]["due"] | "", sizeof(bus_due_times[j][i]));
+            strlcpy(bus_due_labels[j][i], doc["bus_stops"][j]["buses"][i]["due"] | "", sizeof(bus_due_labels[j][i]));
+            bus_due_seconds[j][i] = doc["bus_stops"][j]["buses"][i]["due_time"] | 0;
         }
     }
 
@@ -72,33 +74,37 @@ void fetchData() {
     if (lvgl_port_lock(portMAX_DELAY)) {
 
         for (int j = 0; j < 2; j++) {
-            ArrayOfString eez_routes(3);
-            ArrayOfString eez_destinations(3);
-            ArrayOfString eez_due_times(3);
-
+            ArrayOfBusArrivalValue arrivals(3);
             for (int i = 0; i < 3; i++) {
-                eez_routes.at(i, bus_routes[j][i]);
-                eez_destinations.at(i, bus_destinations[j][i]);
-                eez_due_times.at(i, bus_due_times[j][i]);
+                BusArrivalValue arrival;
+                arrival.route(bus_routes[j][i]);
+                arrival.destination(bus_destinations[j][i]);
+                arrival.due_label(bus_due_labels[j][i]);
+                arrival.due_seconds(bus_due_seconds[j][i]);
+                arrivals.at(i, arrival);
             }
 
-            flow::setGlobalVariable(j == 0 ? FLOW_GLOBAL_VARIABLE_BUS_STOP_1_NAME : FLOW_GLOBAL_VARIABLE_BUS_STOP_2_NAME, StringValue(doc["bus_stops"][j]["name"] | ""));
-            flow::setGlobalVariable(j == 0 ? FLOW_GLOBAL_VARIABLE_BUS_STOP_1_ROUTES : FLOW_GLOBAL_VARIABLE_BUS_STOP_2_ROUTES, eez_routes);
-            flow::setGlobalVariable(j == 0 ? FLOW_GLOBAL_VARIABLE_BUS_STOP_1_DESTINATIONS : FLOW_GLOBAL_VARIABLE_BUS_STOP_2_DESTINATIONS, eez_destinations);
-            flow::setGlobalVariable(j == 0 ? FLOW_GLOBAL_VARIABLE_BUS_STOP_1_TIMES : FLOW_GLOBAL_VARIABLE_BUS_STOP_2_TIMES, eez_due_times);
+            BusStopValue bus_stop;
+            bus_stop.name(doc["bus_stops"][j]["name"] | "");
+            bus_stop.arrivals(arrivals);
+
+            flow::setGlobalVariable(j == 0 ? FLOW_GLOBAL_VARIABLE_BUS_STOP_1 : FLOW_GLOBAL_VARIABLE_BUS_STOP_2, bus_stop);
         }
 
-        // Use IntegerValue and StringValue rather than Value directly to ensure
-        // the string is copied into the global variable rather than just
-        // referencing the temporary string in the JsonDocument
-        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_TEMPERATURE, IntegerValue(doc["weather"]["temperature"] | 0));
-        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_FEELS_LIKE, IntegerValue(doc["weather"]["feels_like"] | 0));
-        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_RAIN_CHANCE, StringValue(doc["weather"]["rain"] | ""));
-        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_RECYCLING_DATE, StringValue(doc["recycling"]["date"] | ""));
-        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_RECYCLING_SHORT_DATE, StringValue(doc["recycling"]["short_date"] | ""));
-        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_RECYCLING_TYPE, StringValue(doc["recycling"]["type"] | ""));
-        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_SUN_TYPE, StringValue(doc["weather"]["sun"]["event"] | ""));
-        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_SUN_TIME, StringValue(doc["weather"]["sun"]["time"] | ""));
+        WeatherValue weather;
+        weather.temperature(doc["weather"]["temperature"] | 0);
+        weather.feels_like(doc["weather"]["feels_like"] | 0);
+        weather.rain_chance(doc["weather"]["rain"] | 0);
+        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_WEATHER, weather);
+        RecyclingValue recycling;
+        recycling.type(doc["recycling"]["type"] | "");
+        recycling.date(doc["recycling"]["date"] | "");
+        recycling.short_date(doc["recycling"]["short_date"] | "");
+        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_RECYCLING, recycling);
+        SunTimeValue sun;
+        sun.type(doc["weather"]["sun"]["event"] | "");
+        sun.time(doc["weather"]["sun"]["time"] | "");
+        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_SUN, sun);
         flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_SERVER_CONNECTED, Value(true));
 
         lvgl_port_unlock();
