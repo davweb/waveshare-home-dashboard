@@ -130,7 +130,7 @@ static void fetchData() {
     ESP_LOGD(TAG, "fetch data");
     JsonDocument doc;
 
-    if (!getJsonFromUrl(doc, "http://192.168.1.17")) {
+    if (!getJsonFromUrl(doc, CONFIG_DASHBOARD_SERVER_URL)) {
         ESP_LOGW(TAG, "Failed to get data from dashboard server.");
 
         if (lvgl_port_lock(portMAX_DELAY)) {
