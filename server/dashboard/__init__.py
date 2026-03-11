@@ -4,7 +4,6 @@ from abc import ABC, abstractmethod
 from datetime import datetime
 import functools
 import logging
-import math
 import threading
 import time
 from typing import Any
@@ -51,28 +50,6 @@ class BusDataSource(DataSource):
 
         return bus_times
 
-    def _due_epoch(self, due_time: datetime) -> int:
-        """Return due time as Unix epoch seconds"""
-        return int(due_time.timestamp())
-
-    def _format_due(self, due_time, refresh_time) -> str:
-        """Format bus due time"""
-
-        seconds = (due_time - refresh_time).total_seconds()
-
-        if seconds <= 0:
-            return 'due'
-
-        if seconds < 61:
-            return '1 min'
-
-        minutes = math.ceil(seconds / 60)
-
-        if minutes <= 60:
-            return f'{minutes} mins'
-
-        return due_time.strftime('%-H:%M')
-
     def format_data(self, data: Any) -> Any:
         bus_times = []
 
@@ -80,8 +57,7 @@ class BusDataSource(DataSource):
             bus_times.append({'name': name,
                               'buses': [{'route': route,
                                          'destination': dest,
-                                         'due': self._format_due(due, datetime.now()),
-                                         'due_time': self._due_epoch(due)} for route,
+                                         'due_time': int(due.timestamp())} for route,
                                         dest,
                                         due in buses]})
 

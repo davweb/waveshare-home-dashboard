@@ -38,12 +38,75 @@ void action_temperature_to_color(lv_event_t *e) {
 
 using namespace esp_panel::drivers;
 
+char bus_stop_names[2][32];
 char bus_routes[2][3][4];
 char bus_destinations[2][3][32];
 char bus_due_labels[2][3][8];
 int bus_due_seconds[2][3];
+time_t bus_due_epochs[2][3];
 
-void fetchData() {
+static void format_due_label(char *buf, size_t buf_size, time_t due_epoch, const char *route) {
+    if (route[0] == '\0') {
+        buf[0] = '\0';
+        return;
+    }
+
+    time_t now = time(nullptr);
+    int due_seconds = due_epoch > 0 ? (int)(due_epoch - now) : 0;
+
+    if (due_seconds <= 0) {
+        strlcpy(buf, "due", buf_size);
+    } else if (due_seconds < 61) {
+        strlcpy(buf, "1 min", buf_size);
+    } else {
+        int minutes = (due_seconds + 59) / 60;
+
+        if (minutes <= 60) {
+            snprintf(buf, buf_size, "%d mins", minutes);
+        } else {
+            struct tm t;
+            localtime_r(&due_epoch, &t);
+            snprintf(buf, buf_size, "%d:%02d", t.tm_hour, t.tm_min);
+        }
+    }
+}
+
+static void recalculateDueTimes() {
+    time_t now = time(nullptr);
+    for (int j = 0; j < 2; j++) {
+        for (int i = 0; i < 3; i++) {
+            time_t epoch = bus_due_epochs[j][i];
+            bus_due_seconds[j][i] = epoch > 0 ? (int)(epoch - now) : 0;
+            format_due_label(bus_due_labels[j][i], sizeof(bus_due_labels[j][i]), epoch, bus_routes[j][i]);
+        }
+    }
+
+    if (lvgl_port_lock(portMAX_DELAY)) {
+        for (int j = 0; j < 2; j++) {
+            ArrayOfBusArrivalValue arrivals(3);
+            for (int i = 0; i < 3; i++) {
+                BusArrivalValue arrival;
+                arrival.route(bus_routes[j][i]);
+                arrival.destination(bus_destinations[j][i]);
+                arrival.due_label(bus_due_labels[j][i]);
+                arrival.due_seconds(bus_due_seconds[j][i]);
+                arrivals.at(i, arrival);
+            }
+
+            BusStopValue bus_stop;
+            bus_stop.name(bus_stop_names[j]);
+            bus_stop.arrivals(arrivals);
+
+            flow::setGlobalVariable(j == 0 ? FLOW_GLOBAL_VARIABLE_BUS_STOP_1 : FLOW_GLOBAL_VARIABLE_BUS_STOP_2, bus_stop);
+        }
+        lvgl_port_unlock();
+    }
+    else {
+        ESP_LOGE(TAG, "Failed to lock LVGL mutex to recalculate due times");
+    }
+}
+
+static void fetchData() {
     ESP_LOGD(TAG, "fetch data");
     JsonDocument doc;
 
@@ -62,34 +125,18 @@ void fetchData() {
     }
 
     for (int j = 0; j < 2; j++) {
+        strlcpy(bus_stop_names[j], doc["bus_stops"][j]["name"] | "", sizeof(bus_stop_names[j]));
         for (int i = 0; i < 3; i++) {
             strlcpy(bus_routes[j][i], doc["bus_stops"][j]["buses"][i]["route"] | "", sizeof(bus_routes[j][i]));
             strlcpy(bus_destinations[j][i], doc["bus_stops"][j]["buses"][i]["destination"] | "", sizeof(bus_destinations[j][i]));
-            strlcpy(bus_due_labels[j][i], doc["bus_stops"][j]["buses"][i]["due"] | "", sizeof(bus_due_labels[j][i]));
-            bus_due_seconds[j][i] = doc["bus_stops"][j]["buses"][i]["due_time"] | 0;
+            bus_due_epochs[j][i] = doc["bus_stops"][j]["buses"][i]["due_time"] | 0L;
         }
     }
 
+    recalculateDueTimes();
+
     //Lock the LVGL mutex
     if (lvgl_port_lock(portMAX_DELAY)) {
-
-        for (int j = 0; j < 2; j++) {
-            ArrayOfBusArrivalValue arrivals(3);
-            for (int i = 0; i < 3; i++) {
-                BusArrivalValue arrival;
-                arrival.route(bus_routes[j][i]);
-                arrival.destination(bus_destinations[j][i]);
-                arrival.due_label(bus_due_labels[j][i]);
-                arrival.due_seconds(bus_due_seconds[j][i]);
-                arrivals.at(i, arrival);
-            }
-
-            BusStopValue bus_stop;
-            bus_stop.name(doc["bus_stops"][j]["name"] | "");
-            bus_stop.arrivals(arrivals);
-
-            flow::setGlobalVariable(j == 0 ? FLOW_GLOBAL_VARIABLE_BUS_STOP_1 : FLOW_GLOBAL_VARIABLE_BUS_STOP_2, bus_stop);
-        }
 
         WeatherValue weather;
         weather.temperature(doc["weather"]["temperature"] | 0);
@@ -173,6 +220,8 @@ extern "C" void app_main(void)
     static bool prevWifiConnected = false;
     static uint64_t fetchInterval = 30000; // Fetch data every 30 seconds
     static uint64_t lastFetchTime = 0;
+    static uint64_t recalculateInterval = 5000; // Recalculate due times every 5 seconds
+    static uint64_t lastRecalculateTime = 0;
 
     startWiFi();
 
@@ -206,7 +255,12 @@ extern "C" void app_main(void)
 
             if (lastFetchTime == 0 || (currentTime - lastFetchTime >= fetchInterval)) {
                 lastFetchTime = currentTime;
+                lastRecalculateTime = currentTime;
                 fetchData();
+            }
+            else if (currentTime - lastRecalculateTime >= recalculateInterval) {
+                lastRecalculateTime = currentTime;
+                recalculateDueTimes();
             }
         }
 

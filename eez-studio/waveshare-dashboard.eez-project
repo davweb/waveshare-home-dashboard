@@ -111,7 +111,7 @@
         "objID": "3ae2ca44-5297-493f-f9bd-4150b16f6361",
         "name": "wifi_connected",
         "type": "boolean",
-        "defaultValue": "true",
+        "defaultValue": "false",
         "persistent": false
       },
       {
@@ -134,7 +134,7 @@
         "objID": "767de3e8-b816-4523-b53e-7c11f024963c",
         "name": "server_connected",
         "type": "boolean",
-        "defaultValue": "true",
+        "defaultValue": "false",
         "persistent": false
       },
       {
@@ -4872,9 +4872,156 @@
           },
           "group": "",
           "groupIndex": 0
+        },
+        {
+          "objID": "b65aceef-19a0-4444-e62d-e1c040d9843a",
+          "type": "WatchVariableActionComponent",
+          "left": 44,
+          "top": -283,
+          "width": 191,
+          "height": 53,
+          "customInputs": [],
+          "customOutputs": [],
+          "variable": "arrival.due_seconds"
+        },
+        {
+          "objID": "d680904e-a3bd-47b2-c936-8f6f1ab72c6d",
+          "type": "IsTrueActionComponent",
+          "left": 299,
+          "top": -256,
+          "width": 202,
+          "height": 69,
+          "customInputs": [],
+          "customOutputs": [],
+          "value": "arrival.due_seconds < 300"
+        },
+        {
+          "objID": "4f54f905-158b-4961-e734-6b84ae302d4c",
+          "type": "LVGLActionComponent",
+          "left": 577,
+          "top": -239,
+          "width": 305,
+          "height": 53,
+          "customInputs": [],
+          "customOutputs": [],
+          "actions": [
+            {
+              "objID": "ed512f7c-bde2-4ca4-e229-8c4f50823b2d",
+              "action": "objStyleSetProperty",
+              "object": "bus_due_1",
+              "objectType": "literal",
+              "property": "text_color",
+              "propertyType": "literal",
+              "value": "Error",
+              "valueType": "literal",
+              "part": "MAIN",
+              "partType": "literal",
+              "state": "DEFAULT",
+              "stateType": "literal"
+            }
+          ]
+        },
+        {
+          "objID": "e40c1dac-a514-4178-9fb7-d7f2d13b26a0",
+          "type": "IsTrueActionComponent",
+          "left": 501,
+          "top": -134,
+          "width": 202,
+          "height": 69,
+          "customInputs": [],
+          "customOutputs": [],
+          "value": "arrival.due_seconds < 600"
+        },
+        {
+          "objID": "09618ea9-c22a-424f-b051-3ae04e3cf087",
+          "type": "LVGLActionComponent",
+          "left": 757,
+          "top": -144,
+          "width": 317,
+          "height": 53,
+          "customInputs": [],
+          "customOutputs": [],
+          "actions": [
+            {
+              "objID": "9a9d5d23-f18b-48a3-8c31-d28eaab1f10b",
+              "action": "objStyleSetProperty",
+              "object": "bus_due_1",
+              "objectType": "literal",
+              "property": "text_color",
+              "propertyType": "literal",
+              "value": "Warning",
+              "valueType": "literal",
+              "part": "MAIN",
+              "partType": "literal",
+              "state": "DEFAULT",
+              "stateType": "literal"
+            }
+          ]
+        },
+        {
+          "objID": "10196238-f1bd-428d-9af6-47636d203116",
+          "type": "LVGLActionComponent",
+          "left": 767,
+          "top": -76,
+          "width": 317,
+          "height": 53,
+          "customInputs": [],
+          "customOutputs": [],
+          "actions": [
+            {
+              "objID": "df93bcef-da7b-4fd3-b9c5-6f8715175e8b",
+              "action": "objStyleSetProperty",
+              "object": "bus_due_1",
+              "objectType": "literal",
+              "property": "text_color",
+              "propertyType": "literal",
+              "value": "Primary",
+              "valueType": "literal",
+              "part": "MAIN",
+              "partType": "literal",
+              "state": "DEFAULT",
+              "stateType": "literal"
+            }
+          ]
         }
       ],
-      "connectionLines": [],
+      "connectionLines": [
+        {
+          "objID": "7661b1f6-d0ab-4485-ed4f-df4f4c67cc1a",
+          "source": "b65aceef-19a0-4444-e62d-e1c040d9843a",
+          "output": "variable",
+          "target": "d680904e-a3bd-47b2-c936-8f6f1ab72c6d",
+          "input": "@seqin"
+        },
+        {
+          "objID": "533c85b3-9faa-4740-e27f-648d91c312d5",
+          "source": "d680904e-a3bd-47b2-c936-8f6f1ab72c6d",
+          "output": "True",
+          "target": "4f54f905-158b-4961-e734-6b84ae302d4c",
+          "input": "@seqin"
+        },
+        {
+          "objID": "c2ccc3ff-ffd9-4714-9be3-fab2cac50e7c",
+          "source": "d680904e-a3bd-47b2-c936-8f6f1ab72c6d",
+          "output": "False",
+          "target": "e40c1dac-a514-4178-9fb7-d7f2d13b26a0",
+          "input": "@seqin"
+        },
+        {
+          "objID": "c964543b-fb8c-41cc-d751-cabbd0c4a2ce",
+          "source": "e40c1dac-a514-4178-9fb7-d7f2d13b26a0",
+          "output": "True",
+          "target": "09618ea9-c22a-424f-b051-3ae04e3cf087",
+          "input": "@seqin"
+        },
+        {
+          "objID": "8e80f9a0-3fdd-4b24-9f66-aa9e5fbdfad6",
+          "source": "e40c1dac-a514-4178-9fb7-d7f2d13b26a0",
+          "output": "False",
+          "target": "10196238-f1bd-428d-9af6-47636d203116",
+          "input": "@seqin"
+        }
+      ],
       "localVariables": [],
       "componentGroups": [],
       "userProperties": [
@@ -5424,9 +5571,156 @@
           },
           "group": "",
           "groupIndex": 0
+        },
+        {
+          "objID": "5ae33be5-2494-4152-b6c6-b5c5ba23c2ed",
+          "type": "WatchVariableActionComponent",
+          "left": 91,
+          "top": -297,
+          "width": 215,
+          "height": 53,
+          "customInputs": [],
+          "customOutputs": [],
+          "variable": "bus_arrival.due_seconds"
+        },
+        {
+          "objID": "53b68481-e1da-439e-cd05-8b914a1291e0",
+          "type": "IsTrueActionComponent",
+          "left": 346,
+          "top": -270,
+          "width": 227,
+          "height": 69,
+          "customInputs": [],
+          "customOutputs": [],
+          "value": "bus_arrival.due_seconds < 300"
+        },
+        {
+          "objID": "a81c983b-6d3e-4458-d70e-7b1e82fba118",
+          "type": "LVGLActionComponent",
+          "left": 624,
+          "top": -253,
+          "width": 293,
+          "height": 53,
+          "customInputs": [],
+          "customOutputs": [],
+          "actions": [
+            {
+              "objID": "279df1bb-77f4-422c-dccf-0641c0cc0d47",
+              "action": "objStyleSetProperty",
+              "object": "bus_due",
+              "objectType": "literal",
+              "property": "text_color",
+              "propertyType": "literal",
+              "value": "Error",
+              "valueType": "literal",
+              "part": "MAIN",
+              "partType": "literal",
+              "state": "DEFAULT",
+              "stateType": "literal"
+            }
+          ]
+        },
+        {
+          "objID": "3f042af2-9644-4a49-ce16-5cc288a44b4d",
+          "type": "IsTrueActionComponent",
+          "left": 548,
+          "top": -148,
+          "width": 227,
+          "height": 69,
+          "customInputs": [],
+          "customOutputs": [],
+          "value": "bus_arrival.due_seconds < 600"
+        },
+        {
+          "objID": "0429b722-1acd-4c6e-8836-a0db1ddc6e75",
+          "type": "LVGLActionComponent",
+          "left": 804,
+          "top": -158,
+          "width": 305,
+          "height": 53,
+          "customInputs": [],
+          "customOutputs": [],
+          "actions": [
+            {
+              "objID": "98245050-ce29-4253-f6ca-34351151d561",
+              "action": "objStyleSetProperty",
+              "object": "bus_due",
+              "objectType": "literal",
+              "property": "text_color",
+              "propertyType": "literal",
+              "value": "Warning",
+              "valueType": "literal",
+              "part": "MAIN",
+              "partType": "literal",
+              "state": "DEFAULT",
+              "stateType": "literal"
+            }
+          ]
+        },
+        {
+          "objID": "ebde3369-ac68-4be9-a410-a0b43aea7190",
+          "type": "LVGLActionComponent",
+          "left": 814,
+          "top": -90,
+          "width": 305,
+          "height": 53,
+          "customInputs": [],
+          "customOutputs": [],
+          "actions": [
+            {
+              "objID": "ef0540e0-f512-4a53-8342-fe1e15c960da",
+              "action": "objStyleSetProperty",
+              "object": "bus_due",
+              "objectType": "literal",
+              "property": "text_color",
+              "propertyType": "literal",
+              "value": "Primary",
+              "valueType": "literal",
+              "part": "MAIN",
+              "partType": "literal",
+              "state": "DEFAULT",
+              "stateType": "literal"
+            }
+          ]
         }
       ],
-      "connectionLines": [],
+      "connectionLines": [
+        {
+          "objID": "f63a1c98-9f07-46e2-d8d9-7bc5bb7f9213",
+          "source": "5ae33be5-2494-4152-b6c6-b5c5ba23c2ed",
+          "output": "variable",
+          "target": "53b68481-e1da-439e-cd05-8b914a1291e0",
+          "input": "@seqin"
+        },
+        {
+          "objID": "36fe3fb7-cb4a-4914-85b2-bf8101bd3e7a",
+          "source": "53b68481-e1da-439e-cd05-8b914a1291e0",
+          "output": "True",
+          "target": "a81c983b-6d3e-4458-d70e-7b1e82fba118",
+          "input": "@seqin"
+        },
+        {
+          "objID": "261b1e10-d348-499d-e2ab-e2128ec79b6a",
+          "source": "53b68481-e1da-439e-cd05-8b914a1291e0",
+          "output": "False",
+          "target": "3f042af2-9644-4a49-ce16-5cc288a44b4d",
+          "input": "@seqin"
+        },
+        {
+          "objID": "358503a3-035c-433a-a7bb-b2dce4dd8e02",
+          "source": "3f042af2-9644-4a49-ce16-5cc288a44b4d",
+          "output": "True",
+          "target": "0429b722-1acd-4c6e-8836-a0db1ddc6e75",
+          "input": "@seqin"
+        },
+        {
+          "objID": "eabee706-0cd3-4eea-a053-3e5294d727a6",
+          "source": "3f042af2-9644-4a49-ce16-5cc288a44b4d",
+          "output": "False",
+          "target": "ebde3369-ac68-4be9-a410-a0b43aea7190",
+          "input": "@seqin"
+        }
+      ],
       "localVariables": [
         {
           "objID": "38f9a2d2-b6c6-4907-a02f-f78135aa81c6",
@@ -7015,6 +7309,14 @@
     {
       "objID": "fd2fca8e-16a6-4df3-cee8-4d2539e78f94",
       "name": "Sunset"
+    },
+    {
+      "objID": "009fb64c-1b76-457a-f285-35d4941a1b70",
+      "name": "Warning"
+    },
+    {
+      "objID": "3d9ca6ac-3880-4a35-ba12-0a4f39f0569e",
+      "name": "Error"
     }
   ],
   "themes": [
@@ -7028,7 +7330,9 @@
         "#ffffff",
         "#09e9e9",
         "#f5b942",
-        "#f4945c"
+        "#f4945c",
+        "#ffb100",
+        "#ff3b3b"
       ]
     }
   ]
