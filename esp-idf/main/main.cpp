@@ -101,24 +101,27 @@ static void recalculateDueTimes() {
         }
     }
 
-    if (lvgl_port_lock(portMAX_DELAY)) {
-        for (int j = 0; j < 2; j++) {
-            ArrayOfBusArrivalValue arrivals(3);
-            for (int i = 0; i < 3; i++) {
-                BusArrivalValue arrival;
-                arrival.route(bus_routes[j][i]);
-                arrival.destination(bus_destinations[j][i]);
-                arrival.due_label(bus_due_labels[j][i]);
-                arrival.due_seconds(bus_due_seconds[j][i]);
-                arrivals.at(i, arrival);
-            }
+    ArrayOfBusStopValue bus_stops(2);
 
-            BusStopValue bus_stop;
-            bus_stop.name(bus_stop_names[j]);
-            bus_stop.arrivals(arrivals);
-
-            flow::setGlobalVariable(j == 0 ? FLOW_GLOBAL_VARIABLE_BUS_STOP_1 : FLOW_GLOBAL_VARIABLE_BUS_STOP_2, bus_stop);
+    for (int j = 0; j < 2; j++) {
+        ArrayOfBusArrivalValue arrivals(3);
+        for (int i = 0; i < 3; i++) {
+            BusArrivalValue arrival;
+            arrival.route(bus_routes[j][i]);
+            arrival.destination(bus_destinations[j][i]);
+            arrival.due_label(bus_due_labels[j][i]);
+            arrival.due_seconds(bus_due_seconds[j][i]);
+            arrivals.at(i, arrival);
         }
+
+        BusStopValue bus_stop;
+        bus_stop.name(bus_stop_names[j]);
+        bus_stop.arrivals(arrivals);
+        bus_stops.at(j, bus_stop);
+    }
+
+    if (lvgl_port_lock(portMAX_DELAY)) {
+        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_BUS_STOPS, bus_stops);
         lvgl_port_unlock();
     }
     else {

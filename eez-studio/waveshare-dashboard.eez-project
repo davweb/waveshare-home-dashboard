@@ -138,22 +138,6 @@
         "persistent": false
       },
       {
-        "objID": "07ee60ec-a27e-41d6-8d4a-82539d3a699a",
-        "name": "bus_stop_1",
-        "type": "struct:BusStop",
-        "defaultValue": "{\n  name: \"Laburnum Road\",\n  arrivals: [\n    {route: \"4A\", destination: \"Oxford\", due_label: \"due\", due_seconds: 30},\n    {route: \"4A\", destination: \"Oxford\", due_label: \"6 mins\", due_seconds: 360},\n    {route: \"4A\", destination: \"Oxford\", due_label: \"20 minutes\", due_seconds: 1200},\n  ]\n}",
-        "persistent": false,
-        "native": false
-      },
-      {
-        "objID": "ce8640cf-b9b1-4f9c-badb-66e8b39ec09e",
-        "name": "bus_stop_2",
-        "type": "struct:BusStop",
-        "defaultValue": "{\n  name: \"Laburnum Road\",\n  arrivals: [\n    {route: \"4A\", destination: \"Oxford\", due_label: \"due\", due_seconds: 30},\n    {route: \"4A\", destination: \"Oxford\", due_label: \"6 mins\", due_seconds: 360},\n    {route: \"4A\", destination: \"Oxford\", due_label: \"20 minutes\", due_seconds: 1200},\n  ]\n}",
-        "persistent": false,
-        "native": false
-      },
-      {
         "objID": "48285f7e-f959-4223-92ac-28e6d6a16879",
         "name": "recycling",
         "type": "struct:Recycling",
@@ -174,6 +158,14 @@
         "name": "sun",
         "type": "struct:SunTime",
         "defaultValue": "{type: \"Sunset\", time: \"18:47\"}",
+        "persistent": false,
+        "native": false
+      },
+      {
+        "objID": "bc025d6d-a3a0-493a-b53b-778fb68504e7",
+        "name": "bus_stops",
+        "type": "array:struct:BusStop",
+        "defaultValue": "[\n{\n  name: \"Laburnum Road\",\n  arrivals: [\n    {route: \"4A\", destination: \"Oxford\", due_label: \"due\", due_seconds: 30},\n    {route: \"4A\", destination: \"Oxford\", due_label: \"6 mins\", due_seconds: 360},\n    {route: \"4A\", destination: \"Matthew Arnold School\", due_label: \"15:55\", due_seconds: 1200},\n  ]\n},\n{\n  name: \"Yarnells Hill\",\n  arrivals: [\n    {route: \"4A\", destination: \"Oxford\", due_label: \"5 mins\", due_seconds: 330},\n    {route: \"4A\", destination: \"Oxford\", due_label: \"16 mins\", due_seconds: 1360},\n    {route: \"4A\", destination: \"Matthew Arnold School\", due_label: \"15:55\", due_seconds: 1200},\n  ]\n}\n]",
         "persistent": false,
         "native": false
       }
@@ -461,6 +453,53 @@
               "value": 0,
               "valueType": "literal",
               "previewValue": 0
+            },
+            {
+              "objID": "b3e3dc34-37fe-4cb4-cee9-c16de464ff94",
+              "type": "LVGLContainerWidget",
+              "left": 647,
+              "top": 356,
+              "width": 153,
+              "height": 124,
+              "customInputs": [],
+              "customOutputs": [],
+              "style": {
+                "objID": "47d1b418-da20-4999-d220-3f80eeb01ca3",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": []
+              },
+              "timeline": [],
+              "eventHandlers": [
+                {
+                  "objID": "c6832c2e-3209-4546-9273-354b1afa1e5b",
+                  "eventName": "CLICKED",
+                  "handlerType": "flow",
+                  "action": "Temperature To Color",
+                  "userData": 0
+                }
+              ],
+              "leftUnit": "px",
+              "topUnit": "px",
+              "widthUnit": "px",
+              "heightUnit": "px",
+              "children": [],
+              "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+              "hiddenFlagType": "literal",
+              "clickableFlag": true,
+              "clickableFlagType": "literal",
+              "flagScrollbarMode": "",
+              "flagScrollDirection": "",
+              "scrollSnapX": "",
+              "scrollSnapY": "",
+              "checkedStateType": "literal",
+              "disabledStateType": "literal",
+              "states": "",
+              "localStyles": {
+                "objID": "7df530af-1251-4209-c5c7-024c41371ba1"
+              },
+              "group": "",
+              "groupIndex": 0
             }
           ],
           "widgetFlags": "CLICKABLE|PRESS_LOCK|CLICK_FOCUSABLE|GESTURE_BUBBLE|SNAPPABLE|SCROLLABLE|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER",
@@ -483,20 +522,10 @@
           "groupIndex": 0
         },
         {
-          "objID": "44d7c9f1-c584-4645-c385-a8bcfa8ffb60",
-          "type": "StartActionComponent",
-          "left": 30,
-          "top": -325,
-          "width": 87,
-          "height": 24,
-          "customInputs": [],
-          "customOutputs": []
-        },
-        {
           "objID": "42b705f7-dfa9-4680-e9c7-792624b836ba",
           "type": "IsTrueActionComponent",
-          "left": 534,
-          "top": -100,
+          "left": 464,
+          "top": -189,
           "width": 135,
           "height": 69,
           "customInputs": [],
@@ -506,8 +535,8 @@
         {
           "objID": "94e86509-828f-40ba-d625-d3bb867d717d",
           "type": "LVGLActionComponent",
-          "left": 1008,
-          "top": -283,
+          "left": 983,
+          "top": -284,
           "width": 299,
           "height": 53,
           "customInputs": [],
@@ -559,18 +588,18 @@
           "objID": "a9b03ea1-39a3-4846-d4b9-3c3d668dedda",
           "type": "WatchVariableActionComponent",
           "left": 166,
-          "top": -325,
-          "width": 277,
+          "top": -278,
+          "width": 160,
           "height": 53,
           "customInputs": [],
           "customOutputs": [],
-          "variable": "wifi_connected ^ server_connected"
+          "variable": "wifi_connected"
         },
         {
           "objID": "6dfdef57-3033-4ca4-afb9-10185297bff4",
           "type": "IsTrueActionComponent",
-          "left": 800,
-          "top": -152,
+          "left": 718,
+          "top": -252,
           "width": 147,
           "height": 69,
           "customInputs": [],
@@ -580,8 +609,8 @@
         {
           "objID": "3263c799-734f-41b5-dcfb-d91578540e15",
           "type": "LVGLActionComponent",
-          "left": 1032,
-          "top": -136,
+          "left": 981,
+          "top": -154,
           "width": 286,
           "height": 53,
           "customInputs": [],
@@ -602,6 +631,39 @@
               "useStackType": "literal"
             }
           ]
+        },
+        {
+          "objID": "b7491890-1ccf-423e-8aff-8f6aac14e7a4",
+          "type": "WatchVariableActionComponent",
+          "left": 154,
+          "top": -154,
+          "width": 172,
+          "height": 53,
+          "customInputs": [],
+          "customOutputs": [],
+          "variable": "server_connected"
+        },
+        {
+          "objID": "3e74a931-ba20-4af8-9c57-d60d188de0fe",
+          "type": "SetVariableActionComponent",
+          "left": 886,
+          "top": 403,
+          "width": 189,
+          "height": 79,
+          "customInputs": [],
+          "customOutputs": [],
+          "entries": [
+            {
+              "objID": "29772bc7-1fdb-4a02-859a-59ef0bd895c3",
+              "variable": "wifi_connected",
+              "value": "true"
+            },
+            {
+              "objID": "a25c6d83-e48f-4c9f-dc30-ab348780b6fa",
+              "variable": "server_connected",
+              "value": "true"
+            }
+          ]
         }
       ],
       "connectionLines": [
@@ -610,13 +672,6 @@
           "source": "42b705f7-dfa9-4680-e9c7-792624b836ba",
           "output": "False",
           "target": "10614476-ff7c-42ad-e1b3-2c81f3043c92",
-          "input": "@seqin"
-        },
-        {
-          "objID": "606e7c82-e8e6-4429-9813-48d4ec9e656f",
-          "source": "44d7c9f1-c584-4645-c385-a8bcfa8ffb60",
-          "output": "@seqout",
-          "target": "a9b03ea1-39a3-4846-d4b9-3c3d668dedda",
           "input": "@seqin"
         },
         {
@@ -645,6 +700,20 @@
           "source": "a9b03ea1-39a3-4846-d4b9-3c3d668dedda",
           "output": "variable",
           "target": "42b705f7-dfa9-4680-e9c7-792624b836ba",
+          "input": "@seqin"
+        },
+        {
+          "objID": "4337e021-afa8-4ead-b12e-0f49cf30a23a",
+          "source": "b7491890-1ccf-423e-8aff-8f6aac14e7a4",
+          "output": "variable",
+          "target": "42b705f7-dfa9-4680-e9c7-792624b836ba",
+          "input": "@seqin"
+        },
+        {
+          "objID": "240e8b13-a708-4d1e-f1f8-e2054fe066f4",
+          "source": "b3e3dc34-37fe-4cb4-cee9-c16de464ff94",
+          "output": "CLICKED",
+          "target": "3e74a931-ba20-4af8-9c57-d60d188de0fe",
           "input": "@seqin"
         }
       ],
@@ -1073,16 +1142,16 @@
               "heightUnit": "px",
               "children": [
                 {
-                  "objID": "30bc143d-0adb-473e-e4bf-3506e845ad55",
+                  "objID": "aa568c2f-2c99-4481-cac4-8ff00f417182",
                   "type": "LVGLUserWidgetWidget",
                   "left": 0,
                   "top": 0,
-                  "width": 200,
-                  "height": 200,
+                  "width": 800,
+                  "height": 480,
                   "customInputs": [],
                   "customOutputs": [],
                   "style": {
-                    "objID": "6e1ad2d8-97ac-4421-f557-4e7f337d9245",
+                    "objID": "7c5840e3-7b0f-447d-e5af-d5bc86918f4f",
                     "useStyle": "default",
                     "conditionalStyles": [],
                     "childStyles": []
@@ -1090,10 +1159,10 @@
                   "timeline": [],
                   "eventHandlers": [
                     {
-                      "objID": "9a365e16-4f73-41f6-e65b-d3fbed4a645c",
+                      "objID": "6c3b7483-e29d-4ff0-fb1b-5c3bd4dbccde",
                       "eventName": "CLICKED",
                       "handlerType": "flow",
-                      "action": "Times Click",
+                      "action": "Temperature To Color",
                       "userData": 0
                     }
                   ],
@@ -1114,15 +1183,15 @@
                   "disabledStateType": "literal",
                   "states": "",
                   "localStyles": {
-                    "objID": "3057242e-0edd-4869-fce0-667f29429fae",
+                    "objID": "d2397af9-d560-4d60-8084-cf16cbffd2fd",
                     "definition": {
                       "MAIN": {
                         "DEFAULT": {
                           "grid_cell_column_pos": 0,
                           "grid_cell_column_span": 1,
+                          "grid_cell_x_align": "STRETCH",
                           "grid_cell_row_pos": 0,
                           "grid_cell_row_span": 1,
-                          "grid_cell_x_align": "STRETCH",
                           "grid_cell_y_align": "STRETCH"
                         }
                       }
@@ -1130,27 +1199,26 @@
                   },
                   "group": "",
                   "groupIndex": 0,
-                  "userWidgetPageName": "ShortBusTimes",
+                  "userWidgetPageName": "BusTimes",
                   "userPropertyValues": {
-                    "objID": "a7523a9a-6336-43a3-d759-319b970fc784",
+                    "objID": "2efdbc8f-3f30-499b-e33b-a5fe420643a9",
                     "values": {
-                      "a43c2a5b-cbb6-4346-834a-e4ad377d5018": "bus_stop_1",
-                      "aebae4a4-7496-49f7-e987-8805e5532167": "bus_stop_1_routes",
-                      "4804a46c-fcf9-47c3-eed9-08704852b58d": "bus_stop_1_times"
+                      "ad6dc45b-83f0-437c-b7ce-9b50f77a796c": "false",
+                      "6a5a00b4-c519-4451-fa45-5b5abb8d3ebf": "bus_stops[0]"
                     }
                   }
                 },
                 {
-                  "objID": "7255e5a1-ceea-4607-f7fe-b08f5c4eb448",
+                  "objID": "85e9682c-4dde-49c6-a748-bf054b4792af",
                   "type": "LVGLUserWidgetWidget",
                   "left": 0,
                   "top": 0,
-                  "width": 100,
-                  "height": 200,
+                  "width": 800,
+                  "height": 480,
                   "customInputs": [],
                   "customOutputs": [],
                   "style": {
-                    "objID": "eb41143c-608e-4c1f-b0a7-5543a6269ff5",
+                    "objID": "880964f4-f0c9-41d1-e828-15b45a690e15",
                     "useStyle": "default",
                     "conditionalStyles": [],
                     "childStyles": []
@@ -1158,7 +1226,7 @@
                   "timeline": [],
                   "eventHandlers": [
                     {
-                      "objID": "32f0fac1-f300-43c2-9371-98b08152034d",
+                      "objID": "f442be6a-563e-49e9-9b5b-d15ad96fbe28",
                       "eventName": "CLICKED",
                       "handlerType": "flow",
                       "action": "Temperature To Color",
@@ -1167,7 +1235,7 @@
                   ],
                   "leftUnit": "px",
                   "topUnit": "px",
-                  "widthUnit": "%",
+                  "widthUnit": "px",
                   "heightUnit": "px",
                   "children": [],
                   "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
@@ -1182,29 +1250,28 @@
                   "disabledStateType": "literal",
                   "states": "",
                   "localStyles": {
-                    "objID": "d84a0640-447e-4a46-8fac-730417b503e0",
+                    "objID": "65c8a415-5976-449f-d74b-639aae9a8ff8",
                     "definition": {
                       "MAIN": {
                         "DEFAULT": {
                           "grid_cell_column_pos": 0,
                           "grid_cell_column_span": 1,
+                          "grid_cell_x_align": "STRETCH",
                           "grid_cell_row_pos": 1,
                           "grid_cell_row_span": 1,
-                          "grid_cell_y_align": "STRETCH",
-                          "grid_cell_x_align": "STRETCH"
+                          "grid_cell_y_align": "STRETCH"
                         }
                       }
                     }
                   },
                   "group": "",
                   "groupIndex": 0,
-                  "userWidgetPageName": "ShortBusTimes",
+                  "userWidgetPageName": "BusTimes",
                   "userPropertyValues": {
-                    "objID": "091be8e8-9636-48f8-99d5-f21b460f06b3",
+                    "objID": "36d710ad-a9b0-44ef-99b6-99f84ea4033b",
                     "values": {
-                      "a43c2a5b-cbb6-4346-834a-e4ad377d5018": "bus_stop_2",
-                      "aebae4a4-7496-49f7-e987-8805e5532167": "bus_stop_2_routes",
-                      "4804a46c-fcf9-47c3-eed9-08704852b58d": "bus_stop_2_times"
+                      "ad6dc45b-83f0-437c-b7ce-9b50f77a796c": "false",
+                      "6a5a00b4-c519-4451-fa45-5b5abb8d3ebf": "bus_stops[1]"
                     }
                   }
                 },
@@ -2459,7 +2526,7 @@
         {
           "objID": "1f90eda5-9a6b-4772-982a-921e38b7f6b0",
           "type": "LVGLActionComponent",
-          "left": 258,
+          "left": 209,
           "top": -187,
           "width": 415,
           "height": 53,
@@ -2485,8 +2552,8 @@
         {
           "objID": "1de9d831-7c13-40ce-ac94-69971929e46a",
           "type": "CallActionActionComponent",
-          "left": 262,
-          "top": 613,
+          "left": 297,
+          "top": 602,
           "width": 406,
           "height": 77,
           "customInputs": [
@@ -2515,8 +2582,8 @@
         {
           "objID": "a17f73af-0538-472f-f69a-5290950f5484",
           "type": "WatchVariableActionComponent",
-          "left": 44,
-          "top": 614,
+          "left": 36,
+          "top": 602,
           "width": 191,
           "height": 53,
           "customInputs": [],
@@ -2526,8 +2593,8 @@
         {
           "objID": "0fe55257-6dde-4d3e-d4ba-3b77117c2bd7",
           "type": "LVGLActionComponent",
-          "left": 730,
-          "top": 613,
+          "left": 772,
+          "top": 602,
           "width": 406,
           "height": 53,
           "customInputs": [
@@ -2610,8 +2677,8 @@
         {
           "objID": "c318e2c9-1fd5-47bd-8d7c-cbd457d5adaa",
           "type": "WatchVariableActionComponent",
-          "left": 19,
-          "top": 708,
+          "left": 36,
+          "top": 721,
           "width": 191,
           "height": 53,
           "customInputs": [],
@@ -2622,7 +2689,7 @@
           "objID": "a7ddf2d9-c95a-4fb7-8cf1-fb2f4d6e1271",
           "type": "LVGLActionComponent",
           "left": 816,
-          "top": 709,
+          "top": 682,
           "width": 388,
           "height": 53,
           "customInputs": [
@@ -2653,8 +2720,8 @@
         {
           "objID": "53283e5b-ff65-41fe-e534-7d5b5d707ed3",
           "type": "CallActionActionComponent",
-          "left": 343,
-          "top": 708,
+          "left": 315,
+          "top": 721,
           "width": 405,
           "height": 77,
           "customInputs": [
@@ -2684,7 +2751,7 @@
           "objID": "4ad16505-fe70-4cc8-94e0-de20c18d58d2",
           "type": "LVGLActionComponent",
           "left": 816,
-          "top": 785,
+          "top": 759,
           "width": 437,
           "height": 53,
           "customInputs": [
@@ -2715,13 +2782,6 @@
       ],
       "connectionLines": [
         {
-          "objID": "1e585524-0f95-4592-bac2-34a5a4f40798",
-          "source": "30bc143d-0adb-473e-e4bf-3506e845ad55",
-          "output": "CLICKED",
-          "target": "1f90eda5-9a6b-4772-982a-921e38b7f6b0",
-          "input": "@seqin"
-        },
-        {
           "objID": "619253fd-c92a-4f6b-979f-29db71a764d7",
           "source": "a17f73af-0538-472f-f69a-5290950f5484",
           "output": "variable",
@@ -2734,13 +2794,6 @@
           "output": "output_color",
           "target": "0fe55257-6dde-4d3e-d4ba-3b77117c2bd7",
           "input": "color"
-        },
-        {
-          "objID": "00c9ac3c-5933-457c-8bad-f1cbd5c9f69f",
-          "source": "7255e5a1-ceea-4607-f7fe-b08f5c4eb448",
-          "output": "CLICKED",
-          "target": "1f90eda5-9a6b-4772-982a-921e38b7f6b0",
-          "input": "@seqin"
         },
         {
           "objID": "9522fc1c-72b2-4894-e6d5-1a8950ee8eef",
@@ -2771,13 +2824,6 @@
           "input": "@seqin"
         },
         {
-          "objID": "57c72a3e-d23e-4380-a15c-b6b38e35905d",
-          "source": "c318e2c9-1fd5-47bd-8d7c-cbd457d5adaa",
-          "output": "variable",
-          "target": "53283e5b-ff65-41fe-e534-7d5b5d707ed3",
-          "input": "input_rain_chance"
-        },
-        {
           "objID": "715b8ad5-0286-43c4-ce72-263da771994f",
           "source": "53283e5b-ff65-41fe-e534-7d5b5d707ed3",
           "output": "output_color",
@@ -2790,6 +2836,27 @@
           "output": "output_color",
           "target": "4ad16505-fe70-4cc8-94e0-de20c18d58d2",
           "input": "color"
+        },
+        {
+          "objID": "24ecb3ac-3eb5-4285-aea0-38d76d889fd6",
+          "source": "c318e2c9-1fd5-47bd-8d7c-cbd457d5adaa",
+          "output": "variable",
+          "target": "53283e5b-ff65-41fe-e534-7d5b5d707ed3",
+          "input": "input_rain_chance"
+        },
+        {
+          "objID": "4fac3607-f157-4160-8897-e1728e51f5c2",
+          "source": "aa568c2f-2c99-4481-cac4-8ff00f417182",
+          "output": "CLICKED",
+          "target": "1f90eda5-9a6b-4772-982a-921e38b7f6b0",
+          "input": "@seqin"
+        },
+        {
+          "objID": "25318e88-0048-4511-f49c-6cd4eb2c8df0",
+          "source": "85e9682c-4dde-49c6-a748-bf054b4792af",
+          "output": "CLICKED",
+          "target": "1f90eda5-9a6b-4772-982a-921e38b7f6b0",
+          "input": "@seqin"
         }
       ],
       "localVariables": [],
@@ -2966,9 +3033,10 @@
                     "objID": "7e5c81fc-e5f3-4e9f-e8e5-75bc3a50f31b",
                     "values": {
                       "853333a4-5da8-4570-c0b5-9a3f30a21aae": "bus_stop_1_name",
-                      "6a5a00b4-c519-4451-fa45-5b5abb8d3ebf": "bus_stop_1",
+                      "6a5a00b4-c519-4451-fa45-5b5abb8d3ebf": "bus_stops[0]",
                       "6fee3ccb-2d5c-4a4a-c562-bb1a5f8ecf46": "bus_stop_1_destinations",
-                      "f18ec7a7-2240-473d-b978-55049eb1850e": "bus_stop_1_times"
+                      "f18ec7a7-2240-473d-b978-55049eb1850e": "bus_stop_1_times",
+                      "ad6dc45b-83f0-437c-b7ce-9b50f77a796c": "true"
                     }
                   }
                 },
@@ -3028,9 +3096,10 @@
                     "objID": "f0cf818c-976a-4969-a64c-934de4b22407",
                     "values": {
                       "853333a4-5da8-4570-c0b5-9a3f30a21aae": "bus_stop_2_name",
-                      "6a5a00b4-c519-4451-fa45-5b5abb8d3ebf": "bus_stop_2",
+                      "6a5a00b4-c519-4451-fa45-5b5abb8d3ebf": "bus_stops[1]",
                       "6fee3ccb-2d5c-4a4a-c562-bb1a5f8ecf46": "bus_stop_2_destinations",
-                      "f18ec7a7-2240-473d-b978-55049eb1850e": "bus_stop_2_times"
+                      "f18ec7a7-2240-473d-b978-55049eb1850e": "bus_stop_2_times",
+                      "ad6dc45b-83f0-437c-b7ce-9b50f77a796c": "true"
                     }
                   }
                 }
@@ -4183,7 +4252,7 @@
         {
           "objID": "3991963b-ef78-40ea-c2e5-68c86be0798a",
           "type": "WatchVariableActionComponent",
-          "left": 77,
+          "left": 17,
           "top": 579,
           "width": 191,
           "height": 53,
@@ -4359,15 +4428,9 @@
           "type": "LVGLActionComponent",
           "left": 732,
           "top": 798,
-          "width": 400,
+          "width": 360,
           "height": 53,
-          "customInputs": [
-            {
-              "objID": "48eac3ad-94e9-4020-a1d7-d7773be72938",
-              "name": "color",
-              "type": "integer"
-            }
-          ],
+          "customInputs": [],
           "customOutputs": [],
           "actions": [
             {
@@ -4391,15 +4454,9 @@
           "type": "LVGLActionComponent",
           "left": 730,
           "top": 878,
-          "width": 406,
+          "width": 366,
           "height": 53,
-          "customInputs": [
-            {
-              "objID": "26aff932-51a6-4917-da1e-66f4c2193cb2",
-              "name": "color",
-              "type": "integer"
-            }
-          ],
+          "customInputs": [],
           "customOutputs": [],
           "actions": [
             {
@@ -4432,8 +4489,8 @@
         {
           "objID": "e39be017-2592-4609-9a96-81308b71bc69",
           "type": "LVGLActionComponent",
-          "left": 778,
-          "top": 1016,
+          "left": 853,
+          "top": 1004,
           "width": 375,
           "height": 53,
           "customInputs": [
@@ -4494,8 +4551,8 @@
         {
           "objID": "190af980-de94-4629-8891-92b0082278cd",
           "type": "LVGLActionComponent",
-          "left": 778,
-          "top": 1083,
+          "left": 837,
+          "top": 1095,
           "width": 425,
           "height": 53,
           "customInputs": [
@@ -4561,27 +4618,6 @@
           "input": "value"
         },
         {
-          "objID": "c3b25b95-7de3-4862-d0ee-352088a1bd93",
-          "source": "616c0ea8-4e96-4ce2-cac3-4663cb49e10f",
-          "output": "True",
-          "target": "f866ec49-763d-49b3-d937-a53265aa25a1",
-          "input": "color"
-        },
-        {
-          "objID": "418cadc9-a9ca-4cd7-f06b-29bf177b8d5a",
-          "source": "616c0ea8-4e96-4ce2-cac3-4663cb49e10f",
-          "output": "False",
-          "target": "09de8227-6260-4467-f718-be5a02d8735a",
-          "input": "color"
-        },
-        {
-          "objID": "caadbb13-5a6c-4302-c053-c40eaa14f0a9",
-          "source": "be7c9d35-2f53-4e18-c668-c7dcf2802f21",
-          "output": "variable",
-          "target": "e95d86f0-d5dd-4eb3-cca5-7176b3908b94",
-          "input": "input_rain_chance"
-        },
-        {
           "objID": "21979e2e-2231-4cc4-e9d6-cd07efcff3ac",
           "source": "e95d86f0-d5dd-4eb3-cca5-7176b3908b94",
           "output": "output_color",
@@ -4594,6 +4630,27 @@
           "output": "output_color",
           "target": "190af980-de94-4629-8891-92b0082278cd",
           "input": "color"
+        },
+        {
+          "objID": "54ce216b-c5e9-482f-aade-6452b4c6392c",
+          "source": "616c0ea8-4e96-4ce2-cac3-4663cb49e10f",
+          "output": "True",
+          "target": "f866ec49-763d-49b3-d937-a53265aa25a1",
+          "input": "@seqin"
+        },
+        {
+          "objID": "6f406e30-afeb-4ad9-edcd-389a714ae721",
+          "source": "616c0ea8-4e96-4ce2-cac3-4663cb49e10f",
+          "output": "False",
+          "target": "09de8227-6260-4467-f718-be5a02d8735a",
+          "input": "@seqin"
+        },
+        {
+          "objID": "89be4aef-97f5-41e6-a228-789970e1120b",
+          "source": "be7c9d35-2f53-4e18-c668-c7dcf2802f21",
+          "output": "variable",
+          "target": "e95d86f0-d5dd-4eb3-cca5-7176b3908b94",
+          "input": "input_rain_chance"
         }
       ],
       "localVariables": [],
@@ -5031,7 +5088,7 @@
               "type": "LVGLLabelWidget",
               "left": 0,
               "top": 0,
-              "width": 668,
+              "width": 70,
               "height": 39,
               "customInputs": [],
               "customOutputs": [],
@@ -5065,7 +5122,6 @@
                 "definition": {
                   "MAIN": {
                     "DEFAULT": {
-                      "flex_grow": 1,
                       "min_width": 70
                     }
                   }
@@ -5114,7 +5170,14 @@
               "disabledStateType": "literal",
               "states": "",
               "localStyles": {
-                "objID": "334d21e8-7a3a-46f4-bff4-10d649baf42f"
+                "objID": "334d21e8-7a3a-46f4-bff4-10d649baf42f",
+                "definition": {
+                  "MAIN": {
+                    "DEFAULT": {
+                      "flex_main_place": "END"
+                    }
+                  }
+                }
               },
               "group": "",
               "groupIndex": 0,
@@ -5714,7 +5777,13 @@
                 "definition": {
                   "MAIN": {
                     "DEFAULT": {
-                      "min_width": 70
+                      "min_width": 70,
+                      "grid_cell_column_pos": 0,
+                      "grid_cell_row_pos": 0,
+                      "grid_cell_column_span": 1,
+                      "grid_cell_x_align": "STRETCH",
+                      "grid_cell_y_align": "STRETCH",
+                      "grid_cell_row_span": 1
                     }
                   }
                 }
@@ -5732,7 +5801,7 @@
               "type": "LVGLLabelWidget",
               "left": 0,
               "top": 0,
-              "width": 587,
+              "width": 545,
               "height": 39,
               "customInputs": [],
               "customOutputs": [],
@@ -5751,7 +5820,8 @@
               "heightUnit": "content",
               "children": [],
               "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
-              "hiddenFlagType": "literal",
+              "hiddenFlag": "show_destination == false",
+              "hiddenFlagType": "expression",
               "clickableFlagType": "literal",
               "flagScrollbarMode": "",
               "flagScrollDirection": "",
@@ -5766,7 +5836,13 @@
                   "MAIN": {
                     "DEFAULT": {
                       "flex_grow": 1,
-                      "pad_left": 10
+                      "pad_left": 10,
+                      "grid_cell_column_pos": 1,
+                      "grid_cell_row_pos": 0,
+                      "grid_cell_column_span": 1,
+                      "grid_cell_x_align": "STRETCH",
+                      "grid_cell_y_align": "STRETCH",
+                      "grid_cell_row_span": 1
                     }
                   }
                 }
@@ -5784,7 +5860,7 @@
               "type": "LVGLLabelWidget",
               "left": 0,
               "top": 0,
-              "width": 121,
+              "width": 130,
               "height": 39,
               "customInputs": [],
               "customOutputs": [],
@@ -5799,7 +5875,7 @@
               "identifier": "Bus Due",
               "leftUnit": "px",
               "topUnit": "px",
-              "widthUnit": "content",
+              "widthUnit": "px",
               "heightUnit": "content",
               "children": [],
               "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
@@ -5813,7 +5889,20 @@
               "disabledStateType": "literal",
               "states": "",
               "localStyles": {
-                "objID": "a9ce5ce2-b839-44cd-8d93-644186258b7c"
+                "objID": "a9ce5ce2-b839-44cd-8d93-644186258b7c",
+                "definition": {
+                  "MAIN": {
+                    "DEFAULT": {
+                      "grid_cell_column_pos": 2,
+                      "grid_cell_row_pos": 0,
+                      "grid_cell_column_span": 1,
+                      "grid_cell_x_align": "STRETCH",
+                      "grid_cell_row_span": 1,
+                      "grid_cell_y_align": "STRETCH",
+                      "text_align": "RIGHT"
+                    }
+                  }
+                }
               },
               "group": "",
               "groupIndex": 0,
@@ -5841,9 +5930,10 @@
               "MAIN": {
                 "DEFAULT": {
                   "text_font": "INTER_32",
-                  "layout": "FLEX",
-                  "flex_flow": "ROW",
-                  "text_color": "Primary"
+                  "text_color": "Primary",
+                  "layout": "GRID",
+                  "grid_row_dsc_array": "CONTENT",
+                  "grid_column_dsc_array": "CONTENT,FR(1),CONTENT"
                 }
               }
             }
@@ -6018,6 +6108,13 @@
           "name": "bus_arrival",
           "type": "struct:BusArrival",
           "assignable": false
+        },
+        {
+          "id": "a938ec7f-dc81-4e7b-995e-bdc382abedd1",
+          "objID": "efe36b57-da11-4af2-c277-43cb96b7869b",
+          "name": "show_destination",
+          "type": "boolean",
+          "assignable": false
         }
       ],
       "name": "BusTime",
@@ -6123,7 +6220,8 @@
                       "f6db0b70-79e8-47ea-c1e5-d8ebe44abfc8": "routes[0]",
                       "b86ee387-dd27-46da-de22-b58f03bd527b": "destinations[0]",
                       "a04a7105-d072-40fb-fdc7-ebe88290ac17": "times[0]",
-                      "badf8c87-a047-44f4-f2ce-d381595d3b00": "bus_stop.arrivals[0]"
+                      "badf8c87-a047-44f4-f2ce-d381595d3b00": "bus_stop.arrivals[0]",
+                      "a938ec7f-dc81-4e7b-995e-bdc382abedd1": "show_destination"
                     }
                   }
                 },
@@ -6173,7 +6271,8 @@
                       "f6db0b70-79e8-47ea-c1e5-d8ebe44abfc8": "routes[1]",
                       "b86ee387-dd27-46da-de22-b58f03bd527b": "destinations[1]",
                       "a04a7105-d072-40fb-fdc7-ebe88290ac17": "times[1]",
-                      "badf8c87-a047-44f4-f2ce-d381595d3b00": "bus_stop.arrivals[1]"
+                      "badf8c87-a047-44f4-f2ce-d381595d3b00": "bus_stop.arrivals[1]",
+                      "a938ec7f-dc81-4e7b-995e-bdc382abedd1": "show_destination"
                     }
                   }
                 },
@@ -6223,7 +6322,8 @@
                       "f6db0b70-79e8-47ea-c1e5-d8ebe44abfc8": "routes[2]",
                       "b86ee387-dd27-46da-de22-b58f03bd527b": "destinations[2]",
                       "a04a7105-d072-40fb-fdc7-ebe88290ac17": "times[2]",
-                      "badf8c87-a047-44f4-f2ce-d381595d3b00": "bus_stop.arrivals[2]"
+                      "badf8c87-a047-44f4-f2ce-d381595d3b00": "bus_stop.arrivals[2]",
+                      "a938ec7f-dc81-4e7b-995e-bdc382abedd1": "show_destination"
                     }
                   }
                 }
@@ -6355,6 +6455,13 @@
           "objID": "cd81220a-507b-4c6b-f848-f889120e1c19",
           "name": "bus_stop",
           "type": "struct:BusStop",
+          "assignable": false
+        },
+        {
+          "id": "ad6dc45b-83f0-437c-b7ce-9b50f77a796c",
+          "objID": "ecb0d17d-ed13-43cf-d658-4b7d1704473f",
+          "name": "show_destination",
+          "type": "boolean",
           "assignable": false
         }
       ],
