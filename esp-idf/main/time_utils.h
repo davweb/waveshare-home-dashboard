@@ -2,6 +2,7 @@
 
 #include <time.h>
 #include <stdio.h>
+#include <string.h>
 
 // Formats a struct tm as "Weekday D Month", e.g. "Monday 3 March".
 // Uses snprintf for the day number to avoid leading zeros/spaces from strftime.
@@ -43,4 +44,28 @@ inline int days_between(time_t a, time_t b) {
     a_midnight.tm_hour = 0; a_midnight.tm_min = 0; a_midnight.tm_sec = 0;
     b_midnight.tm_hour = 0; b_midnight.tm_min = 0; b_midnight.tm_sec = 0;
     return (int)((mktime(&a_midnight) - mktime(&b_midnight)) / 86400);
+}
+
+// Formats a short date relative to now: "Today", "Tomorrow", day-of-week (within 7 days),
+// or "D Mon" (e.g. "15 Apr") for dates further away or in the past.
+// epoch=0 → empty string.
+inline void format_short_date(char *buf, size_t buf_size, time_t epoch, time_t now) {
+    if (epoch == 0) {
+        buf[0] = '\0';
+        return;
+    }
+    struct tm t;
+    localtime_r(&epoch, &t);
+    int diff = days_between(epoch, now);
+    if (diff == 0) {
+        strlcpy(buf, "Today", buf_size);
+    } else if (diff == 1) {
+        strlcpy(buf, "Tomorrow", buf_size);
+    } else if (diff > 1 && diff < 7) {
+        strftime(buf, buf_size, "%A", &t);
+    } else {
+        char month_abbr[8];
+        strftime(month_abbr, sizeof(month_abbr), "%b", &t);
+        snprintf(buf, buf_size, "%d %s", t.tm_mday, month_abbr);
+    }
 }

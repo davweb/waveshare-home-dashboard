@@ -161,26 +161,7 @@ static void fetchData() {
             format_long_date(recycling_date_str, sizeof(recycling_date_str), &recycling_tm);
 
             time_t now = time(nullptr);
-            int days_diff = days_between(recycling_epoch, now);
-
-            if (days_diff == 0) {
-                strlcpy(recycling_short_date_str, "Today", sizeof(recycling_short_date_str));
-            }
-            else if (days_diff == 1) {
-                strlcpy(recycling_short_date_str, "Tomorrow", sizeof(recycling_short_date_str));
-            }
-            else if (days_diff < 7) {
-                    strftime(recycling_short_date_str, sizeof(recycling_short_date_str), "%A", &recycling_tm);
-            }
-            else {
-                if (days_diff < 0) {
-                    ESP_LOGW(TAG, "Recycling date is in the past");
-                }
-
-                char month_abbr[8];
-                strftime(month_abbr, sizeof(month_abbr), "%b", &recycling_tm);
-                snprintf(recycling_short_date_str, sizeof(recycling_short_date_str), "%d %s", recycling_tm.tm_mday, month_abbr);
-            }
+            format_short_date(recycling_short_date_str, sizeof(recycling_short_date_str), recycling_epoch, now);
         }
 
         recycling.date(recycling_date_str);
