@@ -141,7 +141,7 @@
         "objID": "48285f7e-f959-4223-92ac-28e6d6a16879",
         "name": "recycling",
         "type": "struct:Recycling",
-        "defaultValue": "{type: \"Recycling\", date: \"Thursday 26 February\", short_date: \"26 Feb\"}",
+        "defaultValue": "{type: \"Recycling\", date: \"Thursday 26 February\", short_date: \"Wednesday\"}",
         "persistent": false,
         "native": false
       },
@@ -1763,10 +1763,10 @@
                           "pad_bottom": 2,
                           "pad_left": 2,
                           "pad_right": 2,
-                          "grid_cell_column_pos": 2,
+                          "grid_cell_column_pos": 1,
                           "grid_cell_column_span": 1,
                           "grid_cell_x_align": "STRETCH",
-                          "grid_cell_row_pos": 0,
+                          "grid_cell_row_pos": 1,
                           "grid_cell_row_span": 1,
                           "grid_cell_y_align": "STRETCH",
                           "radius": 15,
@@ -1953,8 +1953,8 @@
                           "type": "LVGLLabelWidget",
                           "left": 0,
                           "top": 0,
-                          "width": 78,
-                          "height": 39,
+                          "width": 87,
+                          "height": 44,
                           "customInputs": [],
                           "customOutputs": [],
                           "style": {
@@ -1987,7 +1987,7 @@
                             "definition": {
                               "MAIN": {
                                 "DEFAULT": {
-                                  "text_font": "INTER_32",
+                                  "text_font": "INTER_36",
                                   "text_color": "Primary",
                                   "text_opa": 255
                                 }
@@ -2108,10 +2108,10 @@
                           "pad_bottom": 2,
                           "pad_left": 2,
                           "pad_right": 2,
-                          "grid_cell_column_pos": 1,
+                          "grid_cell_column_pos": 2,
                           "grid_cell_column_span": 1,
                           "grid_cell_x_align": "STRETCH",
-                          "grid_cell_row_pos": 1,
+                          "grid_cell_row_pos": 0,
                           "grid_cell_row_span": 1,
                           "grid_cell_y_align": "STRETCH",
                           "bg_color": "Card Background",
@@ -2215,7 +2215,7 @@
                             "definition": {
                               "MAIN": {
                                 "DEFAULT": {
-                                  "img_recolor": "Primary",
+                                  "img_recolor": " #B0B8C1",
                                   "img_recolor_opa": 255
                                 }
                               }
@@ -2298,7 +2298,7 @@
                           "type": "LVGLLabelWidget",
                           "left": 0,
                           "top": 0,
-                          "width": 88,
+                          "width": 182,
                           "height": 39,
                           "customInputs": [],
                           "customOutputs": [],
@@ -2310,7 +2310,7 @@
                           },
                           "timeline": [],
                           "eventHandlers": [],
-                          "identifier": "",
+                          "identifier": "Recycling Day",
                           "leftUnit": "px",
                           "topUnit": "px",
                           "widthUnit": "content",
@@ -2343,7 +2343,7 @@
                           "textType": "expression",
                           "longMode": "WRAP",
                           "recolor": false,
-                          "previewValue": "6 Mar"
+                          "previewValue": "Wednesday"
                         }
                       ],
                       "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE|EVENT_BUBBLE",
@@ -2487,7 +2487,7 @@
                   "MAIN": {
                     "DEFAULT": {
                       "layout": "GRID",
-                      "grid_column_dsc_array": "FR(5) FR(3) FR(3)",
+                      "grid_column_dsc_array": "FR(5) FR(3) FR(4)",
                       "grid_row_dsc_array": "FR(1) FR(1)",
                       "pad_right": 10,
                       "pad_bottom": 10,
@@ -2528,8 +2528,8 @@
           "type": "LVGLActionComponent",
           "left": 209,
           "top": -187,
-          "width": 415,
-          "height": 53,
+          "width": 416,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -2585,7 +2585,7 @@
           "left": 36,
           "top": 602,
           "width": 191,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "weather.temperature"
@@ -2596,7 +2596,7 @@
           "left": 772,
           "top": 602,
           "width": 406,
-          "height": 53,
+          "height": 54,
           "customInputs": [
             {
               "objID": "317b846f-e4ed-47bb-cf44-3ad20a28c41b",
@@ -2627,8 +2627,8 @@
           "type": "LVGLActionComponent",
           "left": 789,
           "top": -197,
-          "width": 372,
-          "height": 53,
+          "width": 373,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -2654,7 +2654,7 @@
           "left": 881,
           "top": 347,
           "width": 385,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -2680,7 +2680,7 @@
           "left": 36,
           "top": 721,
           "width": 191,
-          "height": 53,
+          "height": 54,
           "customInputs": [],
           "customOutputs": [],
           "variable": "weather.rain_chance"
@@ -2691,7 +2691,7 @@
           "left": 816,
           "top": 682,
           "width": 388,
-          "height": 53,
+          "height": 54,
           "customInputs": [
             {
               "objID": "2dcd6c2a-cfac-4b28-c387-953e60c88100",
@@ -2753,7 +2753,7 @@
           "left": 816,
           "top": 759,
           "width": 437,
-          "height": 53,
+          "height": 54,
           "customInputs": [
             {
               "objID": "14758040-2085-4b55-9980-c089547fafb5",
@@ -2772,6 +2772,135 @@
               "propertyType": "literal",
               "value": "color",
               "valueType": "expression",
+              "part": "MAIN",
+              "partType": "literal",
+              "state": "DEFAULT",
+              "stateType": "literal"
+            }
+          ]
+        },
+        {
+          "objID": "81011a19-25fc-4981-82cc-90d70b19fb4b",
+          "type": "WatchVariableActionComponent",
+          "left": 56,
+          "top": 878,
+          "width": 197,
+          "height": 54,
+          "customInputs": [],
+          "customOutputs": [],
+          "variable": "recycling.short_date"
+        },
+        {
+          "objID": "b0ee4322-65f4-4492-e900-674e8aecd0c9",
+          "type": "IsTrueActionComponent",
+          "left": 382,
+          "top": 870,
+          "width": 239,
+          "height": 70,
+          "customInputs": [],
+          "customOutputs": [],
+          "value": "recycling.short_date == \"Today\""
+        },
+        {
+          "objID": "65807771-c85d-4f79-cdfd-8793ee26f686",
+          "type": "IsTrueActionComponent",
+          "left": 540,
+          "top": 1024,
+          "width": 258,
+          "height": 70,
+          "customInputs": [],
+          "customOutputs": [],
+          "value": "recycling.short_date == \"Tomorrow\""
+        },
+        {
+          "objID": "f7140924-a532-4a5c-efd2-5d8189962513",
+          "type": "LVGLActionComponent",
+          "left": 730,
+          "top": 878,
+          "width": 369,
+          "height": 54,
+          "customInputs": [
+            {
+              "objID": "57e60c1b-dce9-4547-a4b1-c52bc64d31ec",
+              "name": "color",
+              "type": "integer"
+            }
+          ],
+          "customOutputs": [],
+          "actions": [
+            {
+              "objID": "71128333-b37e-4198-f1ce-2bfaa4a7e55b",
+              "action": "objStyleSetProperty",
+              "object": "recycling_day",
+              "objectType": "literal",
+              "property": "text_color",
+              "propertyType": "literal",
+              "value": "Error",
+              "valueType": "literal",
+              "part": "MAIN",
+              "partType": "literal",
+              "state": "DEFAULT",
+              "stateType": "literal"
+            }
+          ]
+        },
+        {
+          "objID": "c7370514-5887-4f87-d6cb-92c7dd9c9204",
+          "type": "LVGLActionComponent",
+          "left": 915,
+          "top": 1076,
+          "width": 382,
+          "height": 54,
+          "customInputs": [
+            {
+              "objID": "17ca5ea1-fcbf-4d7d-ebf3-d257bc812bd1",
+              "name": "color",
+              "type": "integer"
+            }
+          ],
+          "customOutputs": [],
+          "actions": [
+            {
+              "objID": "7367e8be-8313-411b-ebca-a751b8cb0feb",
+              "action": "objStyleSetProperty",
+              "object": "recycling_day",
+              "objectType": "literal",
+              "property": "text_color",
+              "propertyType": "literal",
+              "value": "Warning",
+              "valueType": "literal",
+              "part": "MAIN",
+              "partType": "literal",
+              "state": "DEFAULT",
+              "stateType": "literal"
+            }
+          ]
+        },
+        {
+          "objID": "88dbfee4-bbcb-41bc-a187-e3ee5239b7a7",
+          "type": "LVGLActionComponent",
+          "left": 861,
+          "top": 1205,
+          "width": 382,
+          "height": 54,
+          "customInputs": [
+            {
+              "objID": "81603d7f-461f-4cef-8c77-85c5dc78e214",
+              "name": "color",
+              "type": "integer"
+            }
+          ],
+          "customOutputs": [],
+          "actions": [
+            {
+              "objID": "5465b914-8b16-450c-ddfd-18d0375057c4",
+              "action": "objStyleSetProperty",
+              "object": "recycling_day",
+              "objectType": "literal",
+              "property": "text_color",
+              "propertyType": "literal",
+              "value": "Primary",
+              "valueType": "literal",
               "part": "MAIN",
               "partType": "literal",
               "state": "DEFAULT",
@@ -2856,6 +2985,41 @@
           "source": "85e9682c-4dde-49c6-a748-bf054b4792af",
           "output": "CLICKED",
           "target": "1f90eda5-9a6b-4772-982a-921e38b7f6b0",
+          "input": "@seqin"
+        },
+        {
+          "objID": "1cfc2d06-132a-4891-b34e-1573b1ad49ca",
+          "source": "b0ee4322-65f4-4492-e900-674e8aecd0c9",
+          "output": "False",
+          "target": "65807771-c85d-4f79-cdfd-8793ee26f686",
+          "input": "@seqin"
+        },
+        {
+          "objID": "b4653d7b-f22f-4a75-c973-ef92facc73e5",
+          "source": "b0ee4322-65f4-4492-e900-674e8aecd0c9",
+          "output": "True",
+          "target": "f7140924-a532-4a5c-efd2-5d8189962513",
+          "input": "@seqin"
+        },
+        {
+          "objID": "158b6083-2739-4b24-c33c-57cf274f8e91",
+          "source": "65807771-c85d-4f79-cdfd-8793ee26f686",
+          "output": "True",
+          "target": "c7370514-5887-4f87-d6cb-92c7dd9c9204",
+          "input": "@seqin"
+        },
+        {
+          "objID": "6d36aef1-b288-4484-9c15-3ee05bbe5f0f",
+          "source": "65807771-c85d-4f79-cdfd-8793ee26f686",
+          "output": "False",
+          "target": "88dbfee4-bbcb-41bc-a187-e3ee5239b7a7",
+          "input": "color"
+        },
+        {
+          "objID": "5abdece7-e431-4878-fa22-6f99b603ea3c",
+          "source": "81011a19-25fc-4981-82cc-90d70b19fb4b",
+          "output": "variable",
+          "target": "b0ee4322-65f4-4492-e900-674e8aecd0c9",
           "input": "@seqin"
         }
       ],

@@ -112,10 +112,10 @@ class RecyclingDataSource(DataSource):
     def get_data(self) -> recycling.RecyclingCollection:
         return recycling.get_next_recycling_collection()
 
-    def format_data(self, data: dict) -> dict[str, str]:
+    def format_data(self, data: dict) -> dict:
+        epoch = int(datetime(data['date'].year, data['date'].month, data['date'].day).timestamp())
         return {
-            'date': data['date'].strftime('%A %d %B'),
-            'short_date': data['date'].strftime('%-d %b'),
+            'date_epoch': epoch,
             'type': data['type']
         }
 
@@ -167,5 +167,7 @@ def get_data() -> dict:
     for data_source in DATA_SOURCES:
         name = data_source.get_name()
         result[name] = data_source.format_data(DATA[name])
+        if name in DATA:
+            result[name] = data_source.format_data(DATA[name])
 
     return result

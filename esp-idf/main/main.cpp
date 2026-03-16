@@ -15,6 +15,7 @@
 #include <images.h>
 #include <screens.h>
 #include <actions.h>
+#include "time_utils.h"
 
 static const char *TAG = "main";
 
@@ -64,6 +65,8 @@ char bus_destinations[2][3][32];
 char bus_due_labels[2][3][8];
 int bus_due_seconds[2][3];
 time_t bus_due_epochs[2][3];
+
+
 
 static void format_due_label(char *buf, size_t buf_size, time_t due_epoch, const char *route) {
     if (route[0] == '\0') {
@@ -168,8 +171,41 @@ static void fetchData() {
         flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_WEATHER, weather);
         RecyclingValue recycling;
         recycling.type(doc["recycling"]["type"] | "");
-        recycling.date(doc["recycling"]["date"] | "");
-        recycling.short_date(doc["recycling"]["short_date"] | "");
+
+        time_t recycling_epoch = doc["recycling"]["date_epoch"] | 0L;
+        char recycling_date_str[64] = "";
+        char recycling_short_date_str[16] = "";
+
+        if (recycling_epoch > 0) {
+            struct tm recycling_tm;
+            localtime_r(&recycling_epoch, &recycling_tm);
+            format_long_date(recycling_date_str, sizeof(recycling_date_str), &recycling_tm);
+
+            time_t now = time(nullptr);
+            int days_diff = days_between(recycling_epoch, now);
+
+            if (days_diff == 0) {
+                strlcpy(recycling_short_date_str, "Today", sizeof(recycling_short_date_str));
+            }
+            else if (days_diff == 1) {
+                strlcpy(recycling_short_date_str, "Tomorrow", sizeof(recycling_short_date_str));
+            }
+            else if (days_diff < 7) {
+                    strftime(recycling_short_date_str, sizeof(recycling_short_date_str), "%A", &recycling_tm);
+            }
+            else {
+                if (days_diff < 0) {
+                    ESP_LOGW(TAG, "Recycling date is in the past");
+                }
+
+                char month_abbr[8];
+                strftime(month_abbr, sizeof(month_abbr), "%b", &recycling_tm);
+                snprintf(recycling_short_date_str, sizeof(recycling_short_date_str), "%d %s", recycling_tm.tm_mday, month_abbr);
+            }
+        }
+
+        recycling.date(recycling_date_str);
+        recycling.short_date(recycling_short_date_str);
         flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_RECYCLING, recycling);
         SunTimeValue sun;
         sun.type(doc["weather"]["sun"]["event"] | "");
@@ -205,14 +241,7 @@ const char *get_var_date() {
     localtime_r(&now, &timeinfo);
 
     static char date_str[64];
-    char weekday[24];
-    char month[24];
-
-    strftime(weekday, sizeof(weekday), "%A", &timeinfo);
-    strftime(month, sizeof(month), "%B", &timeinfo);
-
-    // We have to use snprintf to get the day of the month without leading zeros or leading spaces
-    snprintf(date_str, sizeof(date_str), "%s %d %s", weekday, timeinfo.tm_mday, month);
+    format_long_date(date_str, sizeof(date_str), &timeinfo);
     return date_str;
 }
 
