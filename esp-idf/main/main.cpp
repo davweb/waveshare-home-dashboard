@@ -68,31 +68,6 @@ time_t bus_due_epochs[2][3];
 
 
 
-static void format_due_label(char *buf, size_t buf_size, time_t due_epoch, const char *route) {
-    if (route[0] == '\0') {
-        buf[0] = '\0';
-        return;
-    }
-
-    time_t now = time(nullptr);
-    int due_seconds = due_epoch > 0 ? (int)(due_epoch - now) : 0;
-
-    if (due_seconds <= 0) {
-        strlcpy(buf, "due", buf_size);
-    } else if (due_seconds < 61) {
-        strlcpy(buf, "1 min", buf_size);
-    } else {
-        int minutes = (due_seconds + 59) / 60;
-
-        if (minutes <= 60) {
-            snprintf(buf, buf_size, "%d mins", minutes);
-        } else {
-            struct tm t;
-            localtime_r(&due_epoch, &t);
-            snprintf(buf, buf_size, "%d:%02d", t.tm_hour, t.tm_min);
-        }
-    }
-}
 
 static void recalculateDueTimes() {
     time_t now = time(nullptr);
@@ -100,7 +75,11 @@ static void recalculateDueTimes() {
         for (int i = 0; i < 3; i++) {
             time_t epoch = bus_due_epochs[j][i];
             bus_due_seconds[j][i] = epoch > 0 ? (int)(epoch - now) : 0;
-            format_due_label(bus_due_labels[j][i], sizeof(bus_due_labels[j][i]), epoch, bus_routes[j][i]);
+            if (bus_routes[j][i][0] == '\0') {
+                bus_due_labels[j][i][0] = '\0';
+            } else {
+                format_due_label(bus_due_labels[j][i], sizeof(bus_due_labels[j][i]), epoch, now);
+            }
         }
     }
 
