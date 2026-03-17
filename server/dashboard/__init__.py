@@ -88,15 +88,31 @@ class WeatherDataSource(DataSource):
             event_name = 'Sunrise'
             event_time = sunrise
 
+        hours = [
+            {
+                'hour': datetime.fromtimestamp(entry['time']).hour,
+                'icon': entry.get('icon', ''),
+                'temperature': round(entry.get('temperature', 0)),
+                'feels_like': round(entry.get('apparentTemperature', 0)),
+                'rain_chance': round(entry.get('precipProbability', 0) * 100),
+                'wind_speed': round(entry.get('windSpeed', 0)),
+                'uv_index': round(entry.get('uvIndex', 0)),
+            }
+            for entry in data.get('hourly', [])
+        ]
+
         return {
-            'temperature': round(data["temperature"]),
-            'feels_like': round(data["feels_like"]),
-            'icon': data['icon'],
-            'rain': round(data["rain"]),
+            'day': {
+                'temperature': round(data["temperature"]),
+                'feels_like': round(data["feels_like"]),
+                'icon': data['icon'],
+                'rain_chance': round(data["rain"] * 100),
+            },
             'sun': {
                 'event': event_name,
                 'time': event_time.strftime('%-H:%M')
-            }
+            },
+            'hours': hours,
         }
 
     def get_schedule(self) -> schedule.Job:

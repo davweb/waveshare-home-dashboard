@@ -111,6 +111,22 @@ static void recalculateDueTimes() {
     }
 }
 
+static WeatherType icon_string_to_weather_type(const char *icon) {
+    if (strcmp(icon, "clear-day") == 0)          return WeatherType_CLEAR_DAY;
+    if (strcmp(icon, "clear-night") == 0)         return WeatherType_CLEAR_NIGHT;
+    if (strcmp(icon, "thunderstorm") == 0)        return WeatherType_THUNDERSTORM;
+    if (strcmp(icon, "rain") == 0)                return WeatherType_RAIN;
+    if (strcmp(icon, "snow") == 0)                return WeatherType_SNOW;
+    if (strcmp(icon, "sleet") == 0)               return WeatherType_SLEET;
+    if (strcmp(icon, "wind") == 0)                return WeatherType_WIND;
+    if (strcmp(icon, "fog") == 0)                 return WeatherType_FOG;
+    if (strcmp(icon, "cloudy") == 0)              return WeatherType_CLOUDY;
+    if (strcmp(icon, "partly-cloudy-day") == 0)   return WeatherType_PARTLY_CLOUDY_DAY;
+    if (strcmp(icon, "partly-cloudy-night") == 0) return WeatherType_PARTLY_CLOUDY_NIGHT;
+    if (strcmp(icon, "hail") == 0)                return WeatherType_HAIL;
+    return WeatherType_NONE;
+}
+
 static void fetchData() {
     ESP_LOGD(TAG, "fetch data");
     JsonDocument doc;
@@ -144,9 +160,30 @@ static void fetchData() {
     if (lvgl_port_lock(portMAX_DELAY)) {
 
         WeatherValue weather;
-        weather.temperature(doc["weather"]["temperature"] | 0);
-        weather.feels_like(doc["weather"]["feels_like"] | 0);
-        weather.rain_chance(doc["weather"]["rain"] | 0);
+
+        WeatherDayValue day;
+        day.temperature(doc["weather"]["day"]["temperature"] | 0);
+        day.feels_like(doc["weather"]["day"]["feels_like"] | 0);
+        day.rain_chance(doc["weather"]["day"]["rain_chance"] | 0);
+        day.icon(icon_string_to_weather_type(doc["weather"]["day"]["icon"] | ""));
+        weather.day(day);
+
+        int num_hours = doc["weather"]["hours"].size();
+        if (num_hours > 24) num_hours = 24;
+        ArrayOfWeatherHourValue hours(num_hours);
+        for (int i = 0; i < num_hours; i++) {
+            WeatherHourValue hour_val;
+            hour_val.hour(doc["weather"]["hours"][i]["hour"] | 0);
+            hour_val.icon(icon_string_to_weather_type(doc["weather"]["hours"][i]["icon"] | ""));
+            hour_val.temperature(doc["weather"]["hours"][i]["temperature"] | 0);
+            hour_val.feels_like(doc["weather"]["hours"][i]["feels_like"] | 0);
+            hour_val.rain_chance(doc["weather"]["hours"][i]["rain_chance"] | 0);
+            hour_val.wind_speed(doc["weather"]["hours"][i]["wind_speed"] | 0);
+            hour_val.uv_index(doc["weather"]["hours"][i]["uv_index"] | 0);
+            hours.at(i, hour_val);
+        }
+        weather.hours(hours);
+
         flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_WEATHER, weather);
         RecyclingValue recycling;
         recycling.type(doc["recycling"]["type"] | "");
