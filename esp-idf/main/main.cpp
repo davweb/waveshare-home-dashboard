@@ -16,61 +16,23 @@
 #include <screens.h>
 #include <actions.h>
 #include "time_utils.h"
+#include "user_actions.h"
+#include "global_vars.h"
 
 static const char *TAG = "main";
-
-void action_temperature_to_color(lv_event_t *e) {
-    int temp = flow::getUserProperty(ACTION_TEMPERATURE_TO_COLOR_PROPERTY_TEMPERATURE).getInt();
-
-    int color;
-    if      (temp <  0) color = 0x7EC8E3;
-    else if (temp <  5) color = 0x6B9FE4;
-    else if (temp < 10) color = 0x3DBFB8;
-    else if (temp < 15) color = 0x5DD96B;
-    else if (temp < 20) color = 0xC8D44A;
-    else if (temp < 25) color = 0xF5A623;
-    else if (temp < 30) color = 0xF46B1A;
-    else                color = 0xFF3B3B;
-
-    flow::setUserProperty(ACTION_TEMPERATURE_TO_COLOR_PROPERTY_COLOR, IntegerValue(color));
-
-    ESP_LOGD(TAG, "Converted temperature %d to color 0x%06X", temp, color);
-}
-
-void action_reset_weather_scroll(lv_event_t *e) {
-    lv_obj_scroll_to_x(objects.weather_hours, 0, LV_ANIM_OFF);
-}
-
-void action_rain_chance_to_color(lv_event_t *e) {
-    int chance = flow::getUserProperty(ACTION_RAIN_CHANCE_TO_COLOR_PROPERTY_RAIN_CHANCE).getInt();
-
-    int color;
-    if      (chance <  10) color = 0xDDEEFF;
-    else if (chance <  20) color = 0xBBDDFF;
-    else if (chance <  30) color = 0x99CCFF;
-    else if (chance <  40) color = 0x77BBFF;
-    else if (chance <  50) color = 0x55AAFF;
-    else if (chance <  60) color = 0x3399EE;
-    else if (chance <  70) color = 0x1188DD;
-    else if (chance <  80) color = 0x0077CC;
-    else if (chance <  90) color = 0x0055AA;
-    else                   color = 0x003388;
-
-    flow::setUserProperty(ACTION_RAIN_CHANCE_TO_COLOR_PROPERTY_COLOR, IntegerValue(color));
-
-    ESP_LOGD(TAG, "Converted rain chance %d%% to color 0x%06X", chance, color);
-}
 
 using namespace esp_panel::drivers;
 
 char bus_stop_names[2][32];
 char bus_routes[2][3][4];
 char bus_destinations[2][3][32];
-char bus_due_labels[2][3][8];
-int bus_due_seconds[2][3];
 time_t bus_due_epochs[2][3];
 
 static void recalculateDueTimes() {
+    // Static so the variables are not destroyed when function exits, as they are referenced by the bus stop global variable
+    static char bus_due_labels[2][3][8];
+    static int bus_due_seconds[2][3];
+
     time_t now = time(nullptr);
     for (int j = 0; j < 2; j++) {
         for (int i = 0; i < 3; i++) {
@@ -157,58 +119,59 @@ static void fetchData() {
 
     recalculateDueTimes();
 
+    WeatherValue weather;
+
+    WeatherDayValue day;
+    day.temperature(doc["weather"]["day"]["temperature"] | 0);
+    day.feels_like(doc["weather"]["day"]["feels_like"] | 0);
+    day.rain_chance(doc["weather"]["day"]["rain_chance"] | 0);
+    day.icon(icon_string_to_weather_type(doc["weather"]["day"]["icon"] | ""));
+    weather.day(day);
+
+    int num_hours = doc["weather"]["hours"].size();
+    if (num_hours > 24) num_hours = 24;
+    ArrayOfWeatherHourValue hours(num_hours);
+    for (int i = 0; i < num_hours; i++) {
+        WeatherHourValue hour_val;
+        hour_val.hour(doc["weather"]["hours"][i]["hour"] | 0);
+        hour_val.icon(icon_string_to_weather_type(doc["weather"]["hours"][i]["icon"] | ""));
+        hour_val.temperature(doc["weather"]["hours"][i]["temperature"] | 0);
+        hour_val.feels_like(doc["weather"]["hours"][i]["feels_like"] | 0);
+        hour_val.rain_chance(doc["weather"]["hours"][i]["rain_chance"] | 0);
+        hour_val.wind_speed(doc["weather"]["hours"][i]["wind_speed"] | 0);
+        hour_val.uv_index(doc["weather"]["hours"][i]["uv_index"] | 0);
+        hours.at(i, hour_val);
+    }
+    weather.hours(hours);
+
+    RecyclingValue recycling;
+    recycling.type(doc["recycling"]["type"] | "");
+
+    time_t recycling_epoch = doc["recycling"]["date_epoch"] | 0L;
+    char recycling_date_str[64] = "";
+    char recycling_short_date_str[16] = "";
+
+    if (recycling_epoch > 0) {
+        struct tm recycling_tm;
+        localtime_r(&recycling_epoch, &recycling_tm);
+        format_long_date(recycling_date_str, sizeof(recycling_date_str), &recycling_tm);
+
+        time_t now = time(nullptr);
+        format_short_date(recycling_short_date_str, sizeof(recycling_short_date_str), recycling_epoch, now);
+    }
+
+    recycling.date(recycling_date_str);
+    recycling.short_date(recycling_short_date_str);
+
+    SunTimeValue sun;
+    sun.type(doc["weather"]["sun"]["event"] | "");
+    sun.time(doc["weather"]["sun"]["time"] | "");
+
     //Lock the LVGL mutex
     if (lvgl_port_lock(portMAX_DELAY)) {
-
-        WeatherValue weather;
-
-        WeatherDayValue day;
-        day.temperature(doc["weather"]["day"]["temperature"] | 0);
-        day.feels_like(doc["weather"]["day"]["feels_like"] | 0);
-        day.rain_chance(doc["weather"]["day"]["rain_chance"] | 0);
-        day.icon(icon_string_to_weather_type(doc["weather"]["day"]["icon"] | ""));
-        weather.day(day);
-
-        int num_hours = doc["weather"]["hours"].size();
-        if (num_hours > 24) num_hours = 24;
-        ArrayOfWeatherHourValue hours(num_hours);
-        for (int i = 0; i < num_hours; i++) {
-            WeatherHourValue hour_val;
-            hour_val.hour(doc["weather"]["hours"][i]["hour"] | 0);
-            hour_val.icon(icon_string_to_weather_type(doc["weather"]["hours"][i]["icon"] | ""));
-            hour_val.temperature(doc["weather"]["hours"][i]["temperature"] | 0);
-            hour_val.feels_like(doc["weather"]["hours"][i]["feels_like"] | 0);
-            hour_val.rain_chance(doc["weather"]["hours"][i]["rain_chance"] | 0);
-            hour_val.wind_speed(doc["weather"]["hours"][i]["wind_speed"] | 0);
-            hour_val.uv_index(doc["weather"]["hours"][i]["uv_index"] | 0);
-            hours.at(i, hour_val);
-        }
-        weather.hours(hours);
-
         flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_WEATHER, weather);
-        RecyclingValue recycling;
-        recycling.type(doc["recycling"]["type"] | "");
-
-        time_t recycling_epoch = doc["recycling"]["date_epoch"] | 0L;
-        char recycling_date_str[64] = "";
-        char recycling_short_date_str[16] = "";
-
-        if (recycling_epoch > 0) {
-            struct tm recycling_tm;
-            localtime_r(&recycling_epoch, &recycling_tm);
-            format_long_date(recycling_date_str, sizeof(recycling_date_str), &recycling_tm);
-
-            time_t now = time(nullptr);
-            format_short_date(recycling_short_date_str, sizeof(recycling_short_date_str), recycling_epoch, now);
-        }
-
-        recycling.date(recycling_date_str);
-        recycling.short_date(recycling_short_date_str);
-        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_RECYCLING, recycling);
-        SunTimeValue sun;
-        sun.type(doc["weather"]["sun"]["event"] | "");
-        sun.time(doc["weather"]["sun"]["time"] | "");
         flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_SUN, sun);
+        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_RECYCLING, recycling);
         flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_SERVER_CONNECTED, Value(true));
 
         lvgl_port_unlock();
@@ -217,34 +180,6 @@ static void fetchData() {
         ESP_LOGE(TAG, "Failed to lock LVGL mutex to update data");
         return;
     }
-}
-
-const char *get_var_time() {
-    time_t now = time(nullptr);
-    struct tm timeinfo;
-    localtime_r(&now, &timeinfo);
-
-    static char time_str[10];
-    snprintf(time_str, sizeof(time_str), "%d:%02d", timeinfo.tm_hour, timeinfo.tm_min);
-    return time_str;
-}
-
-void set_var_time(const char *value) {
-    // Do nothing
-}
-
-const char *get_var_date() {
-    time_t now = time(nullptr);
-    struct tm timeinfo;
-    localtime_r(&now, &timeinfo);
-
-    static char date_str[64];
-    format_long_date(date_str, sizeof(date_str), &timeinfo);
-    return date_str;
-}
-
-void set_var_date(const char *value) {
-    // Do nothing
 }
 
 extern "C" void app_main(void)

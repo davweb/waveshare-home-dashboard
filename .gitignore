@@ -7,3 +7,4 @@ eez-studio/waveshare-dashboard.eez-project-ui-state
 __pycache__
 .claude
 server/run.sh
+TODO.md
