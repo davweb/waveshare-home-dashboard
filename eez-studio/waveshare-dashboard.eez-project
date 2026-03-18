@@ -462,6 +462,16 @@
       ],
       "name": "Rain Chance to Color",
       "implementationType": "native"
+    },
+    {
+      "objID": "abddbb21-5794-445d-a3af-e4a0274fb841",
+      "components": [],
+      "connectionLines": [],
+      "localVariables": [],
+      "componentGroups": [],
+      "userProperties": [],
+      "name": "Reset Weather Scroll",
+      "implementationType": "native"
     }
   ],
   "userPages": [
@@ -4088,6 +4098,7 @@
                   },
                   "timeline": [],
                   "eventHandlers": [],
+                  "identifier": "Weather Hours",
                   "leftUnit": "px",
                   "topUnit": "px",
                   "widthUnit": "px",
@@ -4642,6 +4653,558 @@
                         "objID": "a69457df-678c-4d88-e97a-d0edc5878a7b",
                         "values": {
                           "6211da73-aa4d-4d08-e951-9770b1dafb50": "weather.hours[11]"
+                        }
+                      }
+                    },
+                    {
+                      "objID": "f5f20263-96d6-4f7c-b564-5330a68f0fe5",
+                      "type": "LVGLUserWidgetWidget",
+                      "left": 0,
+                      "top": 0,
+                      "width": 120,
+                      "height": 480,
+                      "customInputs": [],
+                      "customOutputs": [],
+                      "style": {
+                        "objID": "1a7d8ce2-1505-44a7-e75a-8b650c9a3e83",
+                        "useStyle": "default",
+                        "conditionalStyles": [],
+                        "childStyles": []
+                      },
+                      "timeline": [],
+                      "eventHandlers": [],
+                      "leftUnit": "px",
+                      "topUnit": "px",
+                      "widthUnit": "px",
+                      "heightUnit": "px",
+                      "children": [],
+                      "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+                      "hiddenFlagType": "literal",
+                      "clickableFlag": true,
+                      "clickableFlagType": "literal",
+                      "flagScrollbarMode": "",
+                      "flagScrollDirection": "",
+                      "scrollSnapX": "",
+                      "scrollSnapY": "",
+                      "checkedStateType": "literal",
+                      "disabledStateType": "literal",
+                      "states": "",
+                      "localStyles": {
+                        "objID": "3f28899b-adb7-4549-daec-0783a53832d2"
+                      },
+                      "group": "",
+                      "groupIndex": 0,
+                      "userWidgetPageName": "WeatherHour",
+                      "userPropertyValues": {
+                        "objID": "2ca11994-8562-4e4b-f5da-a816409a1dfb",
+                        "values": {
+                          "6211da73-aa4d-4d08-e951-9770b1dafb50": "weather.hours[12]"
+                        }
+                      }
+                    },
+                    {
+                      "objID": "bc8c19bf-5d00-4667-9e59-4fbf173d1fbf",
+                      "type": "LVGLUserWidgetWidget",
+                      "left": 0,
+                      "top": 0,
+                      "width": 120,
+                      "height": 480,
+                      "customInputs": [],
+                      "customOutputs": [],
+                      "style": {
+                        "objID": "474232ef-145c-4b8d-d417-c6a37bd996cd",
+                        "useStyle": "default",
+                        "conditionalStyles": [],
+                        "childStyles": []
+                      },
+                      "timeline": [],
+                      "eventHandlers": [],
+                      "leftUnit": "px",
+                      "topUnit": "px",
+                      "widthUnit": "px",
+                      "heightUnit": "px",
+                      "children": [],
+                      "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+                      "hiddenFlagType": "literal",
+                      "clickableFlag": true,
+                      "clickableFlagType": "literal",
+                      "flagScrollbarMode": "",
+                      "flagScrollDirection": "",
+                      "scrollSnapX": "",
+                      "scrollSnapY": "",
+                      "checkedStateType": "literal",
+                      "disabledStateType": "literal",
+                      "states": "",
+                      "localStyles": {
+                        "objID": "aedcd4dd-f584-464b-cc43-3af26b30fbd4"
+                      },
+                      "group": "",
+                      "groupIndex": 0,
+                      "userWidgetPageName": "WeatherHour",
+                      "userPropertyValues": {
+                        "objID": "9b3e82f8-6b4d-406c-dd22-f1bd8367c4ea",
+                        "values": {
+                          "6211da73-aa4d-4d08-e951-9770b1dafb50": "weather.hours[13]"
+                        }
+                      }
+                    },
+                    {
+                      "objID": "0c598748-975f-4494-9c9d-ca915e0900c2",
+                      "type": "LVGLUserWidgetWidget",
+                      "left": 0,
+                      "top": 0,
+                      "width": 120,
+                      "height": 480,
+                      "customInputs": [],
+                      "customOutputs": [],
+                      "style": {
+                        "objID": "7b0109d9-6c5a-4024-fe1c-060e6654e9aa",
+                        "useStyle": "default",
+                        "conditionalStyles": [],
+                        "childStyles": []
+                      },
+                      "timeline": [],
+                      "eventHandlers": [],
+                      "leftUnit": "px",
+                      "topUnit": "px",
+                      "widthUnit": "px",
+                      "heightUnit": "px",
+                      "children": [],
+                      "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+                      "hiddenFlagType": "literal",
+                      "clickableFlag": true,
+                      "clickableFlagType": "literal",
+                      "flagScrollbarMode": "",
+                      "flagScrollDirection": "",
+                      "scrollSnapX": "",
+                      "scrollSnapY": "",
+                      "checkedStateType": "literal",
+                      "disabledStateType": "literal",
+                      "states": "",
+                      "localStyles": {
+                        "objID": "f4089145-4473-4bd7-a324-3d18191042db"
+                      },
+                      "group": "",
+                      "groupIndex": 0,
+                      "userWidgetPageName": "WeatherHour",
+                      "userPropertyValues": {
+                        "objID": "53597609-349c-48e2-817c-d4f985d95893",
+                        "values": {
+                          "6211da73-aa4d-4d08-e951-9770b1dafb50": "weather.hours[14]"
+                        }
+                      }
+                    },
+                    {
+                      "objID": "30ee0fd5-f09d-4197-9c8f-0dd4df9dda03",
+                      "type": "LVGLUserWidgetWidget",
+                      "left": 0,
+                      "top": 0,
+                      "width": 120,
+                      "height": 480,
+                      "customInputs": [],
+                      "customOutputs": [],
+                      "style": {
+                        "objID": "ab20a7e1-005b-4c9e-e462-173902f870c7",
+                        "useStyle": "default",
+                        "conditionalStyles": [],
+                        "childStyles": []
+                      },
+                      "timeline": [],
+                      "eventHandlers": [],
+                      "leftUnit": "px",
+                      "topUnit": "px",
+                      "widthUnit": "px",
+                      "heightUnit": "px",
+                      "children": [],
+                      "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+                      "hiddenFlagType": "literal",
+                      "clickableFlag": true,
+                      "clickableFlagType": "literal",
+                      "flagScrollbarMode": "",
+                      "flagScrollDirection": "",
+                      "scrollSnapX": "",
+                      "scrollSnapY": "",
+                      "checkedStateType": "literal",
+                      "disabledStateType": "literal",
+                      "states": "",
+                      "localStyles": {
+                        "objID": "53051740-ce2d-4371-91f3-d3b582b4e04b"
+                      },
+                      "group": "",
+                      "groupIndex": 0,
+                      "userWidgetPageName": "WeatherHour",
+                      "userPropertyValues": {
+                        "objID": "a91df784-825d-48fe-da56-87d7fc0a8fec",
+                        "values": {
+                          "6211da73-aa4d-4d08-e951-9770b1dafb50": "weather.hours[15]"
+                        }
+                      }
+                    },
+                    {
+                      "objID": "7fa4af0c-602b-4e1f-a37d-5048b53cc574",
+                      "type": "LVGLUserWidgetWidget",
+                      "left": 0,
+                      "top": 0,
+                      "width": 120,
+                      "height": 480,
+                      "customInputs": [],
+                      "customOutputs": [],
+                      "style": {
+                        "objID": "d4623701-86cc-4ad7-f9a6-a1a9e3e2ffe4",
+                        "useStyle": "default",
+                        "conditionalStyles": [],
+                        "childStyles": []
+                      },
+                      "timeline": [],
+                      "eventHandlers": [],
+                      "leftUnit": "px",
+                      "topUnit": "px",
+                      "widthUnit": "px",
+                      "heightUnit": "px",
+                      "children": [],
+                      "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+                      "hiddenFlagType": "literal",
+                      "clickableFlag": true,
+                      "clickableFlagType": "literal",
+                      "flagScrollbarMode": "",
+                      "flagScrollDirection": "",
+                      "scrollSnapX": "",
+                      "scrollSnapY": "",
+                      "checkedStateType": "literal",
+                      "disabledStateType": "literal",
+                      "states": "",
+                      "localStyles": {
+                        "objID": "7f6763a2-23dd-47df-bc58-edd008f37fc0"
+                      },
+                      "group": "",
+                      "groupIndex": 0,
+                      "userWidgetPageName": "WeatherHour",
+                      "userPropertyValues": {
+                        "objID": "20b22994-732a-4e59-953f-c4eeab00594b",
+                        "values": {
+                          "6211da73-aa4d-4d08-e951-9770b1dafb50": "weather.hours[16]"
+                        }
+                      }
+                    },
+                    {
+                      "objID": "82d54ef6-a6a8-42cb-ee96-7e93d745145c",
+                      "type": "LVGLUserWidgetWidget",
+                      "left": 0,
+                      "top": 0,
+                      "width": 120,
+                      "height": 480,
+                      "customInputs": [],
+                      "customOutputs": [],
+                      "style": {
+                        "objID": "3c13f5ff-5e74-4a13-c621-62fb66f3765c",
+                        "useStyle": "default",
+                        "conditionalStyles": [],
+                        "childStyles": []
+                      },
+                      "timeline": [],
+                      "eventHandlers": [],
+                      "leftUnit": "px",
+                      "topUnit": "px",
+                      "widthUnit": "px",
+                      "heightUnit": "px",
+                      "children": [],
+                      "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+                      "hiddenFlagType": "literal",
+                      "clickableFlag": true,
+                      "clickableFlagType": "literal",
+                      "flagScrollbarMode": "",
+                      "flagScrollDirection": "",
+                      "scrollSnapX": "",
+                      "scrollSnapY": "",
+                      "checkedStateType": "literal",
+                      "disabledStateType": "literal",
+                      "states": "",
+                      "localStyles": {
+                        "objID": "0b84f1aa-021f-4570-c606-03b6e56f8dbb"
+                      },
+                      "group": "",
+                      "groupIndex": 0,
+                      "userWidgetPageName": "WeatherHour",
+                      "userPropertyValues": {
+                        "objID": "2af6b9da-f97f-4b9d-d6f1-66c4fea6301e",
+                        "values": {
+                          "6211da73-aa4d-4d08-e951-9770b1dafb50": "weather.hours[17]"
+                        }
+                      }
+                    },
+                    {
+                      "objID": "f80f2b9f-2411-4e44-9403-c5e9aa32835d",
+                      "type": "LVGLUserWidgetWidget",
+                      "left": 0,
+                      "top": 0,
+                      "width": 120,
+                      "height": 480,
+                      "customInputs": [],
+                      "customOutputs": [],
+                      "style": {
+                        "objID": "c6c9050e-7396-4330-87a0-89b556cc68de",
+                        "useStyle": "default",
+                        "conditionalStyles": [],
+                        "childStyles": []
+                      },
+                      "timeline": [],
+                      "eventHandlers": [],
+                      "leftUnit": "px",
+                      "topUnit": "px",
+                      "widthUnit": "px",
+                      "heightUnit": "px",
+                      "children": [],
+                      "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+                      "hiddenFlagType": "literal",
+                      "clickableFlag": true,
+                      "clickableFlagType": "literal",
+                      "flagScrollbarMode": "",
+                      "flagScrollDirection": "",
+                      "scrollSnapX": "",
+                      "scrollSnapY": "",
+                      "checkedStateType": "literal",
+                      "disabledStateType": "literal",
+                      "states": "",
+                      "localStyles": {
+                        "objID": "985d30e3-d67f-47e6-93f6-f72175221865"
+                      },
+                      "group": "",
+                      "groupIndex": 0,
+                      "userWidgetPageName": "WeatherHour",
+                      "userPropertyValues": {
+                        "objID": "e6298100-5a43-4cd9-ecae-3654722e7f6e",
+                        "values": {
+                          "6211da73-aa4d-4d08-e951-9770b1dafb50": "weather.hours[18]"
+                        }
+                      }
+                    },
+                    {
+                      "objID": "98176a08-4dea-48ed-d0d8-19e30144fd6d",
+                      "type": "LVGLUserWidgetWidget",
+                      "left": 0,
+                      "top": 0,
+                      "width": 120,
+                      "height": 480,
+                      "customInputs": [],
+                      "customOutputs": [],
+                      "style": {
+                        "objID": "d7b5308b-e7b5-444b-cbbf-833c505dda0a",
+                        "useStyle": "default",
+                        "conditionalStyles": [],
+                        "childStyles": []
+                      },
+                      "timeline": [],
+                      "eventHandlers": [],
+                      "leftUnit": "px",
+                      "topUnit": "px",
+                      "widthUnit": "px",
+                      "heightUnit": "px",
+                      "children": [],
+                      "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+                      "hiddenFlagType": "literal",
+                      "clickableFlag": true,
+                      "clickableFlagType": "literal",
+                      "flagScrollbarMode": "",
+                      "flagScrollDirection": "",
+                      "scrollSnapX": "",
+                      "scrollSnapY": "",
+                      "checkedStateType": "literal",
+                      "disabledStateType": "literal",
+                      "states": "",
+                      "localStyles": {
+                        "objID": "52677bb8-d18e-4ee2-b999-ee2acba38535"
+                      },
+                      "group": "",
+                      "groupIndex": 0,
+                      "userWidgetPageName": "WeatherHour",
+                      "userPropertyValues": {
+                        "objID": "0f8bb6c9-c468-4460-c9dc-e4cd87c0f005",
+                        "values": {
+                          "6211da73-aa4d-4d08-e951-9770b1dafb50": "weather.hours[19]"
+                        }
+                      }
+                    },
+                    {
+                      "objID": "8fae84e0-d730-4e00-8e0c-e5e2618897e1",
+                      "type": "LVGLUserWidgetWidget",
+                      "left": 0,
+                      "top": 0,
+                      "width": 120,
+                      "height": 480,
+                      "customInputs": [],
+                      "customOutputs": [],
+                      "style": {
+                        "objID": "7da033c1-070f-4367-b188-aeb16f6dd09d",
+                        "useStyle": "default",
+                        "conditionalStyles": [],
+                        "childStyles": []
+                      },
+                      "timeline": [],
+                      "eventHandlers": [],
+                      "leftUnit": "px",
+                      "topUnit": "px",
+                      "widthUnit": "px",
+                      "heightUnit": "px",
+                      "children": [],
+                      "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+                      "hiddenFlagType": "literal",
+                      "clickableFlag": true,
+                      "clickableFlagType": "literal",
+                      "flagScrollbarMode": "",
+                      "flagScrollDirection": "",
+                      "scrollSnapX": "",
+                      "scrollSnapY": "",
+                      "checkedStateType": "literal",
+                      "disabledStateType": "literal",
+                      "states": "",
+                      "localStyles": {
+                        "objID": "404df607-aada-4ab9-e861-bef7e766cd54"
+                      },
+                      "group": "",
+                      "groupIndex": 0,
+                      "userWidgetPageName": "WeatherHour",
+                      "userPropertyValues": {
+                        "objID": "8291339d-a0cc-48d0-9deb-d461b440c784",
+                        "values": {
+                          "6211da73-aa4d-4d08-e951-9770b1dafb50": "weather.hours[20]"
+                        }
+                      }
+                    },
+                    {
+                      "objID": "a0cc5b2d-16bc-454b-a743-2993a6f8f8cb",
+                      "type": "LVGLUserWidgetWidget",
+                      "left": 0,
+                      "top": 0,
+                      "width": 120,
+                      "height": 480,
+                      "customInputs": [],
+                      "customOutputs": [],
+                      "style": {
+                        "objID": "9d4f32d0-2534-4bb0-aefa-9e6e3fd589d1",
+                        "useStyle": "default",
+                        "conditionalStyles": [],
+                        "childStyles": []
+                      },
+                      "timeline": [],
+                      "eventHandlers": [],
+                      "leftUnit": "px",
+                      "topUnit": "px",
+                      "widthUnit": "px",
+                      "heightUnit": "px",
+                      "children": [],
+                      "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+                      "hiddenFlagType": "literal",
+                      "clickableFlag": true,
+                      "clickableFlagType": "literal",
+                      "flagScrollbarMode": "",
+                      "flagScrollDirection": "",
+                      "scrollSnapX": "",
+                      "scrollSnapY": "",
+                      "checkedStateType": "literal",
+                      "disabledStateType": "literal",
+                      "states": "",
+                      "localStyles": {
+                        "objID": "368d46f6-c16d-41c8-f62c-94285147bb1a"
+                      },
+                      "group": "",
+                      "groupIndex": 0,
+                      "userWidgetPageName": "WeatherHour",
+                      "userPropertyValues": {
+                        "objID": "6fb8a852-61c3-45db-ecab-3480963c61f4",
+                        "values": {
+                          "6211da73-aa4d-4d08-e951-9770b1dafb50": "weather.hours[21]"
+                        }
+                      }
+                    },
+                    {
+                      "objID": "9a321db3-63ee-47da-c719-bcdbce0c0928",
+                      "type": "LVGLUserWidgetWidget",
+                      "left": 0,
+                      "top": 0,
+                      "width": 120,
+                      "height": 480,
+                      "customInputs": [],
+                      "customOutputs": [],
+                      "style": {
+                        "objID": "e50862e2-6f1f-4bc0-eea6-63ef5b762b09",
+                        "useStyle": "default",
+                        "conditionalStyles": [],
+                        "childStyles": []
+                      },
+                      "timeline": [],
+                      "eventHandlers": [],
+                      "leftUnit": "px",
+                      "topUnit": "px",
+                      "widthUnit": "px",
+                      "heightUnit": "px",
+                      "children": [],
+                      "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+                      "hiddenFlagType": "literal",
+                      "clickableFlag": true,
+                      "clickableFlagType": "literal",
+                      "flagScrollbarMode": "",
+                      "flagScrollDirection": "",
+                      "scrollSnapX": "",
+                      "scrollSnapY": "",
+                      "checkedStateType": "literal",
+                      "disabledStateType": "literal",
+                      "states": "",
+                      "localStyles": {
+                        "objID": "66441580-7432-41b3-f6ce-77b0fb549e1a"
+                      },
+                      "group": "",
+                      "groupIndex": 0,
+                      "userWidgetPageName": "WeatherHour",
+                      "userPropertyValues": {
+                        "objID": "5b865834-2608-4976-8d04-d1125f6a0a82",
+                        "values": {
+                          "6211da73-aa4d-4d08-e951-9770b1dafb50": "weather.hours[22]"
+                        }
+                      }
+                    },
+                    {
+                      "objID": "d94f24ab-8940-40d9-c22f-bda94c0f4142",
+                      "type": "LVGLUserWidgetWidget",
+                      "left": 0,
+                      "top": 0,
+                      "width": 120,
+                      "height": 480,
+                      "customInputs": [],
+                      "customOutputs": [],
+                      "style": {
+                        "objID": "a2dc6025-3ab6-431d-9a6f-1ae83f03020a",
+                        "useStyle": "default",
+                        "conditionalStyles": [],
+                        "childStyles": []
+                      },
+                      "timeline": [],
+                      "eventHandlers": [],
+                      "leftUnit": "px",
+                      "topUnit": "px",
+                      "widthUnit": "px",
+                      "heightUnit": "px",
+                      "children": [],
+                      "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+                      "hiddenFlagType": "literal",
+                      "clickableFlag": true,
+                      "clickableFlagType": "literal",
+                      "flagScrollbarMode": "",
+                      "flagScrollDirection": "",
+                      "scrollSnapX": "",
+                      "scrollSnapY": "",
+                      "checkedStateType": "literal",
+                      "disabledStateType": "literal",
+                      "states": "",
+                      "localStyles": {
+                        "objID": "53bf2972-13ef-46cb-c13f-ca041c6d8a25"
+                      },
+                      "group": "",
+                      "groupIndex": 0,
+                      "userWidgetPageName": "WeatherHour",
+                      "userPropertyValues": {
+                        "objID": "110066cb-e933-4a66-c046-e0ee8056ad33",
+                        "values": {
+                          "6211da73-aa4d-4d08-e951-9770b1dafb50": "weather.hours[23]"
                         }
                       }
                     }
@@ -6893,8 +7456,8 @@
         {
           "objID": "c67e10a8-13e1-4b38-b8ec-206c827ddb01",
           "type": "LVGLActionComponent",
-          "left": 181,
-          "top": 535,
+          "left": 180,
+          "top": 585,
           "width": 372,
           "height": 53,
           "customInputs": [],
@@ -6971,8 +7534,8 @@
         {
           "objID": "38932d63-f59a-4006-c1bc-da7428c49dc8",
           "type": "LVGLActionComponent",
-          "left": 181,
-          "top": 640,
+          "left": 189,
+          "top": 763,
           "width": 385,
           "height": 53,
           "customInputs": [],
@@ -7149,6 +7712,21 @@
               "stateType": "literal"
             }
           ]
+        },
+        {
+          "objID": "83d72167-1d31-4432-98c6-fcaf0ef94797",
+          "type": "CallActionActionComponent",
+          "left": 180,
+          "top": 501,
+          "width": 152,
+          "height": 24,
+          "customInputs": [],
+          "customOutputs": [],
+          "action": "Reset Weather Scroll",
+          "userPropertyValues": {
+            "objID": "11037cfc-ce11-47a0-dd99-b9a77d94ce4e",
+            "values": {}
+          }
         }
       ],
       "connectionLines": [
@@ -7164,13 +7742,6 @@
           "source": "6b2db6e7-f244-48d8-dca4-6b6af1ab7bdd",
           "output": "CLICKED",
           "target": "baa69df9-2af1-4d84-e152-835ac86672a1",
-          "input": "@seqin"
-        },
-        {
-          "objID": "bfd418d8-521f-4351-f094-f7bb012b9fa3",
-          "source": "1c956d79-4cb1-4e29-f162-5bab76049c76",
-          "output": "CLICKED",
-          "target": "c67e10a8-13e1-4b38-b8ec-206c827ddb01",
           "input": "@seqin"
         },
         {
@@ -7227,6 +7798,20 @@
           "source": "15e9a90b-c9dd-45db-8ff9-af5be9678fbb",
           "output": "False",
           "target": "162d9215-2973-42e1-e8d5-18b021ee3b21",
+          "input": "@seqin"
+        },
+        {
+          "objID": "4162820d-b1ae-4ee3-f941-2c341dbdc97d",
+          "source": "1c956d79-4cb1-4e29-f162-5bab76049c76",
+          "output": "CLICKED",
+          "target": "83d72167-1d31-4432-98c6-fcaf0ef94797",
+          "input": "@seqin"
+        },
+        {
+          "objID": "871c17ee-07a8-44f6-ee12-5ddb826f94dc",
+          "source": "83d72167-1d31-4432-98c6-fcaf0ef94797",
+          "output": "@seqout",
+          "target": "c67e10a8-13e1-4b38-b8ec-206c827ddb01",
           "input": "@seqin"
         }
       ],

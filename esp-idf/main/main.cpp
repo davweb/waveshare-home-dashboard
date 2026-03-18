@@ -37,6 +37,10 @@ void action_temperature_to_color(lv_event_t *e) {
     ESP_LOGD(TAG, "Converted temperature %d to color 0x%06X", temp, color);
 }
 
+void action_reset_weather_scroll(lv_event_t *e) {
+    lv_obj_scroll_to_x(objects.weather_hours, 0, LV_ANIM_OFF);
+}
+
 void action_rain_chance_to_color(lv_event_t *e) {
     int chance = flow::getUserProperty(ACTION_RAIN_CHANCE_TO_COLOR_PROPERTY_RAIN_CHANCE).getInt();
 
@@ -65,9 +69,6 @@ char bus_destinations[2][3][32];
 char bus_due_labels[2][3][8];
 int bus_due_seconds[2][3];
 time_t bus_due_epochs[2][3];
-
-
-
 
 static void recalculateDueTimes() {
     time_t now = time(nullptr);
@@ -248,8 +249,6 @@ void set_var_date(const char *value) {
 
 extern "C" void app_main(void)
 {
-    // Start WiFi synchronously so we don't have DMA contention with the initial UI setup
-
     Board *board = initialiseDisplayPanel();
 
     ESP_LOGD(TAG, "Initializing LVGL");
@@ -262,6 +261,9 @@ extern "C" void app_main(void)
         vTaskDelay(pdMS_TO_TICKS(10));
     }
 
+    //Start wifi before LVGL so SRAM is available
+    startWiFi();
+
     ui_init();
     lvgl_port_set_ui_tick_cb(ui_tick);
     lvgl_port_unlock();
@@ -271,8 +273,6 @@ extern "C" void app_main(void)
     static uint64_t lastFetchTime = 0;
     static uint64_t recalculateInterval = 5000; // Recalculate due times every 5 seconds
     static uint64_t lastRecalculateTime = 0;
-
-    startWiFi();
 
     while (true) {
         uint64_t currentTime = esp_timer_get_time() / 1000ULL;
