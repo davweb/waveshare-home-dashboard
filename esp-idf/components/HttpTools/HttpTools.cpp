@@ -1,4 +1,5 @@
 #include "esp_log.h"
+#include "esp_heap_caps.h"
 #include "esp_http_client.h"
 #include <ArduinoJson.h>
 #include <stdlib.h>
@@ -24,7 +25,7 @@ static esp_err_t http_event_handler(esp_http_client_event_t *evt)
                 size_t new_len = buf->len + evt->data_len;
                 if (new_len >= buf->capacity) {
                     size_t new_cap = new_len + 1024;
-                    char *new_data = (char *)realloc(buf->data, new_cap);
+                    char *new_data = (char *)heap_caps_realloc(buf->data, new_cap, MALLOC_CAP_SPIRAM);
                     if (!new_data) {
                         ESP_LOGE(TAG, "Failed to allocate response buffer");
                         return ESP_FAIL;
@@ -56,7 +57,7 @@ bool getJsonFromUrl(JsonDocument &doc, const char *url) {
 
     http_response_buf buf = {};
     buf.capacity = 4096;
-    buf.data = (char *)malloc(buf.capacity);
+    buf.data = (char *)heap_caps_malloc(buf.capacity, MALLOC_CAP_SPIRAM);
     if (!buf.data) {
         ESP_LOGE(TAG, "Failed to allocate initial response buffer");
         return false;

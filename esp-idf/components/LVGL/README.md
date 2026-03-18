@@ -12,6 +12,10 @@ These are LVGL files taken from templates with the following changes:
   * `LV_MEMCPY_MEMSET_STD` set to 1
   * `LV_USE_PERF_MONITOR` set for debug builds
   * `LV_USE_LOG` only set for debug builds
+  * `LV_MEM_BUF_MAX_NUM` reduce from 16 to 8 (Claude recommendation)
+  * `LV_LAYER_SIMPLE_BUF_SIZE` reduce from 24 * 1024 to 8 * 1024 (Claude recommendation)
+  * `LV_LAYER_SIMPLE_FALLBACK_BUF_SIZE`reduced from 3 * 1024 to 2 * 1024 (Claude recommendation)
+
   * Turning off fonts that aren't used
   * Turning off features that aren't used
 
