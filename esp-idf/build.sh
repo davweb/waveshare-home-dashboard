@@ -1,6 +1,4 @@
 #!/opt/homebrew/bin/zsh
 
-SDKCONFIG_DEFAULTS="sdkconfig.defaults;sdkconfig.local"
-BUILD_DIR=build
-
+source ./start.sh
 idf.py -B ${BUILD_DIR} build

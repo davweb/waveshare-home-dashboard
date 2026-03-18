@@ -1,5 +1,7 @@
 #!/opt/homebrew/bin/zsh
 
+source ./start.sh
+
 export SDKCONFIG_DEFAULTS="sdkconfig.defaults;sdkconfig.release;sdkconfig.local"
 BUILD_DIR=build_release
 
