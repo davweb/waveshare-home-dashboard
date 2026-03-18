@@ -17,19 +17,31 @@ def get_weather_data() -> dict:
     now = datetime.now(timezone.utc)
     current_hour = now.replace(minute=0, second=0, microsecond=0)
     hourly = []
+
     for entry in data.get('hourly', {}).get('data', []):
         entry_time = datetime.fromtimestamp(entry['time'], tz=timezone.utc)
         if entry_time >= current_hour:
-            hourly.append(entry)
+            hour = {
+                'time': entry_time,
+                'icon': entry['icon'],
+                'temperature': entry['temperature'],
+                'feels_like': entry['apparentTemperature'],
+                'rain_chance_percent': entry['precipProbability'] * 100,
+                'wind_speed': entry['windSpeed'],
+                'uv_index': entry['uvIndex']
+            }
+            hourly.append(hour)
         if len(hourly) >= 24:
             break
 
     return {
-        'temperature': data['currently']['temperature'],
-        'rain': data['currently']['precipProbability'],
         'sunrise': datetime.fromtimestamp(data['daily']['data'][0]['sunriseTime']),
         'sunset': datetime.fromtimestamp(data['daily']['data'][0]['sunsetTime']),
-        'icon': data['currently']['icon'],
-        'feels_like': data['currently']['apparentTemperature'],
+        'day': {
+            'temperature': data['currently']['temperature'],
+            'rain_chance_percent': data['currently']['precipProbability'] * 100,
+            'icon': data['currently']['icon'],
+            'feels_like': data['currently']['apparentTemperature'],
+        },
         'hourly': hourly,
     }

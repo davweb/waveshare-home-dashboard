@@ -90,23 +90,23 @@ class WeatherDataSource(DataSource):
 
         hours = [
             {
-                'hour': datetime.fromtimestamp(entry['time']).hour,
+                'hour': entry['time'].hour,
                 'icon': entry.get('icon', ''),
-                'temperature': round(entry.get('temperature', 0)),
-                'feels_like': round(entry.get('apparentTemperature', 0)),
-                'rain_chance': round(entry.get('precipProbability', 0) * 100),
-                'wind_speed': round(entry.get('windSpeed', 0)),
-                'uv_index': round(entry.get('uvIndex', 0)),
+                'temperature': round(entry['temperature']),
+                'feels_like': round(entry['feels_like']),
+                'rain_chance': round(entry['rain_chance_percent']),
+                'wind_speed': round(entry['wind_speed']),
+                'uv_index': round(entry['uv_index'])
             }
-            for entry in data.get('hourly', [])
+            for entry in data['hourly']
         ]
 
         return {
             'day': {
-                'temperature': round(data["temperature"]),
-                'feels_like': round(data["feels_like"]),
-                'icon': data['icon'],
-                'rain_chance': round(data["rain"] * 100),
+                'temperature': round(data['day']['temperature']),
+                'feels_like': round(data['day']['feels_like']),
+                'icon': data['day']['icon'],
+                'rain_chance': round(data['day']['rain_chance_percent']),
             },
             'sun': {
                 'event': event_name,
