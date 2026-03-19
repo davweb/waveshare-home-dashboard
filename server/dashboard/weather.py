@@ -33,14 +33,19 @@ def get_weather_data() -> dict:
         if len(hourly) >= 24:
             break
 
+    today = data['daily']['data'][0]
     return {
-        'sunrise': datetime.fromtimestamp(data['daily']['data'][0]['sunriseTime']),
-        'sunset': datetime.fromtimestamp(data['daily']['data'][0]['sunsetTime']),
-        'day': {
+        'sunrise': datetime.fromtimestamp(today['sunriseTime']),
+        'sunset': datetime.fromtimestamp(today['sunsetTime']),
+        'current': {
             'temperature': data['currently']['temperature'],
             'rain_chance_percent': data['currently']['precipProbability'] * 100,
             'icon': data['currently']['icon'],
             'feels_like': data['currently']['apparentTemperature'],
+        },
+        'day': {
+            'min_temperature': today['temperatureLow'],
+            'max_temperature': today['temperatureHigh'],
         },
         'hourly': hourly,
     }

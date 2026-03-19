@@ -121,11 +121,16 @@ static void fetchData() {
 
     WeatherValue weather;
 
+    WeatherCurrentValue current;
+    current.temperature(doc["weather"]["current"]["temperature"] | 0);
+    current.feels_like(doc["weather"]["current"]["feels_like"] | 0);
+    current.rain_chance(doc["weather"]["current"]["rain_chance"] | 0);
+    current.icon(icon_string_to_weather_type(doc["weather"]["current"]["icon"] | ""));
+    weather.current(current);
+
     WeatherDayValue day;
-    day.temperature(doc["weather"]["day"]["temperature"] | 0);
-    day.feels_like(doc["weather"]["day"]["feels_like"] | 0);
-    day.rain_chance(doc["weather"]["day"]["rain_chance"] | 0);
-    day.icon(icon_string_to_weather_type(doc["weather"]["day"]["icon"] | ""));
+    day.min_temperature(doc["weather"]["day"]["min_temperature"] | 0);
+    day.max_temperature(doc["weather"]["day"]["max_temperature"] | 0);
     weather.day(day);
 
     int num_hours = doc["weather"]["hours"].size();

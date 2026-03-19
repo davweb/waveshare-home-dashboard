@@ -102,11 +102,15 @@ class WeatherDataSource(DataSource):
         ]
 
         return {
+            'current': {
+                'temperature': round(data['current']['temperature']),
+                'feels_like': round(data['current']['feels_like']),
+                'icon': data['current']['icon'],
+                'rain_chance': round(data['current']['rain_chance_percent']),
+            },
             'day': {
-                'temperature': round(data['day']['temperature']),
-                'feels_like': round(data['day']['feels_like']),
-                'icon': data['day']['icon'],
-                'rain_chance': round(data['day']['rain_chance_percent']),
+                'min_temperature': round(data['day']['min_temperature']),
+                'max_temperature': round(data['day']['max_temperature']),
             },
             'sun': {
                 'event': event_name,
