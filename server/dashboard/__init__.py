@@ -34,7 +34,6 @@ class DataSource(ABC):
         """Return a schedule job to run the data source"""
 
 
-
 class BusDataSource(DataSource):
     """DataSource for bus times"""
 
@@ -170,8 +169,7 @@ def initialise_data_fetching() -> None:
     """Initialise the dashboard"""
 
     for data_source in DATA_SOURCES:
-        source = data_source
-        update = functools.partial(_update_data_source, source)
+        update = functools.partial(_update_data_source, data_source)
         update()
         data_source.get_schedule().do(update)
 
@@ -186,7 +184,7 @@ def get_data() -> dict:
 
     for data_source in DATA_SOURCES:
         name = data_source.get_name()
-        result[name] = data_source.format_data(DATA[name])
+
         if name in DATA:
             result[name] = data_source.format_data(DATA[name])
 

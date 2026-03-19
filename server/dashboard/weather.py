@@ -9,7 +9,9 @@ from .config import CONFIG
 def get_weather_data() -> dict:
     """Fetch temperature and chance of rain from Pirate Weather API"""
 
-    url = f'https://api.pirateweather.net/forecast/{CONFIG.pirate_api_key}/{CONFIG.lat_long}?units=uk&exclude=minutely,alerts'
+    url = f'https://api.pirateweather.net/forecast/{
+        CONFIG.pirate_api_key}/{
+        CONFIG.lat_long}?units=uk&exclude=minutely,alerts'
     response = requests.get(url, timeout=5)
     data = json.loads(response.content)
 
