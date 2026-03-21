@@ -6,6 +6,9 @@ These are LVGL files taken from templates with the following changes:
 * `lvgl_v8_port.h`
   * `LVGL_PORT_BUFFER_MALLOC_CAPS` set to `MALLOC_CAP_SPIRAM` to enable PSRAM
   * `LVGL_PORT_BUFFER_SIZE_HEIGHT` set to 480 for a full size buffer
+  * `LVGL_PORT_TASK_PRIORITY` up to 4 from 2 (Claude recommendation)
+  * `LVGL_PORT_TASK_STACK_SIZE` to 24 * 1024 from 6 * 1024 (Claude recommendation)
+  * ` LVGL_PORT_TASK_CORE` from (0) to (1) as Wi-fi runs on core 0
 
 * `lv_conf.h`
   * `LV_COLOR_SCREEN_TRANSP` set to 0

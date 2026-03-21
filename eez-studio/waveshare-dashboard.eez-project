@@ -4834,7 +4834,7 @@
                         "definition": {
                           "MAIN": {
                             "DEFAULT": {
-                              "bg_opa": 100,
+                              "bg_opa": 255,
                               "bg_color": "Card Background",
                               "radius": 15,
                               "layout": "GRID",
@@ -9334,13 +9334,14 @@
                 "definition": {
                   "MAIN": {
                     "DEFAULT": {
-                      "bg_opa": 100,
+                      "bg_opa": 255,
                       "bg_color": "Card Background",
                       "radius": 15,
                       "layout": "GRID",
                       "grid_row_dsc_array": "50,92,FR(1),FR(1),FR(1),FR(1),FR(1)",
                       "grid_column_dsc_array": "110",
-                      "pad_top": 10
+                      "pad_top": 10,
+                      "pad_row": 8
                     }
                   }
                 }
@@ -9527,7 +9528,7 @@
           "type": "WatchVariableActionComponent",
           "left": -125,
           "top": -87,
-          "width": 172,
+          "width": 184,
           "height": 53,
           "customInputs": [],
           "customOutputs": [],
