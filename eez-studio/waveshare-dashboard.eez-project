@@ -149,7 +149,7 @@
         "objID": "78897345-395f-4882-d204-bf901dafa088",
         "name": "weather",
         "type": "struct:Weather",
-        "defaultValue": "{\n  day: {\n    min_temperature: 6,\n    max_temperature: 20\n  },\n  current: {\n    temperature: 14,\n    feels_like: 11,\n    rain_chance: 35,\n  },\n  hours: [\n    { hour: 0, icon: WeatherType.CLEAR_NIGHT, temperature: 9, feels_like: 7, rain_chance: 5, wind_speed: 12, uv_index: 0 },\n    { hour: 1, icon: WeatherType.CLEAR_NIGHT, temperature: 8, feels_like: 6, rain_chance: 5, wind_speed: 10, uv_index: 0 },\n    { hour: 2, icon: WeatherType.PARTLY_CLOUDY_NIGHT, temperature: 8, feels_like: 6, rain_chance: 10, wind_speed: 10, uv_index: 0 },\n    { hour: 3, icon: WeatherType.PARTLY_CLOUDY_NIGHT, temperature: 7, feels_like: 5, rain_chance: 10, wind_speed: 9, uv_index: 0 },\n    { hour: 4, icon: WeatherType.CLOUDY, temperature: 7, feels_like: 5, rain_chance: 15, wind_speed: 9, uv_index: 0 },\n    { hour: 5, icon: WeatherType.CLOUDY, temperature: 7, feels_like: 5, rain_chance: 20, wind_speed: 11, uv_index: 0 },\n    { hour: 6, icon: WeatherType.PARTLY_CLOUDY_DAY, temperature: 8, feels_like: 6, rain_chance: 20, wind_speed: 13, uv_index: 0 },\n    { hour: 7, icon: WeatherType.PARTLY_CLOUDY_DAY, temperature: 9, feels_like: 7, rain_chance: 25, wind_speed: 14, uv_index: 1 },\n    { hour: 8, icon: WeatherType.RAIN, temperature: 10, feels_like: 8, rain_chance: 60, wind_speed: 16, uv_index: 1 },\n    { hour: 9, icon: WeatherType.RAIN, temperature: 11, feels_like: 9, rain_chance: 70, wind_speed: 18, uv_index: 2 },\n    { hour: 10, icon: WeatherType.RAIN, temperature: 12, feels_like: 9, rain_chance: 65, wind_speed: 19, uv_index: 2 },\n    { hour: 11, icon: WeatherType.PARTLY_CLOUDY_DAY, temperature: 13, feels_like: 10, rain_chance: 40, wind_speed: 17, uv_index: 3 },\n    { hour: 12, icon: WeatherType.PARTLY_CLOUDY_DAY, temperature: 14, feels_like: 11, rain_chance: 30, wind_speed: 16, uv_index: 4 },\n    { hour: 13, icon: WeatherType.CLOUDY, temperature: 14, feels_like: 11, rain_chance: 35, wind_speed: 15, uv_index: 3 },\n    { hour: 14, icon: WeatherType.CLOUDY, temperature: 14, feels_like: 11, rain_chance: 40, wind_speed: 15, uv_index: 3 },\n    { hour: 15, icon: WeatherType.RAIN, temperature: 13, feels_like: 10, rain_chance: 55, wind_speed: 17, uv_index: 2 },\n    { hour: 16, icon: WeatherType.RAIN, temperature: 13, feels_like: 10, rain_chance: 50, wind_speed: 16, uv_index: 1 },\n    { hour: 17, icon: WeatherType.PARTLY_CLOUDY_DAY, temperature: 12, feels_like: 9, rain_chance: 30, wind_speed: 14, uv_index: 1 },\n    { hour: 18, icon: WeatherType.PARTLY_CLOUDY_NIGHT, temperature: 11, feels_like: 9, rain_chance: 20, wind_speed: 13, uv_index: 0 },\n    { hour: 19, icon: WeatherType.CLOUDY, temperature: 11, feels_like: 8, rain_chance: 25, wind_speed: 12, uv_index: 0 },\n    { hour: 20, icon: WeatherType.CLOUDY, temperature: 10, feels_like: 8, rain_chance: 20, wind_speed: 11, uv_index: 0 },\n    { hour: 21, icon: WeatherType.PARTLY_CLOUDY_NIGHT, temperature: 10, feels_like: 7, rain_chance: 15, wind_speed: 10, uv_index: 0 },\n    { hour: 22, icon: WeatherType.CLEAR_NIGHT, temperature: 9, feels_like: 7, rain_chance: 10, wind_speed: 9, uv_index: 0 },\n    { hour: 23, icon: WeatherType.CLEAR_NIGHT, temperature: 9, feels_like: 6, rain_chance: 5, wind_speed: 8, uv_index: 0 }\n  ]\n}\n",
+        "defaultValue": "{\n  day: {\n    min_temperature: 6,\n    max_temperature: 20\n  },\n  current: {\n    temperature: 14,\n    feels_like: 11,\n    precip_chance: 35,\n  },\n  hours: [\n    { hour: 0, icon: WeatherType.CLEAR_NIGHT, temperature: 9, feels_like: 7, precip_chance: 5, wind_speed: 12, uv_index: 0 },\n    { hour: 1, icon: WeatherType.CLEAR_NIGHT, temperature: 8, feels_like: 6, precip_chance: 5, wind_speed: 10, uv_index: 0 },\n    { hour: 2, icon: WeatherType.PARTLY_CLOUDY_NIGHT, temperature: 8, feels_like: 6, precip_chance: 10, wind_speed: 10, uv_index: 0 },\n    { hour: 3, icon: WeatherType.PARTLY_CLOUDY_NIGHT, temperature: 7, feels_like: 5, precip_chance: 10, wind_speed: 9, uv_index: 0 },\n    { hour: 4, icon: WeatherType.CLOUDY, temperature: 7, feels_like: 5, precip_chance: 15, wind_speed: 9, uv_index: 0 },\n    { hour: 5, icon: WeatherType.CLOUDY, temperature: 7, feels_like: 5, precip_chance: 20, wind_speed: 11, uv_index: 0 },\n    { hour: 6, icon: WeatherType.PARTLY_CLOUDY_DAY, temperature: 8, feels_like: 6, precip_chance: 20, wind_speed: 13, uv_index: 0 },\n    { hour: 7, icon: WeatherType.PARTLY_CLOUDY_DAY, temperature: 9, feels_like: 7, precip_chance: 25, wind_speed: 14, uv_index: 1 },\n    { hour: 8, icon: WeatherType.RAIN, temperature: 10, feels_like: 8, precip_chance: 60, wind_speed: 16, uv_index: 1 },\n    { hour: 9, icon: WeatherType.RAIN, temperature: 11, feels_like: 9, precip_chance: 70, wind_speed: 18, uv_index: 2 },\n    { hour: 10, icon: WeatherType.RAIN, temperature: 12, feels_like: 9, precip_chance: 65, wind_speed: 19, uv_index: 2 },\n    { hour: 11, icon: WeatherType.PARTLY_CLOUDY_DAY, temperature: 13, feels_like: 10, precip_chance: 40, wind_speed: 17, uv_index: 3 },\n    { hour: 12, icon: WeatherType.PARTLY_CLOUDY_DAY, temperature: 14, feels_like: 11, precip_chance: 30, wind_speed: 16, uv_index: 4 },\n    { hour: 13, icon: WeatherType.CLOUDY, temperature: 14, feels_like: 11, precip_chance: 35, wind_speed: 15, uv_index: 3 },\n    { hour: 14, icon: WeatherType.CLOUDY, temperature: 14, feels_like: 11, precip_chance: 40, wind_speed: 15, uv_index: 3 },\n    { hour: 15, icon: WeatherType.RAIN, temperature: 13, feels_like: 10, precip_chance: 55, wind_speed: 17, uv_index: 2 },\n    { hour: 16, icon: WeatherType.RAIN, temperature: 13, feels_like: 10, precip_chance: 50, wind_speed: 16, uv_index: 1 },\n    { hour: 17, icon: WeatherType.PARTLY_CLOUDY_DAY, temperature: 12, feels_like: 9, precip_chance: 30, wind_speed: 14, uv_index: 1 },\n    { hour: 18, icon: WeatherType.PARTLY_CLOUDY_NIGHT, temperature: 11, feels_like: 9, precip_chance: 20, wind_speed: 13, uv_index: 0 },\n    { hour: 19, icon: WeatherType.CLOUDY, temperature: 11, feels_like: 8, precip_chance: 25, wind_speed: 12, uv_index: 0 },\n    { hour: 20, icon: WeatherType.CLOUDY, temperature: 10, feels_like: 8, precip_chance: 20, wind_speed: 11, uv_index: 0 },\n    { hour: 21, icon: WeatherType.PARTLY_CLOUDY_NIGHT, temperature: 10, feels_like: 7, precip_chance: 15, wind_speed: 10, uv_index: 0 },\n    { hour: 22, icon: WeatherType.CLEAR_NIGHT, temperature: 9, feels_like: 7, precip_chance: 10, wind_speed: 9, uv_index: 0 },\n    { hour: 23, icon: WeatherType.CLEAR_NIGHT, temperature: 9, feels_like: 6, precip_chance: 5, wind_speed: 8, uv_index: 0 }\n  ]\n}\n",
         "persistent": false,
         "native": false
       },
@@ -297,7 +297,7 @@
           },
           {
             "objID": "e64bc39b-8bf2-41c3-d5ad-6ee5d65d2193",
-            "name": "rain_chance",
+            "name": "precip_chance",
             "type": "integer"
           },
           {
@@ -327,11 +327,6 @@
             "type": "integer"
           },
           {
-            "objID": "028da6e0-fe6e-4609-992a-ee33b6e98ea0",
-            "name": "rain_chance",
-            "type": "integer"
-          },
-          {
             "objID": "953ba265-1f99-4e6d-8323-912b2c9d648e",
             "name": "icon",
             "type": "enum:WeatherType"
@@ -351,6 +346,16 @@
             "objID": "3456fdfe-80c3-499b-8907-0be95a5d1c00",
             "name": "max_temperature",
             "type": "integer"
+          },
+          {
+            "objID": "85164e2f-82ad-4a56-a670-9e2e40d0e70d",
+            "name": "precip_chance",
+            "type": "integer"
+          },
+          {
+            "objID": "87bd07c3-057d-4a4e-f696-ad2167f1d109",
+            "name": "precip_type",
+            "type": "string"
           }
         ]
       }
@@ -718,8 +723,8 @@
           "type": "IsTrueActionComponent",
           "left": 464,
           "top": -189,
-          "width": 135,
-          "height": 69,
+          "width": 134,
+          "height": 68,
           "customInputs": [],
           "customOutputs": [],
           "value": "wifi_connected"
@@ -729,7 +734,7 @@
           "type": "LVGLActionComponent",
           "left": 983,
           "top": -284,
-          "width": 299,
+          "width": 298,
           "height": 53,
           "customInputs": [],
           "customOutputs": [],
@@ -793,7 +798,7 @@
           "left": 718,
           "top": -252,
           "width": 147,
-          "height": 69,
+          "height": 68,
           "customInputs": [],
           "customOutputs": [],
           "value": "server_connected"
@@ -1502,8 +1507,8 @@
                       "type": "LVGLLabelWidget",
                       "left": 0,
                       "top": -21,
-                      "width": 159,
-                      "height": 137,
+                      "width": 135,
+                      "height": 34,
                       "customInputs": [],
                       "customOutputs": [],
                       "style": {
@@ -1519,61 +1524,7 @@
                       "topUnit": "px",
                       "widthUnit": "content",
                       "heightUnit": "content",
-                      "children": [
-                        {
-                          "objID": "74b10c93-a3f6-432f-b5d5-b4e996ba2d37",
-                          "type": "LVGLLabelWidget",
-                          "left": -12,
-                          "top": 49,
-                          "width": 161,
-                          "height": 78,
-                          "customInputs": [],
-                          "customOutputs": [],
-                          "style": {
-                            "objID": "841552d6-a1ae-4289-c0cb-ea22994d6a09",
-                            "useStyle": "default",
-                            "conditionalStyles": [],
-                            "childStyles": []
-                          },
-                          "timeline": [],
-                          "eventHandlers": [],
-                          "identifier": "Temperature Label",
-                          "leftUnit": "px",
-                          "topUnit": "px",
-                          "widthUnit": "px",
-                          "heightUnit": "content",
-                          "children": [],
-                          "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE|EVENT_BUBBLE",
-                          "hiddenFlagType": "literal",
-                          "clickableFlag": true,
-                          "clickableFlagType": "literal",
-                          "flagScrollbarMode": "",
-                          "flagScrollDirection": "",
-                          "scrollSnapX": "",
-                          "scrollSnapY": "",
-                          "checkedStateType": "literal",
-                          "disabledStateType": "literal",
-                          "states": "",
-                          "localStyles": {
-                            "objID": "14444b3b-927d-4413-b0f6-5d6ea0edff4d",
-                            "definition": {
-                              "MAIN": {
-                                "DEFAULT": {
-                                  "text_font": "INTER_64",
-                                  "text_align": "CENTER"
-                                }
-                              }
-                            }
-                          },
-                          "group": "",
-                          "groupIndex": 0,
-                          "text": "weather.current.temperature + \"°\"",
-                          "textType": "expression",
-                          "longMode": "WRAP",
-                          "recolor": false,
-                          "previewValue": "14°"
-                        }
-                      ],
+                      "children": [],
                       "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE|SCROLLABLE|EVENT_BUBBLE",
                       "hiddenFlagType": "literal",
                       "clickableFlagType": "literal",
@@ -1607,11 +1558,64 @@
                       "recolor": false
                     },
                     {
+                      "objID": "74b10c93-a3f6-432f-b5d5-b4e996ba2d37",
+                      "type": "LVGLLabelWidget",
+                      "left": 0,
+                      "top": 35,
+                      "width": 100,
+                      "height": 78,
+                      "customInputs": [],
+                      "customOutputs": [],
+                      "style": {
+                        "objID": "841552d6-a1ae-4289-c0cb-ea22994d6a09",
+                        "useStyle": "default",
+                        "conditionalStyles": [],
+                        "childStyles": []
+                      },
+                      "timeline": [],
+                      "eventHandlers": [],
+                      "identifier": "Temperature Label",
+                      "leftUnit": "px",
+                      "topUnit": "px",
+                      "widthUnit": "%",
+                      "heightUnit": "content",
+                      "children": [],
+                      "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE|EVENT_BUBBLE",
+                      "hiddenFlagType": "literal",
+                      "clickableFlag": true,
+                      "clickableFlagType": "literal",
+                      "flagScrollbarMode": "",
+                      "flagScrollDirection": "",
+                      "scrollSnapX": "",
+                      "scrollSnapY": "",
+                      "checkedStateType": "literal",
+                      "disabledStateType": "literal",
+                      "states": "",
+                      "localStyles": {
+                        "objID": "14444b3b-927d-4413-b0f6-5d6ea0edff4d",
+                        "definition": {
+                          "MAIN": {
+                            "DEFAULT": {
+                              "text_font": "INTER_64",
+                              "text_align": "CENTER"
+                            }
+                          }
+                        }
+                      },
+                      "group": "",
+                      "groupIndex": 0,
+                      "text": "weather.current.temperature + \"°\"",
+                      "textType": "expression",
+                      "longMode": "WRAP",
+                      "recolor": false,
+                      "previewValue": "14°"
+                    },
+                    {
                       "objID": "ba6fc136-7d8c-49c2-f173-ebc2fbf98131",
                       "type": "LVGLContainerWidget",
-                      "left": -2,
+                      "left": 0,
                       "top": 138,
-                      "width": 161,
+                      "width": 100,
                       "height": 28,
                       "customInputs": [],
                       "customOutputs": [],
@@ -1625,7 +1629,7 @@
                       "eventHandlers": [],
                       "leftUnit": "px",
                       "topUnit": "px",
-                      "widthUnit": "px",
+                      "widthUnit": "%",
                       "heightUnit": "content",
                       "children": [
                         {
@@ -1951,9 +1955,9 @@
                       "objID": "538ae4a5-7c09-4f2d-d1a0-4b290a93ff52",
                       "type": "LVGLContainerWidget",
                       "left": 0,
-                      "top": 20,
+                      "top": 17,
                       "width": 100,
-                      "height": 59,
+                      "height": 78,
                       "customInputs": [],
                       "customOutputs": [],
                       "style": {
@@ -1975,8 +1979,8 @@
                           "type": "LVGLLabelWidget",
                           "left": 0,
                           "top": 0,
-                          "width": 59,
-                          "height": 59,
+                          "width": 78,
+                          "height": 78,
                           "customInputs": [],
                           "customOutputs": [],
                           "style": {
@@ -2008,14 +2012,14 @@
                             "definition": {
                               "MAIN": {
                                 "DEFAULT": {
-                                  "text_font": "INTER_48"
+                                  "text_font": "INTER_64"
                                 }
                               }
                             }
                           },
                           "group": "",
                           "groupIndex": 0,
-                          "text": "weather.current.rain_chance",
+                          "text": "weather.day.precip_chance",
                           "textType": "expression",
                           "longMode": "WRAP",
                           "recolor": false,
@@ -2026,8 +2030,8 @@
                           "type": "LVGLLabelWidget",
                           "left": 0,
                           "top": 0,
-                          "width": 31,
-                          "height": 39,
+                          "width": 35,
+                          "height": 44,
                           "customInputs": [],
                           "customOutputs": [],
                           "style": {
@@ -2059,7 +2063,7 @@
                             "definition": {
                               "MAIN": {
                                 "DEFAULT": {
-                                  "text_font": "INTER_32"
+                                  "text_font": "INTER_36"
                                 }
                               }
                             }
@@ -2107,7 +2111,7 @@
                       "type": "LVGLLabelWidget",
                       "left": 0,
                       "top": -21,
-                      "width": 51,
+                      "width": 130,
                       "height": 34,
                       "customInputs": [],
                       "customOutputs": [],
@@ -2152,18 +2156,19 @@
                       },
                       "group": "",
                       "groupIndex": 0,
-                      "text": "Rain",
-                      "textType": "literal",
+                      "text": "weather.day.precip_type + \" Chance\"",
+                      "textType": "expression",
                       "longMode": "WRAP",
-                      "recolor": false
+                      "recolor": false,
+                      "previewValue": "Rain Chance"
                     },
                     {
                       "objID": "0bfe3082-740c-4e95-8073-98332c2d9d0d",
                       "type": "LVGLContainerWidget",
                       "left": 0,
-                      "top": 87,
+                      "top": 100,
                       "width": 100,
-                      "height": 73,
+                      "height": 77,
                       "customInputs": [],
                       "customOutputs": [],
                       "style": {
@@ -3375,11 +3380,11 @@
           "type": "WatchVariableActionComponent",
           "left": 36,
           "top": 721,
-          "width": 240,
+          "width": 227,
           "height": 53,
           "customInputs": [],
           "customOutputs": [],
-          "variable": "weather.current.rain_chance"
+          "variable": "weather.day.precip_chance"
         },
         {
           "objID": "a7ddf2d9-c95a-4fb7-8cf1-fb2f4d6e1271",
@@ -4694,11 +4699,11 @@
                           },
                           "group": "",
                           "groupIndex": 0,
-                          "text": "Rain\nChance",
-                          "textType": "literal",
+                          "text": "weather.day.precip_type + \"\\nChance\"",
+                          "textType": "expression",
                           "longMode": "WRAP",
                           "recolor": false,
-                          "previewValue": "55"
+                          "previewValue": "Rain\\nChance"
                         },
                         {
                           "objID": "d42a1b39-e195-4355-d41b-38d38c357e8e",
@@ -8996,7 +9001,7 @@
                       },
                       "group": "",
                       "groupIndex": 0,
-                      "text": "hour.rain_chance",
+                      "text": "hour.precip_chance",
                       "textType": "expression",
                       "longMode": "WRAP",
                       "recolor": false,
@@ -9534,7 +9539,7 @@
           "height": 53,
           "customInputs": [],
           "customOutputs": [],
-          "variable": "hour.rain_chance"
+          "variable": "hour.precip_chance"
         },
         {
           "objID": "22dd51c3-99f0-4796-9577-f9f64dc0ee09",
@@ -10534,7 +10539,7 @@
               "min": 0,
               "max": 100,
               "mode": "NORMAL",
-              "value": "weather_hour.rain_chance",
+              "value": "weather_hour.precip_chance",
               "valueType": "expression",
               "valueStart": 0,
               "valueStartType": "literal",
@@ -10560,7 +10565,7 @@
               "identifier": "Hour",
               "leftUnit": "px",
               "topUnit": "px",
-              "widthUnit": "content",
+              "widthUnit": "px",
               "heightUnit": "content",
               "children": [],
               "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE|SCROLLABLE",
@@ -10579,7 +10584,8 @@
                   "MAIN": {
                     "DEFAULT": {
                       "text_font": "INTER_20",
-                      "text_color": "Primary"
+                      "text_color": "Primary",
+                      "text_align": "CENTER"
                     }
                   }
                 }
@@ -10624,11 +10630,11 @@
           "type": "WatchVariableActionComponent",
           "left": 63,
           "top": 522,
-          "width": 221,
+          "width": 234,
           "height": 53,
           "customInputs": [],
           "customOutputs": [],
-          "variable": "weather_hour.rain_chance"
+          "variable": "weather_hour.precip_chance"
         },
         {
           "objID": "7edd19d3-7fa6-408b-cef5-d35857b8f8b1",

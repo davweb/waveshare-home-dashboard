@@ -27,7 +27,7 @@ def get_weather_data() -> dict:
                 'icon': entry['icon'],
                 'temperature': entry['temperature'],
                 'feels_like': entry['apparentTemperature'],
-                'rain_chance_percent': entry['precipProbability'] * 100,
+                'precip_chance_percent': entry['precipProbability'] * 100,
                 'wind_speed': entry['windSpeed'],
                 'uv_index': entry['uvIndex']
             }
@@ -41,13 +41,14 @@ def get_weather_data() -> dict:
         'sunset': datetime.fromtimestamp(today['sunsetTime']),
         'current': {
             'temperature': data['currently']['temperature'],
-            'rain_chance_percent': data['currently']['precipProbability'] * 100,
             'icon': data['currently']['icon'],
             'feels_like': data['currently']['apparentTemperature'],
         },
         'day': {
             'min_temperature': today['temperatureLow'],
             'max_temperature': today['temperatureHigh'],
+            'precip_chance_percent': today['precipProbability'] * 100,
+            'precip_type': 'Snow' if today.get('precipType') == 'snow' else 'Sleet' if today.get('precipType') == 'sleet' else 'Rain',
         },
         'hourly': hourly,
     }

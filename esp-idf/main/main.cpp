@@ -124,13 +124,14 @@ static void fetchData() {
     WeatherCurrentValue current;
     current.temperature(doc["weather"]["current"]["temperature"] | 0);
     current.feels_like(doc["weather"]["current"]["feels_like"] | 0);
-    current.rain_chance(doc["weather"]["current"]["rain_chance"] | 0);
     current.icon(icon_string_to_weather_type(doc["weather"]["current"]["icon"] | ""));
     weather.current(current);
 
     WeatherDayValue day;
     day.min_temperature(doc["weather"]["day"]["min_temperature"] | 0);
     day.max_temperature(doc["weather"]["day"]["max_temperature"] | 0);
+    day.precip_chance(doc["weather"]["day"]["precip_chance"] | 0);
+    day.precip_type(doc["weather"]["day"]["precip_type"] | "rain");
     weather.day(day);
 
     int num_hours = doc["weather"]["hours"].size();
@@ -142,7 +143,7 @@ static void fetchData() {
         hour_val.icon(icon_string_to_weather_type(doc["weather"]["hours"][i]["icon"] | ""));
         hour_val.temperature(doc["weather"]["hours"][i]["temperature"] | 0);
         hour_val.feels_like(doc["weather"]["hours"][i]["feels_like"] | 0);
-        hour_val.rain_chance(doc["weather"]["hours"][i]["rain_chance"] | 0);
+        hour_val.precip_chance(doc["weather"]["hours"][i]["precip_chance"] | 0);
         hour_val.wind_speed(doc["weather"]["hours"][i]["wind_speed"] | 0);
         hour_val.uv_index(doc["weather"]["hours"][i]["uv_index"] | 0);
         hours.at(i, hour_val);

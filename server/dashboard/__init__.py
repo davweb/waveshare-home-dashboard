@@ -93,7 +93,7 @@ class WeatherDataSource(DataSource):
                 'icon': entry.get('icon', ''),
                 'temperature': round(entry['temperature']),
                 'feels_like': round(entry['feels_like']),
-                'rain_chance': round(entry['rain_chance_percent']),
+                'precip_chance': round(entry['precip_chance_percent']),
                 'wind_speed': round(entry['wind_speed']),
                 'uv_index': round(entry['uv_index'])
             }
@@ -105,11 +105,12 @@ class WeatherDataSource(DataSource):
                 'temperature': round(data['current']['temperature']),
                 'feels_like': round(data['current']['feels_like']),
                 'icon': data['current']['icon'],
-                'rain_chance': round(data['current']['rain_chance_percent']),
             },
             'day': {
                 'min_temperature': round(data['day']['min_temperature']),
                 'max_temperature': round(data['day']['max_temperature']),
+                'precip_chance': round(data['day']['precip_chance_percent']),
+                'precip_type': data['day']['precip_type'],
             },
             'sun': {
                 'event': event_name,
