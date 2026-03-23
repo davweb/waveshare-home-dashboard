@@ -128,10 +128,12 @@ static void fetchData() {
     weather.current(current);
 
     WeatherDayValue day;
+    static char precip_type_str[32];
     day.min_temperature(doc["weather"]["day"]["min_temperature"] | 0);
     day.max_temperature(doc["weather"]["day"]["max_temperature"] | 0);
     day.precip_chance(doc["weather"]["day"]["precip_chance"] | 0);
-    day.precip_type(doc["weather"]["day"]["precip_type"] | "rain");
+    strlcpy(precip_type_str, doc["weather"]["day"]["precip_type"] | "rain", sizeof(precip_type_str));
+    day.precip_type(precip_type_str);
     weather.day(day);
 
     int num_hours = doc["weather"]["hours"].size();
@@ -151,11 +153,13 @@ static void fetchData() {
     weather.hours(hours);
 
     RecyclingValue recycling;
-    recycling.type(doc["recycling"]["type"] | "");
+    static char recycling_type_str[32];
+    strlcpy(recycling_type_str, doc["recycling"]["type"] | "", sizeof(recycling_type_str));
+    recycling.type(recycling_type_str);
 
     time_t recycling_epoch = doc["recycling"]["date_epoch"] | 0L;
-    char recycling_date_str[64] = "";
-    char recycling_short_date_str[16] = "";
+    static char recycling_date_str[64] = "";
+    static char recycling_short_date_str[16] = "";
 
     if (recycling_epoch > 0) {
         struct tm recycling_tm;
@@ -164,14 +168,21 @@ static void fetchData() {
 
         time_t now = time(nullptr);
         format_short_date(recycling_short_date_str, sizeof(recycling_short_date_str), recycling_epoch, now);
+    } else {
+        recycling_date_str[0] = '\0';
+        recycling_short_date_str[0] = '\0';
     }
 
     recycling.date(recycling_date_str);
     recycling.short_date(recycling_short_date_str);
 
     SunTimeValue sun;
-    sun.type(doc["weather"]["sun"]["event"] | "");
-    sun.time(doc["weather"]["sun"]["time"] | "");
+    static char sun_type_str[32];
+    static char sun_time_str[16];
+    strlcpy(sun_type_str, doc["weather"]["sun"]["event"] | "", sizeof(sun_type_str));
+    strlcpy(sun_time_str, doc["weather"]["sun"]["time"] | "", sizeof(sun_time_str));
+    sun.type(sun_type_str);
+    sun.time(sun_time_str);
 
     //Lock the LVGL mutex
     if (lvgl_port_lock(portMAX_DELAY)) {
