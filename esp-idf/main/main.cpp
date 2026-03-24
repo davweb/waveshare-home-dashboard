@@ -18,15 +18,13 @@
 #include "time_utils.h"
 #include "user_actions.h"
 #include "global_vars.h"
+#include "data_fetcher.h"
 
 static const char *TAG = "main";
 
 using namespace esp_panel::drivers;
 
-char bus_stop_names[2][32];
-char bus_routes[2][3][4];
-char bus_destinations[2][3][32];
-time_t bus_due_epochs[2][3];
+static BusData g_bus_data;
 
 static void recalculateDueTimes() {
     // Static so the variables are not destroyed when function exits, as they are referenced by the bus stop global variable
@@ -36,9 +34,9 @@ static void recalculateDueTimes() {
     time_t now = time(nullptr);
     for (int j = 0; j < 2; j++) {
         for (int i = 0; i < 3; i++) {
-            time_t epoch = bus_due_epochs[j][i];
+            time_t epoch = g_bus_data.stops[j].arrivals[i].due_epoch;
             bus_due_seconds[j][i] = epoch > 0 ? (int)(epoch - now) : 0;
-            if (bus_routes[j][i][0] == '\0') {
+            if (g_bus_data.stops[j].arrivals[i].route[0] == '\0') {
                 bus_due_labels[j][i][0] = '\0';
             } else {
                 format_due_label(bus_due_labels[j][i], sizeof(bus_due_labels[j][i]), epoch, now);
@@ -52,15 +50,15 @@ static void recalculateDueTimes() {
         ArrayOfBusArrivalValue arrivals(3);
         for (int i = 0; i < 3; i++) {
             BusArrivalValue arrival;
-            arrival.route(bus_routes[j][i]);
-            arrival.destination(bus_destinations[j][i]);
+            arrival.route(g_bus_data.stops[j].arrivals[i].route);
+            arrival.destination(g_bus_data.stops[j].arrivals[i].destination);
             arrival.due_label(bus_due_labels[j][i]);
             arrival.due_seconds(bus_due_seconds[j][i]);
             arrivals.at(i, arrival);
         }
 
         BusStopValue bus_stop;
-        bus_stop.name(bus_stop_names[j]);
+        bus_stop.name(g_bus_data.stops[j].name);
         bus_stop.arrivals(arrivals);
         bus_stops.at(j, bus_stop);
     }
@@ -92,9 +90,12 @@ static WeatherType icon_string_to_weather_type(const char *icon) {
 
 static void fetchData() {
     ESP_LOGD(TAG, "fetch data");
-    JsonDocument doc;
 
-    if (!getJsonFromUrl(doc, CONFIG_DASHBOARD_SERVER_URL)) {
+    static SunData sun_data;
+    static WeatherData weather_data;
+    static RecyclingData recycling_data;
+
+    if (!fetch_dashboard_data(g_bus_data, sun_data, weather_data, recycling_data)) {
         ESP_LOGW(TAG, "Failed to get data from dashboard server.");
 
         if (lvgl_port_lock(portMAX_DELAY)) {
@@ -108,83 +109,46 @@ static void fetchData() {
         return;
     }
 
-    for (int j = 0; j < 2; j++) {
-        strlcpy(bus_stop_names[j], doc["bus_stops"][j]["name"] | "", sizeof(bus_stop_names[j]));
-        for (int i = 0; i < 3; i++) {
-            strlcpy(bus_routes[j][i], doc["bus_stops"][j]["buses"][i]["route"] | "", sizeof(bus_routes[j][i]));
-            strlcpy(bus_destinations[j][i], doc["bus_stops"][j]["buses"][i]["destination"] | "", sizeof(bus_destinations[j][i]));
-            bus_due_epochs[j][i] = doc["bus_stops"][j]["buses"][i]["due_time"] | 0L;
-        }
-    }
-
     recalculateDueTimes();
 
     WeatherValue weather;
 
     WeatherCurrentValue current;
-    current.temperature(doc["weather"]["current"]["temperature"] | 0);
-    current.feels_like(doc["weather"]["current"]["feels_like"] | 0);
-    current.icon(icon_string_to_weather_type(doc["weather"]["current"]["icon"] | ""));
+    current.temperature(weather_data.current_temperature);
+    current.feels_like(weather_data.current_feels_like);
+    current.icon(icon_string_to_weather_type(weather_data.current_icon));
     weather.current(current);
 
     WeatherDayValue day;
-    static char precip_type_str[32];
-    day.min_temperature(doc["weather"]["day"]["min_temperature"] | 0);
-    day.max_temperature(doc["weather"]["day"]["max_temperature"] | 0);
-    day.precip_chance(doc["weather"]["day"]["precip_chance"] | 0);
-    strlcpy(precip_type_str, doc["weather"]["day"]["precip_type"] | "rain", sizeof(precip_type_str));
-    day.precip_type(precip_type_str);
+    day.min_temperature(weather_data.day_min_temperature);
+    day.max_temperature(weather_data.day_max_temperature);
+    day.precip_chance(weather_data.day_precip_chance);
+    day.precip_type(weather_data.day_precip_type);
     weather.day(day);
 
-    int num_hours = doc["weather"]["hours"].size();
-    if (num_hours > 24) num_hours = 24;
-    ArrayOfWeatherHourValue hours(num_hours);
-    for (int i = 0; i < num_hours; i++) {
+    ArrayOfWeatherHourValue hours(weather_data.num_hours);
+    for (int i = 0; i < weather_data.num_hours; i++) {
         WeatherHourValue hour_val;
-        hour_val.hour(doc["weather"]["hours"][i]["hour"] | 0);
-        hour_val.icon(icon_string_to_weather_type(doc["weather"]["hours"][i]["icon"] | ""));
-        hour_val.temperature(doc["weather"]["hours"][i]["temperature"] | 0);
-        hour_val.feels_like(doc["weather"]["hours"][i]["feels_like"] | 0);
-        hour_val.precip_chance(doc["weather"]["hours"][i]["precip_chance"] | 0);
-        hour_val.wind_speed(doc["weather"]["hours"][i]["wind_speed"] | 0);
-        hour_val.uv_index(doc["weather"]["hours"][i]["uv_index"] | 0);
+        hour_val.hour(weather_data.hours[i].hour);
+        hour_val.icon(icon_string_to_weather_type(weather_data.hours[i].icon));
+        hour_val.temperature(weather_data.hours[i].temperature);
+        hour_val.feels_like(weather_data.hours[i].feels_like);
+        hour_val.precip_chance(weather_data.hours[i].precip_chance);
+        hour_val.wind_speed(weather_data.hours[i].wind_speed);
+        hour_val.uv_index(weather_data.hours[i].uv_index);
         hours.at(i, hour_val);
     }
     weather.hours(hours);
 
     RecyclingValue recycling;
-    static char recycling_type_str[32];
-    strlcpy(recycling_type_str, doc["recycling"]["type"] | "", sizeof(recycling_type_str));
-    recycling.type(recycling_type_str);
-
-    time_t recycling_epoch = doc["recycling"]["date_epoch"] | 0L;
-    static char recycling_date_str[64] = "";
-    static char recycling_short_date_str[16] = "";
-
-    if (recycling_epoch > 0) {
-        struct tm recycling_tm;
-        localtime_r(&recycling_epoch, &recycling_tm);
-        format_long_date(recycling_date_str, sizeof(recycling_date_str), &recycling_tm);
-
-        time_t now = time(nullptr);
-        format_short_date(recycling_short_date_str, sizeof(recycling_short_date_str), recycling_epoch, now);
-    } else {
-        recycling_date_str[0] = '\0';
-        recycling_short_date_str[0] = '\0';
-    }
-
-    recycling.date(recycling_date_str);
-    recycling.short_date(recycling_short_date_str);
+    recycling.type(recycling_data.type);
+    recycling.date(recycling_data.date);
+    recycling.short_date(recycling_data.short_date);
 
     SunTimeValue sun;
-    static char sun_type_str[32];
-    static char sun_time_str[16];
-    strlcpy(sun_type_str, doc["weather"]["sun"]["event"] | "", sizeof(sun_type_str));
-    strlcpy(sun_time_str, doc["weather"]["sun"]["time"] | "", sizeof(sun_time_str));
-    sun.type(sun_type_str);
-    sun.time(sun_time_str);
+    sun.type(sun_data.event);
+    sun.time(sun_data.time);
 
-    //Lock the LVGL mutex
     if (lvgl_port_lock(portMAX_DELAY)) {
         flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_WEATHER, weather);
         flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_SUN, sun);
