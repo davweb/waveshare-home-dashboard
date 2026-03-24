@@ -1,0 +1,102 @@
+sizes:
+  - name: small
+    size_px: 24
+
+  - name: medium
+    size_px: 90
+
+  - name: large
+    size_px: 144
+
+icons:
+  - output: bin.png
+    input: trash-can-outline.svg
+    size: medium
+
+  - output: bus.png
+    input: bus.svg
+    size: medium
+
+  - output: clear-day.png
+    input: weather-sunny.svg
+    size: medium
+
+  - output: clear-night.png
+    input: weather-night.svg
+    size: medium
+
+  - output: cloudy.png
+    input: weather-cloudy.svg
+    size: medium
+
+  - output: fog.png
+    input: weather-fog.svg
+    size: medium
+
+  - output: hail.png
+    input: weather-hail.svg
+    size: medium
+
+  - output: home.png
+    input: home.svg
+    size: medium
+
+  - output: no-data.png
+    input: earth-off.svg
+    size: large
+
+  - output: no-wifi.png
+    input: wifi-off.svg
+    size: large
+
+  - output: none.png
+    input: help-box-outline.svg
+    size: medium
+
+  - output: partly-cloudy-day.png
+    input: weather-partly-cloudy.svg
+    size: medium
+
+  - output: partly-cloudy-night.png
+    input: weather-night-partly-cloudy.svg
+    size: medium
+
+  - output: rain.png
+    input: weather-rainy.svg
+    size: medium
+
+  - output: recycling.png
+    input: recycle.svg
+    size: medium
+
+  - output: sleet.png
+    input: weather-snowy-rainy.svg
+    size: medium
+
+  - output: snow.png
+    input: weather-snowy.svg
+    size: medium
+
+  - output: sunrise.png
+    input: weather-sunset-up.svg
+    size: medium
+
+  - output: sunset.png
+    input: weather-sunset-down.svg
+    size: medium
+
+  - output: thunderstorm.png
+    input: weather-lightning.svg
+    size: medium
+
+  - output: triangle-down.png
+    input: triangle-down.svg
+    size: small
+
+  - output: triangle-up.png
+    input: triangle.svg
+    size: small
+
+  - output: wind.png
+    input: weather-windy.svg
+    size: medium
