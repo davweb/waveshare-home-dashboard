@@ -525,6 +525,33 @@
       ],
       "name": "UV Index to Color",
       "implementationType": "native"
+    },
+    {
+      "objID": "e62b2301-9603-4360-cdc1-bd22f8ac3318",
+      "components": [],
+      "connectionLines": [],
+      "localVariables": [],
+      "componentGroups": [],
+      "userProperties": [
+        {
+          "id": "858890cb-f68e-41b0-9f24-a1af29956c70",
+          "objID": "4582398c-7bb1-48fa-d9f1-4a99424fbaa7",
+          "name": "wind_speed_mph",
+          "type": "integer",
+          "assignable": false,
+          "description": "Rain chance percentage"
+        },
+        {
+          "id": "dafc5a0d-5e02-4673-9fa2-47fc5e3e34db",
+          "objID": "3f24b293-2afc-4cfb-dc36-c484550f3a29",
+          "name": "color",
+          "type": "integer",
+          "assignable": true,
+          "description": "Color as an Integer"
+        }
+      ],
+      "name": "Wind Speed to Color",
+      "implementationType": "native"
     }
   ],
   "userPages": [
@@ -8267,8 +8294,8 @@
                   "type": "LVGLUserWidgetWidget",
                   "left": 0,
                   "top": 0,
-                  "width": 96,
-                  "height": 96,
+                  "width": 90,
+                  "height": 90,
                   "customInputs": [],
                   "customOutputs": [],
                   "style": {
@@ -8913,7 +8940,7 @@
           "type": "CallActionActionComponent",
           "left": 207,
           "top": -538,
-          "width": 406,
+          "width": 405,
           "height": 77,
           "customInputs": [
             {
@@ -8986,7 +9013,7 @@
           "type": "CallActionActionComponent",
           "left": 218,
           "top": -416,
-          "width": 406,
+          "width": 405,
           "height": 77,
           "customInputs": [
             {
@@ -9048,7 +9075,7 @@
           "type": "WatchVariableActionComponent",
           "left": -125,
           "top": -87,
-          "width": 185,
+          "width": 184,
           "height": 53,
           "customInputs": [],
           "customOutputs": [],
@@ -9091,7 +9118,7 @@
           "type": "CallActionActionComponent",
           "left": 199,
           "top": -87,
-          "width": 405,
+          "width": 404,
           "height": 77,
           "customInputs": [
             {
@@ -9121,7 +9148,7 @@
           "type": "LVGLActionComponent",
           "left": 731,
           "top": -22,
-          "width": 345,
+          "width": 344,
           "height": 53,
           "customInputs": [
             {
@@ -9220,6 +9247,79 @@
               "dafc5a0d-5e02-4673-9fa2-47fc5e3e34db": "output_color"
             }
           }
+        },
+        {
+          "objID": "ab37c04b-a5fb-43a0-ae02-ead338b13f4f",
+          "type": "WatchVariableActionComponent",
+          "left": -164,
+          "top": 527,
+          "width": 166,
+          "height": 53,
+          "customInputs": [],
+          "customOutputs": [],
+          "variable": "hour.wind_speed"
+        },
+        {
+          "objID": "c5661585-b2d8-4f89-91cb-b258303b5d73",
+          "type": "LVGLActionComponent",
+          "left": 693,
+          "top": 527,
+          "width": 363,
+          "height": 53,
+          "customInputs": [
+            {
+              "objID": "22ce03be-9df8-4654-900e-b5edb1e3b7d8",
+              "name": "color",
+              "type": "integer"
+            }
+          ],
+          "customOutputs": [],
+          "actions": [
+            {
+              "objID": "898517aa-88ca-4866-d3fa-7f02b68a0373",
+              "action": "objStyleSetProperty",
+              "object": "wind_speed",
+              "objectType": "literal",
+              "property": "text_color",
+              "propertyType": "literal",
+              "value": "color",
+              "valueType": "expression",
+              "part": "MAIN",
+              "partType": "literal",
+              "state": "DEFAULT",
+              "stateType": "literal"
+            }
+          ]
+        },
+        {
+          "objID": "cea5f5ed-5094-45ab-9e20-c0d34e5f66f3",
+          "type": "CallActionActionComponent",
+          "left": 199,
+          "top": 527,
+          "width": 416,
+          "height": 77,
+          "customInputs": [
+            {
+              "objID": "ece38818-d205-4c20-8c74-ca6efdd89b51",
+              "name": "input_wind_speed",
+              "type": "integer"
+            }
+          ],
+          "customOutputs": [
+            {
+              "objID": "97fd240d-26ed-4da6-f01e-b2f9217525f1",
+              "name": "output_color",
+              "type": "integer"
+            }
+          ],
+          "action": "Wind Speed to Color",
+          "userPropertyValues": {
+            "objID": "a61a0076-7802-48ba-fa3e-ecc7c4ecffb8",
+            "values": {
+              "858890cb-f68e-41b0-9f24-a1af29956c70": "input_wind_speed",
+              "dafc5a0d-5e02-4673-9fa2-47fc5e3e34db": "output_color"
+            }
+          }
         }
       ],
       "connectionLines": [
@@ -9284,6 +9384,20 @@
           "source": "2118faca-295b-4e8d-fc7f-284e72189a6b",
           "output": "output_color",
           "target": "179c2d4d-b133-4a5f-ed02-e4e99d2d9f85",
+          "input": "color"
+        },
+        {
+          "objID": "7a553790-1f4e-4717-a0ac-dd0bb0ef5f25",
+          "source": "ab37c04b-a5fb-43a0-ae02-ead338b13f4f",
+          "output": "variable",
+          "target": "cea5f5ed-5094-45ab-9e20-c0d34e5f66f3",
+          "input": "input_wind_speed"
+        },
+        {
+          "objID": "bf6a4d6a-63b5-4a46-e277-d24c8dd81eb5",
+          "source": "cea5f5ed-5094-45ab-9e20-c0d34e5f66f3",
+          "output": "output_color",
+          "target": "c5661585-b2d8-4f89-91cb-b258303b5d73",
           "input": "color"
         }
       ],

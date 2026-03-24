@@ -44,6 +44,27 @@ void action_uv_index_to_color(lv_event_t *e) {
     flow::setUserProperty(ACTION_UV_INDEX_TO_COLOR_PROPERTY_COLOR, IntegerValue(color));
 }
 
+void action_wind_speed_to_color(lv_event_t *e) {
+    int mph = flow::getUserProperty(ACTION_WIND_SPEED_TO_COLOR_PROPERTY_WIND_SPEED_MPH).getInt();
+
+    int color;
+    if      (mph <  1) color = 0xaee6ff;
+    else if (mph <  4) color = 0x7acfff;
+    else if (mph <  8) color = 0x55c0b0;
+    else if (mph < 13) color = 0x72d672;
+    else if (mph < 19) color = 0xb5e85e;
+    else if (mph < 25) color = 0xffdd44;
+    else if (mph < 32) color = 0xffb833;
+    else if (mph < 39) color = 0xff8c2a;
+    else if (mph < 47) color = 0xff5a1f;
+    else if (mph < 55) color = 0xe62020;
+    else if (mph < 64) color = 0xd41818;
+    else if (mph < 73) color = 0xc01414;
+    else               color = 0xb01010;
+
+    flow::setUserProperty(ACTION_WIND_SPEED_TO_COLOR_PROPERTY_COLOR, IntegerValue(color));
+}
+
 void action_rain_chance_to_color(lv_event_t *e) {
     int chance = flow::getUserProperty(ACTION_RAIN_CHANCE_TO_COLOR_PROPERTY_RAIN_CHANCE).getInt();
 
