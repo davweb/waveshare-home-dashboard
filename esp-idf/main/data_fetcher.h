@@ -50,11 +50,19 @@ struct WeatherData {
     WeatherHourData hours[24];
 };
 
-struct RecyclingData {
+#define RECYCLING_COUNT 4
+
+struct RecyclingItemData {
     char type[32];
     time_t date_epoch;
     char date[64];
     char short_date[16];
+    char lead_time[10];
+};
+
+struct RecyclingData {
+    int num_collections;
+    RecyclingItemData items[RECYCLING_COUNT];
 };
 
 inline bool fetch_dashboard_data(BusData &bus, SunData &sun, WeatherData &weather, RecyclingData &recycling) {
@@ -103,19 +111,23 @@ inline bool fetch_dashboard_data(BusData &bus, SunData &sun, WeatherData &weathe
     }
 
     // Recycling
-    strlcpy(recycling.type, doc["recycling"]["type"] | "", sizeof(recycling.type));
-    recycling.date_epoch = doc["recycling"]["date_epoch"] | 0L;
-
-    if (recycling.date_epoch > 0) {
-        struct tm recycling_tm;
-        localtime_r(&recycling.date_epoch, &recycling_tm);
-        format_long_date(recycling.date, sizeof(recycling.date), &recycling_tm);
-
-        time_t now = time(nullptr);
-        format_short_date(recycling.short_date, sizeof(recycling.short_date), recycling.date_epoch, now);
-    } else {
-        recycling.date[0] = '\0';
-        recycling.short_date[0] = '\0';
+    recycling.num_collections = doc["recycling"].size();
+    if (recycling.num_collections > RECYCLING_COUNT) recycling.num_collections = RECYCLING_COUNT;
+    time_t now = time(nullptr);
+    for (int i = 0; i < recycling.num_collections; i++) {
+        strlcpy(recycling.items[i].type, doc["recycling"][i]["type"] | "", sizeof(recycling.items[i].type));
+        recycling.items[i].date_epoch = doc["recycling"][i]["date_epoch"] | 0L;
+        if (recycling.items[i].date_epoch > 0) {
+            struct tm recycling_tm;
+            localtime_r(&recycling.items[i].date_epoch, &recycling_tm);
+            format_long_date(recycling.items[i].date, sizeof(recycling.items[i].date), &recycling_tm);
+            format_short_date(recycling.items[i].short_date, sizeof(recycling.items[i].short_date), recycling.items[i].date_epoch, now);
+            format_lead_time(recycling.items[i].lead_time, sizeof(recycling.items[i].lead_time), recycling.items[i].date_epoch, now);
+        } else {
+            recycling.items[i].date[0] = '\0';
+            recycling.items[i].short_date[0] = '\0';
+            recycling.items[i].lead_time[0] = '\0';
+        }
     }
 
     return true;

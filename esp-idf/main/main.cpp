@@ -141,10 +141,17 @@ static void fetchData() {
     }
     weather.hours(hours);
 
-    RecyclingValue recycling;
-    recycling.type(recycling_data.type);
-    recycling.date(recycling_data.date);
-    recycling.short_date(recycling_data.short_date);
+    ArrayOfRecyclingValue recycling(recycling_data.num_collections);
+    for (int i = 0; i < recycling_data.num_collections; i++) {
+        RecyclingValue item;
+        item.type(strcmp(recycling_data.items[i].type, "Recycling") == 0
+            ? RecyclingType_RECYCLING
+            : RecyclingType_GENERAL_WASTE);
+        item.date(recycling_data.items[i].date);
+        item.short_date(recycling_data.items[i].short_date);
+        item.lead_time(recycling_data.items[i].lead_time);
+        recycling.at(i, item);
+    }
 
     SunTimeValue sun;
     sun.type(sun_data.event);

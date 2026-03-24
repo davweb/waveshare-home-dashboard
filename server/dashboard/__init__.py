@@ -129,15 +129,17 @@ class RecyclingDataSource(DataSource):
     def get_name(self) -> str:
         return 'recycling'
 
-    def get_data(self) -> recycling.RecyclingCollection:
-        return recycling.get_next_recycling_collection()
+    def get_data(self) -> list[recycling.RecyclingCollection]:
+        return recycling.get_next_recycling_collections()
 
-    def format_data(self, data: dict) -> dict:
-        epoch = int(datetime(data['date'].year, data['date'].month, data['date'].day).timestamp())
-        return {
-            'date_epoch': epoch,
-            'type': data['type']
-        }
+    def format_data(self, data: list[recycling.RecyclingCollection]) -> list[dict]:
+        return [
+            {
+                'date_epoch': int(datetime(collection['date'].year, collection['date'].month, collection['date'].day).timestamp()),
+                'type': collection['type']
+            }
+            for collection in data
+        ]
 
     def get_schedule(self):
         return schedule.every().day.at('00:00')

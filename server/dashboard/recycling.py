@@ -10,13 +10,13 @@ from .config import CONFIG
 RecyclingCollection = TypedDict('RecyclingCollection', {'date': date, 'type': str})
 
 
-def get_next_recycling_collection() -> RecyclingCollection:
-    """Return the next recycling collection"""
+def get_next_recycling_collections(count: int = 4) -> list[RecyclingCollection]:
+    """Return the next recycling collections"""
 
     response = requests.get(CONFIG.recycling_calendar_url, timeout=5)
     calendar = Calendar.from_ical(response.text)
     start_date = date.today()
-    end_date = start_date + timedelta(days=30)
+    end_date = start_date + timedelta(days=90)
     events = recurring_ical_events.of(calendar).between(start_date, end_date)
     collections = []
 
@@ -34,4 +34,4 @@ def get_next_recycling_collection() -> RecyclingCollection:
             collections.append(collection)
 
     collections.sort(key=lambda event: event['date'])
-    return collections[0]
+    return collections[:count]

@@ -69,3 +69,23 @@ inline void format_short_date(char *buf, size_t buf_size, time_t epoch, time_t n
         snprintf(buf, buf_size, "%d %s", t.tm_mday, month_abbr);
     }
 }
+
+// Formats a  lead time relative to now: "Today", "Tomorrow", or the number of days in the future (e.g. "3 days"). lead_epoch=0 → empty string.
+inline void format_lead_time(char *buf, size_t buf_size, time_t epoch, time_t now) {
+    if (epoch == 0) {
+        buf[0] = '\0';
+        return;
+    }
+    struct tm t;
+    localtime_r(&epoch, &t);
+    int diff = days_between(epoch, now);
+    if (diff == 0) {
+        strlcpy(buf, "Today", buf_size);
+    } else if (diff == 1) {
+        strlcpy(buf, "Tomorrow", buf_size);
+    } else if (diff > 1) {
+        snprintf(buf, buf_size, "%d days", diff);
+    } else {
+        buf[0] = '\0'; // Past date: empty string
+    }
+}
