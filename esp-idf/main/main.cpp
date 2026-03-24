@@ -9,6 +9,7 @@
 #include <Wireless.h>
 #include <ClockTools.h>
 #include <HttpTools.h>
+#include <HttpServer.h>
 #include <ui.h>
 #include <vars.h>
 #include <structs.h>
@@ -179,6 +180,7 @@ extern "C" void app_main(void)
 
     //Start wifi before LVGL so SRAM is available
     startWiFi();
+    startHttpServer();
 
     ui_init();
     lvgl_port_set_ui_tick_cb(ui_tick);
