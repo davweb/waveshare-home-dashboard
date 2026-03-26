@@ -57,7 +57,7 @@ struct RecyclingItemData {
     time_t date_epoch;
     char date[64];
     char short_date[16];
-    char lead_time[10];
+    char lead_time[16];
 };
 
 struct RecyclingData {
