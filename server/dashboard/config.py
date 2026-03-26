@@ -75,7 +75,7 @@ class Config:
     def recycling_calendar_url(self) -> str:
         """URL for Recycling Collection Calendar"""
 
-        if self._args.lat_long:
+        if self._args.recycling_calendar_url:
             return self._args.recycling_calendar_url
 
         if 'RECYCLING_CALENDAR_URL' in os.environ:
