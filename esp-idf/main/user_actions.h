@@ -3,7 +3,18 @@
 #include <lvgl.h>
 #include <ui.h>
 #include <actions.h>
+#include <DisplayPanel.h>
 
+extern Board *g_panel;
+
+
+void action_backlight_on(lv_event_t *e) {
+    g_panel->getBacklight()->on();
+}
+
+void action_backlight_off(lv_event_t *e) {
+    g_panel->getBacklight()->off();
+}
 
 void action_temperature_to_color(lv_event_t *e) {
     int temp = flow::getUserProperty(ACTION_TEMPERATURE_TO_COLOR_PROPERTY_TEMPERATURE).getInt();

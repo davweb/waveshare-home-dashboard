@@ -26,6 +26,7 @@ static const char *TAG = "main";
 using namespace esp_panel::drivers;
 
 static BusData g_bus_data;
+Board *g_panel;
 
 static void recalculateDueTimes() {
     // Static so the variables are not destroyed when function exits, as they are referenced by the bus stop global variable
@@ -173,10 +174,10 @@ static void fetchData() {
 
 extern "C" void app_main(void)
 {
-    Board *board = initialiseDisplayPanel();
+    g_panel = initialiseDisplayPanel();
 
     ESP_LOGD(TAG, "Initializing LVGL");
-    lvgl_port_init(board->getLCD(), board->getTouch());
+    lvgl_port_init(g_panel->getLCD(), g_panel->getTouch());
 
     ESP_LOGD(TAG, "Creating UI");
 

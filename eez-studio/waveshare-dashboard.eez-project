@@ -573,6 +573,26 @@
       ],
       "name": "Wind Speed to Color",
       "implementationType": "native"
+    },
+    {
+      "objID": "7ed22d16-deca-4a50-858a-e74dc1e1a28a",
+      "components": [],
+      "connectionLines": [],
+      "localVariables": [],
+      "componentGroups": [],
+      "userProperties": [],
+      "name": "Backlight Off",
+      "implementationType": "native"
+    },
+    {
+      "objID": "73db3611-38f1-4fcc-a7c3-33d8da4c270f",
+      "components": [],
+      "connectionLines": [],
+      "localVariables": [],
+      "componentGroups": [],
+      "userProperties": [],
+      "name": "Backlight On",
+      "implementationType": "native"
     }
   ],
   "userPages": [
@@ -1053,8 +1073,8 @@
               "type": "LVGLImageWidget",
               "left": 323,
               "top": 214,
-              "width": 138,
-              "height": 138,
+              "width": 144,
+              "height": 144,
               "customInputs": [],
               "customOutputs": [],
               "style": {
@@ -1300,7 +1320,15 @@
                     "childStyles": []
                   },
                   "timeline": [],
-                  "eventHandlers": [],
+                  "eventHandlers": [
+                    {
+                      "objID": "34a6f7a8-65d4-46b5-c82c-cdaa8391717a",
+                      "eventName": "CLICKED",
+                      "handlerType": "flow",
+                      "action": "Temperature To Color",
+                      "userData": 0
+                    }
+                  ],
                   "leftUnit": "px",
                   "topUnit": "px",
                   "widthUnit": "content",
@@ -1308,6 +1336,7 @@
                   "children": [],
                   "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
                   "hiddenFlagType": "literal",
+                  "clickableFlag": true,
                   "clickableFlagType": "literal",
                   "flagScrollbarMode": "",
                   "flagScrollDirection": "",
@@ -3298,7 +3327,7 @@
           "type": "CallActionActionComponent",
           "left": 297,
           "top": 602,
-          "width": 405,
+          "width": 406,
           "height": 77,
           "customInputs": [
             {
@@ -3423,7 +3452,7 @@
           "type": "WatchVariableActionComponent",
           "left": 36,
           "top": 721,
-          "width": 227,
+          "width": 228,
           "height": 53,
           "customInputs": [],
           "customOutputs": [],
@@ -3432,10 +3461,10 @@
         {
           "objID": "a7ddf2d9-c95a-4fb7-8cf1-fb2f4d6e1271",
           "type": "LVGLActionComponent",
-          "left": 816,
-          "top": 682,
-          "width": 387,
-          "height": 53,
+          "left": 817,
+          "top": 721,
+          "width": 455,
+          "height": 71,
           "customInputs": [
             {
               "objID": "2dcd6c2a-cfac-4b28-c387-953e60c88100",
@@ -3458,6 +3487,20 @@
               "partType": "literal",
               "state": "DEFAULT",
               "stateType": "literal"
+            },
+            {
+              "objID": "ea5d8346-53d3-4dff-a687-7867955c68e4",
+              "action": "objStyleSetProperty",
+              "object": "dashboard_rain_percent",
+              "objectType": "literal",
+              "property": "text_color",
+              "propertyType": "literal",
+              "value": "color",
+              "valueType": "expression",
+              "part": "MAIN",
+              "partType": "literal",
+              "state": "DEFAULT",
+              "stateType": "literal"
             }
           ]
         },
@@ -3466,7 +3509,7 @@
           "type": "CallActionActionComponent",
           "left": 315,
           "top": 721,
-          "width": 404,
+          "width": 405,
           "height": 77,
           "customInputs": [
             {
@@ -3492,38 +3535,6 @@
           }
         },
         {
-          "objID": "4ad16505-fe70-4cc8-94e0-de20c18d58d2",
-          "type": "LVGLActionComponent",
-          "left": 816,
-          "top": 759,
-          "width": 437,
-          "height": 53,
-          "customInputs": [
-            {
-              "objID": "14758040-2085-4b55-9980-c089547fafb5",
-              "name": "color",
-              "type": "integer"
-            }
-          ],
-          "customOutputs": [],
-          "actions": [
-            {
-              "objID": "6afa4d46-2927-4cd7-d0a3-496a64da7087",
-              "action": "objStyleSetProperty",
-              "object": "dashboard_rain_percent",
-              "objectType": "literal",
-              "property": "text_color",
-              "propertyType": "literal",
-              "value": "color",
-              "valueType": "expression",
-              "part": "MAIN",
-              "partType": "literal",
-              "state": "DEFAULT",
-              "stateType": "literal"
-            }
-          ]
-        },
-        {
           "objID": "81011a19-25fc-4981-82cc-90d70b19fb4b",
           "type": "WatchVariableActionComponent",
           "left": 56,
@@ -3539,8 +3550,8 @@
           "type": "IsTrueActionComponent",
           "left": 382,
           "top": 870,
-          "width": 257,
-          "height": 68,
+          "width": 258,
+          "height": 69,
           "customInputs": [],
           "customOutputs": [],
           "value": "recycling[0].short_date == \"Today\""
@@ -3551,7 +3562,7 @@
           "left": 540,
           "top": 1024,
           "width": 276,
-          "height": 68,
+          "height": 69,
           "customInputs": [],
           "customOutputs": [],
           "value": "recycling[0].short_date == \"Tomorrow\""
@@ -3586,8 +3597,8 @@
           "objID": "c7370514-5887-4f87-d6cb-92c7dd9c9204",
           "type": "LVGLActionComponent",
           "left": 915,
-          "top": 1076,
-          "width": 341,
+          "top": 1005,
+          "width": 342,
           "height": 53,
           "customInputs": [],
           "customOutputs": [],
@@ -3612,8 +3623,8 @@
           "objID": "88dbfee4-bbcb-41bc-a187-e3ee5239b7a7",
           "type": "LVGLActionComponent",
           "left": 915,
-          "top": 1167,
-          "width": 341,
+          "top": 1092,
+          "width": 342,
           "height": 53,
           "customInputs": [],
           "customOutputs": [],
@@ -3639,7 +3650,7 @@
           "type": "CallActionActionComponent",
           "left": 337,
           "top": 1303,
-          "width": 405,
+          "width": 406,
           "height": 77,
           "customInputs": [
             {
@@ -3678,10 +3689,10 @@
         {
           "objID": "3f298936-f048-4962-888b-386afade166c",
           "type": "LVGLActionComponent",
-          "left": 800,
+          "left": 817,
           "top": 1303,
-          "width": 394,
-          "height": 53,
+          "width": 412,
+          "height": 71,
           "customInputs": [
             {
               "objID": "c1cef01c-8d7e-4a63-eaa1-60a1375effc6",
@@ -3704,27 +3715,9 @@
               "partType": "literal",
               "state": "DEFAULT",
               "stateType": "literal"
-            }
-          ]
-        },
-        {
-          "objID": "a8c7a228-aec3-463e-d59c-e4cf72039472",
-          "type": "LVGLActionComponent",
-          "left": 800,
-          "top": 1380,
-          "width": 394,
-          "height": 53,
-          "customInputs": [
+            },
             {
-              "objID": "a298dc70-0107-4416-98a1-10caf1e22efe",
-              "name": "color",
-              "type": "integer"
-            }
-          ],
-          "customOutputs": [],
-          "actions": [
-            {
-              "objID": "c4b47327-8860-4b03-8c95-4e120a62eea4",
+              "objID": "6224e952-0ae2-4a7e-8bdb-77e6d9d3b508",
               "action": "objStyleSetProperty",
               "object": "min_temperature",
               "objectType": "literal",
@@ -3744,7 +3737,7 @@
           "type": "CallActionActionComponent",
           "left": 374,
           "top": 1480,
-          "width": 405,
+          "width": 406,
           "height": 77,
           "customInputs": [
             {
@@ -3785,8 +3778,8 @@
           "type": "LVGLActionComponent",
           "left": 847,
           "top": 1480,
-          "width": 394,
-          "height": 53,
+          "width": 412,
+          "height": 71,
           "customInputs": [
             {
               "objID": "1f9a2a73-dd1e-425d-c80d-815c7a75e826",
@@ -3809,27 +3802,9 @@
               "partType": "literal",
               "state": "DEFAULT",
               "stateType": "literal"
-            }
-          ]
-        },
-        {
-          "objID": "d2da3ff9-e069-4b8b-c80e-bddc82bd1f4a",
-          "type": "LVGLActionComponent",
-          "left": 838,
-          "top": 1557,
-          "width": 394,
-          "height": 53,
-          "customInputs": [
+            },
             {
-              "objID": "c510a8f3-c997-4159-9c41-a7bd1acff0d5",
-              "name": "color",
-              "type": "integer"
-            }
-          ],
-          "customOutputs": [],
-          "actions": [
-            {
-              "objID": "b8a09f6b-d72b-4328-8284-894f7fdd9219",
+              "objID": "4ed9530c-1f95-45cd-f528-a7afdfc21643",
               "action": "objStyleSetProperty",
               "object": "max_temperature",
               "objectType": "literal",
@@ -3841,6 +3816,32 @@
               "partType": "literal",
               "state": "DEFAULT",
               "stateType": "literal"
+            }
+          ]
+        },
+        {
+          "objID": "8e60efc2-b6c1-47be-be1b-92a0c0fa44d7",
+          "type": "LVGLActionComponent",
+          "left": 943,
+          "top": 18,
+          "width": 342,
+          "height": 53,
+          "customInputs": [],
+          "customOutputs": [],
+          "actions": [
+            {
+              "objID": "40296e4c-5491-427b-85f2-ff5479ae59ed",
+              "action": "changeScreen",
+              "screen": "Backlight Off",
+              "screenType": "literal",
+              "fadeMode": "FADE_IN",
+              "fadeModeType": "literal",
+              "speed": 500,
+              "speedType": "literal",
+              "delay": 0,
+              "delayType": "literal",
+              "useStack": true,
+              "useStackType": "literal"
             }
           ]
         }
@@ -3893,13 +3894,6 @@
           "source": "53283e5b-ff65-41fe-e534-7d5b5d707ed3",
           "output": "output_color",
           "target": "a7ddf2d9-c95a-4fb7-8cf1-fb2f4d6e1271",
-          "input": "color"
-        },
-        {
-          "objID": "f217e5bd-b917-48e9-def1-57afe83f135d",
-          "source": "53283e5b-ff65-41fe-e534-7d5b5d707ed3",
-          "output": "output_color",
-          "target": "4ad16505-fe70-4cc8-94e0-de20c18d58d2",
           "input": "color"
         },
         {
@@ -3987,18 +3981,11 @@
           "input": "color"
         },
         {
-          "objID": "b59b1757-1d2e-4745-a8ea-4e4a631a3780",
-          "source": "5d3102ee-b3fd-4222-dfa5-2cc2f1edcc13",
-          "output": "output_color",
-          "target": "a8c7a228-aec3-463e-d59c-e4cf72039472",
-          "input": "color"
-        },
-        {
-          "objID": "5ed4b3a0-bb04-46c7-f519-36dcbb46411a",
-          "source": "dd3f9074-c37d-4ec3-a1c2-e70ccfcc4b9b",
-          "output": "output_color",
-          "target": "d2da3ff9-e069-4b8b-c80e-bddc82bd1f4a",
-          "input": "color"
+          "objID": "381d4ab7-ec75-4685-d12a-e802735a8af3",
+          "source": "b69f8418-2ce7-42ac-ae01-caffe7065943",
+          "output": "CLICKED",
+          "target": "8e60efc2-b6c1-47be-be1b-92a0c0fa44d7",
+          "input": "@seqin"
         }
       ],
       "localVariables": [],
@@ -6616,6 +6603,199 @@
       "isUsedAsUserWidget": false,
       "createAtStart": true,
       "deleteOnScreenUnload": false
+    },
+    {
+      "objID": "d258ec17-de6f-4fe6-eb54-b8c00ef3ffff",
+      "components": [
+        {
+          "objID": "1ecde0c3-a08d-4d6c-94b6-3641f815ca5a",
+          "type": "LVGLScreenWidget",
+          "left": 0,
+          "top": 0,
+          "width": 800,
+          "height": 480,
+          "customInputs": [],
+          "customOutputs": [],
+          "style": {
+            "objID": "e99339b9-3597-4672-e629-27f8d78e77d9",
+            "useStyle": "default",
+            "conditionalStyles": [],
+            "childStyles": []
+          },
+          "timeline": [],
+          "eventHandlers": [
+            {
+              "objID": "35fd1b33-e73b-45b5-ab06-d48c4dee9331",
+              "eventName": "SCREEN_LOADED",
+              "handlerType": "flow",
+              "action": "Temperature To Color",
+              "userData": 0
+            }
+          ],
+          "leftUnit": "px",
+          "topUnit": "px",
+          "widthUnit": "px",
+          "heightUnit": "px",
+          "children": [
+            {
+              "objID": "0176bb5d-0a55-45bd-d848-92b3b151f5ec",
+              "type": "LVGLContainerWidget",
+              "left": 0,
+              "top": 0,
+              "width": 100,
+              "height": 100,
+              "customInputs": [],
+              "customOutputs": [],
+              "style": {
+                "objID": "ecd55a73-cea5-4ab8-ac36-19c925d61aaf",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": []
+              },
+              "timeline": [],
+              "eventHandlers": [
+                {
+                  "objID": "d5c7ace3-533c-41e7-9002-0f870d4e3ca5",
+                  "eventName": "CLICKED",
+                  "handlerType": "flow",
+                  "action": "Temperature To Color",
+                  "userData": 0
+                }
+              ],
+              "leftUnit": "px",
+              "topUnit": "px",
+              "widthUnit": "%",
+              "heightUnit": "%",
+              "children": [],
+              "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+              "hiddenFlagType": "literal",
+              "clickableFlag": true,
+              "clickableFlagType": "literal",
+              "flagScrollbarMode": "",
+              "flagScrollDirection": "",
+              "scrollSnapX": "",
+              "scrollSnapY": "",
+              "checkedStateType": "literal",
+              "disabledStateType": "literal",
+              "states": "",
+              "localStyles": {
+                "objID": "5ca9721d-3977-45ae-d18a-25ac654f79ac",
+                "definition": {
+                  "MAIN": {
+                    "DEFAULT": {
+                      "bg_color": "#000000",
+                      "bg_opa": 255
+                    }
+                  }
+                }
+              },
+              "group": "",
+              "groupIndex": 0
+            }
+          ],
+          "widgetFlags": "CLICKABLE|PRESS_LOCK|CLICK_FOCUSABLE|GESTURE_BUBBLE|SNAPPABLE|SCROLLABLE|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER",
+          "hiddenFlagType": "literal",
+          "clickableFlag": true,
+          "clickableFlagType": "literal",
+          "checkedStateType": "literal",
+          "disabledStateType": "literal",
+          "states": "",
+          "localStyles": {
+            "objID": "05bb9805-e175-46fa-84e4-097a2a4c49a5"
+          },
+          "groupIndex": 0
+        },
+        {
+          "objID": "30171193-5413-4489-8331-c9881e294439",
+          "type": "CallActionActionComponent",
+          "left": 974,
+          "top": 363,
+          "width": 106,
+          "height": 24,
+          "customInputs": [],
+          "customOutputs": [],
+          "action": "Backlight On",
+          "userPropertyValues": {
+            "objID": "a6339e10-a8fa-4716-c354-82554fbf8396",
+            "values": {}
+          }
+        },
+        {
+          "objID": "75561a73-3de7-4298-c895-9e089a8981f6",
+          "type": "LVGLActionComponent",
+          "left": 1141,
+          "top": 334,
+          "width": 317,
+          "height": 53,
+          "customInputs": [],
+          "customOutputs": [],
+          "actions": [
+            {
+              "objID": "a8661656-8f84-4a3f-a594-d9dca77e7e46",
+              "action": "changeScreen",
+              "screen": "Dashboard",
+              "screenType": "literal",
+              "fadeMode": "FADE_IN",
+              "fadeModeType": "literal",
+              "speed": 500,
+              "speedType": "literal",
+              "delay": 0,
+              "delayType": "literal",
+              "useStack": true,
+              "useStackType": "literal"
+            }
+          ]
+        },
+        {
+          "objID": "0534bebb-d69f-4694-9062-0f68611c68e7",
+          "type": "CallActionActionComponent",
+          "left": 919,
+          "top": 169,
+          "width": 108,
+          "height": 24,
+          "customInputs": [],
+          "customOutputs": [],
+          "action": "Backlight Off",
+          "userPropertyValues": {
+            "objID": "2dde5bd2-c884-4c1f-f8ed-03d741879481",
+            "values": {}
+          }
+        }
+      ],
+      "connectionLines": [
+        {
+          "objID": "f830d06b-47de-4881-b4b2-75986966fe0b",
+          "source": "1ecde0c3-a08d-4d6c-94b6-3641f815ca5a",
+          "output": "SCREEN_LOADED",
+          "target": "0534bebb-d69f-4694-9062-0f68611c68e7",
+          "input": "@seqin"
+        },
+        {
+          "objID": "3ec882f4-5ca1-4afa-e5fa-ffc57b721269",
+          "source": "0176bb5d-0a55-45bd-d848-92b3b151f5ec",
+          "output": "CLICKED",
+          "target": "30171193-5413-4489-8331-c9881e294439",
+          "input": "@seqin"
+        },
+        {
+          "objID": "99d3a08e-4cb0-403f-b17c-ca82936c89ec",
+          "source": "30171193-5413-4489-8331-c9881e294439",
+          "output": "@seqout",
+          "target": "75561a73-3de7-4298-c895-9e089a8981f6",
+          "input": "@seqin"
+        }
+      ],
+      "localVariables": [],
+      "componentGroups": [],
+      "userProperties": [],
+      "name": "Backlight Off",
+      "left": 0,
+      "top": 0,
+      "width": 800,
+      "height": 480,
+      "isUsedAsUserWidget": false,
+      "createAtStart": true,
+      "deleteOnScreenUnload": false
     }
   ],
   "userWidgets": [
@@ -9173,10 +9353,10 @@
         {
           "objID": "22dd51c3-99f0-4796-9577-f9f64dc0ee09",
           "type": "LVGLActionComponent",
-          "left": 747,
-          "top": -113,
-          "width": 369,
-          "height": 53,
+          "left": 730,
+          "top": -80,
+          "width": 387,
+          "height": 70,
           "customInputs": [
             {
               "objID": "071234c4-f944-43ce-9f35-50fed8ef6221",
@@ -9190,6 +9370,20 @@
               "objID": "cd81636a-d4e1-4d15-d3e2-558247359e6a",
               "action": "objStyleSetProperty",
               "object": "rain_chance",
+              "objectType": "literal",
+              "property": "text_color",
+              "propertyType": "literal",
+              "value": "color",
+              "valueType": "expression",
+              "part": "MAIN",
+              "partType": "literal",
+              "state": "DEFAULT",
+              "stateType": "literal"
+            },
+            {
+              "objID": "3a231cb3-635e-4bf4-b560-f82f4c10d98b",
+              "action": "objStyleSetProperty",
+              "object": "percent",
               "objectType": "literal",
               "property": "text_color",
               "propertyType": "literal",
@@ -9231,38 +9425,6 @@
               "dafc5a0d-5e02-4673-9fa2-47fc5e3e34db": "output_color"
             }
           }
-        },
-        {
-          "objID": "a2dc82db-a0d4-41b3-f33b-c07dc12b6701",
-          "type": "LVGLActionComponent",
-          "left": 731,
-          "top": -22,
-          "width": 344,
-          "height": 53,
-          "customInputs": [
-            {
-              "objID": "d8369c6c-dd7f-434e-b198-8c1f5e08a1b8",
-              "name": "color",
-              "type": "integer"
-            }
-          ],
-          "customOutputs": [],
-          "actions": [
-            {
-              "objID": "8e21004c-e242-4a8f-9738-d428e9b5963a",
-              "action": "objStyleSetProperty",
-              "object": "percent",
-              "objectType": "literal",
-              "property": "text_color",
-              "propertyType": "literal",
-              "value": "color",
-              "valueType": "expression",
-              "part": "MAIN",
-              "partType": "literal",
-              "state": "DEFAULT",
-              "stateType": "literal"
-            }
-          ]
         },
         {
           "objID": "3e69e5c0-5873-4235-e712-93f29af021e9",
@@ -9353,8 +9515,8 @@
           "type": "LVGLActionComponent",
           "left": 693,
           "top": 527,
-          "width": 363,
-          "height": 53,
+          "width": 381,
+          "height": 70,
           "customInputs": [
             {
               "objID": "22ce03be-9df8-4654-900e-b5edb1e3b7d8",
@@ -9368,6 +9530,20 @@
               "objID": "898517aa-88ca-4866-d3fa-7f02b68a0373",
               "action": "objStyleSetProperty",
               "object": "wind_speed",
+              "objectType": "literal",
+              "property": "text_color",
+              "propertyType": "literal",
+              "value": "color",
+              "valueType": "expression",
+              "part": "MAIN",
+              "partType": "literal",
+              "state": "DEFAULT",
+              "stateType": "literal"
+            },
+            {
+              "objID": "95d83ff7-449f-4d87-d301-14f15e14fa84",
+              "action": "objStyleSetProperty",
+              "object": "mph",
               "objectType": "literal",
               "property": "text_color",
               "propertyType": "literal",
@@ -9409,38 +9585,6 @@
               "dafc5a0d-5e02-4673-9fa2-47fc5e3e34db": "output_color"
             }
           }
-        },
-        {
-          "objID": "6e0ae7dc-aae2-4581-e076-85576b636a4e",
-          "type": "LVGLActionComponent",
-          "left": 704,
-          "top": 619,
-          "width": 320,
-          "height": 53,
-          "customInputs": [
-            {
-              "objID": "d1510aaa-8ab2-4b40-fd84-0c1c4314a4d1",
-              "name": "color",
-              "type": "integer"
-            }
-          ],
-          "customOutputs": [],
-          "actions": [
-            {
-              "objID": "7b40fb18-227e-4efd-e9ad-776260e54cfa",
-              "action": "objStyleSetProperty",
-              "object": "mph",
-              "objectType": "literal",
-              "property": "text_color",
-              "propertyType": "literal",
-              "value": "color",
-              "valueType": "expression",
-              "part": "MAIN",
-              "partType": "literal",
-              "state": "DEFAULT",
-              "stateType": "literal"
-            }
-          ]
         }
       ],
       "connectionLines": [
@@ -9480,13 +9624,6 @@
           "input": "color"
         },
         {
-          "objID": "d8363183-8e75-4930-bac9-c4b60e3c0788",
-          "source": "32429c72-edbc-453b-ac64-0d9014b47b63",
-          "output": "output_color",
-          "target": "a2dc82db-a0d4-41b3-f33b-c07dc12b6701",
-          "input": "color"
-        },
-        {
           "objID": "d48ddf4e-59ec-4ddf-f275-60b268f2d71b",
           "source": "4808c593-7251-4ccd-8697-a72bdba356da",
           "output": "variable",
@@ -9519,13 +9656,6 @@
           "source": "cea5f5ed-5094-45ab-9e20-c0d34e5f66f3",
           "output": "output_color",
           "target": "c5661585-b2d8-4f89-91cb-b258303b5d73",
-          "input": "color"
-        },
-        {
-          "objID": "727720ae-5eaf-4038-87af-a62fa5007977",
-          "source": "cea5f5ed-5094-45ab-9e20-c0d34e5f66f3",
-          "output": "output_color",
-          "target": "6e0ae7dc-aae2-4581-e076-85576b636a4e",
           "input": "color"
         }
       ],
@@ -10383,45 +10513,13 @@
         {
           "objID": "007839b6-dda5-44fe-d78a-d76ec559b230",
           "type": "WatchVariableActionComponent",
-          "left": 63,
-          "top": 522,
+          "left": 56,
+          "top": 519,
           "width": 234,
           "height": 53,
           "customInputs": [],
           "customOutputs": [],
           "variable": "weather_hour.precip_chance"
-        },
-        {
-          "objID": "7edd19d3-7fa6-408b-cef5-d35857b8f8b1",
-          "type": "LVGLActionComponent",
-          "left": 849,
-          "top": 480,
-          "width": 326,
-          "height": 53,
-          "customInputs": [
-            {
-              "objID": "73402ca9-8b31-4ed7-c219-2345783ab56d",
-              "name": "color",
-              "type": "integer"
-            }
-          ],
-          "customOutputs": [],
-          "actions": [
-            {
-              "objID": "2a7147c5-7066-43dc-eaf5-2b2eef3aa8de",
-              "action": "objStyleSetProperty",
-              "object": "hour",
-              "objectType": "literal",
-              "property": "text_color",
-              "propertyType": "literal",
-              "value": "color",
-              "valueType": "expression",
-              "part": "MAIN",
-              "partType": "literal",
-              "state": "DEFAULT",
-              "stateType": "literal"
-            }
-          ]
         },
         {
           "objID": "dcbef022-82a8-4cf3-c4d7-edbcc90afb99",
@@ -10456,10 +10554,10 @@
         {
           "objID": "0d5368c8-3722-4b57-edb8-3c4e38c3ac87",
           "type": "LVGLActionComponent",
-          "left": 858,
-          "top": 558,
-          "width": 369,
-          "height": 53,
+          "left": 862,
+          "top": 519,
+          "width": 387,
+          "height": 70,
           "customInputs": [
             {
               "objID": "0acd2346-55f7-4893-b553-a89e4b4d5c51",
@@ -10482,18 +10580,25 @@
               "partType": "literal",
               "state": "DEFAULT",
               "stateType": "literal"
+            },
+            {
+              "objID": "3f25a4da-b7c8-4192-afb8-6353515cbc70",
+              "action": "objStyleSetProperty",
+              "object": "hour",
+              "objectType": "literal",
+              "property": "text_color",
+              "propertyType": "literal",
+              "value": "color",
+              "valueType": "expression",
+              "part": "MAIN",
+              "partType": "literal",
+              "state": "DEFAULT",
+              "stateType": "literal"
             }
           ]
         }
       ],
       "connectionLines": [
-        {
-          "objID": "68b3e561-5702-4c57-d74f-96de390b5eb1",
-          "source": "dcbef022-82a8-4cf3-c4d7-edbcc90afb99",
-          "output": "output_color",
-          "target": "7edd19d3-7fa6-408b-cef5-d35857b8f8b1",
-          "input": "color"
-        },
         {
           "objID": "3ea4bf87-2efb-423a-883f-bc9f0d303c3c",
           "source": "dcbef022-82a8-4cf3-c4d7-edbcc90afb99",
