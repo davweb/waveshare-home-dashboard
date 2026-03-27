@@ -2577,15 +2577,7 @@
                     "childStyles": []
                   },
                   "timeline": [],
-                  "eventHandlers": [
-                    {
-                      "objID": "a3b22df5-2dfd-484d-c4d2-52ec1686b4b9",
-                      "eventName": "CLICKED",
-                      "handlerType": "flow",
-                      "action": "Temperature To Color",
-                      "userData": 0
-                    }
-                  ],
+                  "eventHandlers": [],
                   "identifier": "Sun Widget",
                   "leftUnit": "px",
                   "topUnit": "px",
@@ -2971,7 +2963,7 @@
                           "widthUnit": "content",
                           "heightUnit": "content",
                           "children": [],
-                          "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+                          "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE|EVENT_BUBBLE",
                           "hiddenFlagType": "literal",
                           "clickableFlag": true,
                           "clickableFlagType": "literal",
@@ -3860,13 +3852,6 @@
         {
           "objID": "388dec55-970c-44bc-95a3-05cc3bb24e86",
           "source": "9dd04c57-eb6b-40f9-c90b-4ac963263c85",
-          "output": "CLICKED",
-          "target": "bd4ece19-b8d9-4a9c-8e47-16eec292e5c4",
-          "input": "@seqin"
-        },
-        {
-          "objID": "39f7d9a7-cf49-4b40-f745-0e4b827ad78b",
-          "source": "156da4cc-57aa-4655-973c-7e0bc736cefe",
           "output": "CLICKED",
           "target": "bd4ece19-b8d9-4a9c-8e47-16eec292e5c4",
           "input": "@seqin"
@@ -11097,7 +11082,7 @@
           "widthUnit": "content",
           "heightUnit": "content",
           "children": [],
-          "widgetFlags": "ADV_HITTEST|CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+          "widgetFlags": "ADV_HITTEST|CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE|EVENT_BUBBLE",
           "hiddenFlagType": "literal",
           "clickableFlagType": "literal",
           "flagScrollbarMode": "",
