@@ -155,7 +155,7 @@ static void fetchData() {
     }
 
     SunTimeValue sun;
-    sun.type(sun_data.event);
+    sun.is_sunrise(sun_data.is_sunrise);
     sun.time(sun_data.time);
 
     if (lvgl_port_lock(portMAX_DELAY)) {

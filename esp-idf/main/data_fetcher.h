@@ -22,7 +22,7 @@ struct BusData {
 };
 
 struct SunData {
-    char event[32];
+    bool is_sunrise;
     char time[16];
 };
 
@@ -83,7 +83,7 @@ inline bool fetch_dashboard_data(BusData &bus, SunData &sun, WeatherData &weathe
     }
 
     // Sun
-    strlcpy(sun.event, doc["weather"]["sun"]["event"] | "", sizeof(sun.event));
+    sun.is_sunrise = doc["weather"]["sun"]["is_sunrise"] | false;
     strlcpy(sun.time, doc["weather"]["sun"]["time"] | "", sizeof(sun.time));
 
     // Weather current

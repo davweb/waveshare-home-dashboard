@@ -3,100 +3,100 @@ sizes:
     size_px: 24
 
   - name: medium
-    size_px: 90
+    size_px: 80
 
   - name: large
     size_px: 144
 
 icons:
-  - output: bin.png
-    input: trash-can-outline.svg
+  - output: png/bin.png
+    input: bootstrap/trash.svg
     size: medium
 
-  - output: bus.png
-    input: bus.svg
+  - output: png/bus.png
+    input: bootstrap/bus-front.svg
     size: medium
 
-  - output: clear-day.png
-    input: weather-sunny.svg
+  - output: png/weather-clear-day.png
+    input: bootstrap/sun.svg
     size: medium
 
-  - output: clear-night.png
-    input: weather-night.svg
+  - output: png/weather-clear-night.png
+    input: bootstrap/moon-stars.svg
     size: medium
 
-  - output: cloudy.png
-    input: weather-cloudy.svg
+  - output: png/weather-cloudy.png
+    input: bootstrap/cloud.svg
     size: medium
 
-  - output: fog.png
-    input: weather-fog.svg
+  - output: png/weather-fog.png
+    input: bootstrap/cloud-fog.svg
     size: medium
 
-  - output: hail.png
-    input: weather-hail.svg
+  - output: png/weather-hail.png
+    input: bootstrap/cloud-hail.svg
     size: medium
 
-  - output: home.png
-    input: home.svg
+  - output: png/home.png
+    input: bootstrap/house-fill.svg
     size: medium
 
-  - output: no-data.png
-    input: earth-off.svg
+  - output: png/no-data.png
+    input: bootstrap/database-slash.svg
     size: large
 
-  - output: no-wifi.png
-    input: wifi-off.svg
+  - output: png/no-wifi.png
+    input: bootstrap/wifi-off.svg
     size: large
 
-  - output: none.png
-    input: help-box-outline.svg
+  - output: png/weather-none.png
+    input: bootstrap/question-square.svg
     size: medium
 
-  - output: partly-cloudy-day.png
-    input: weather-partly-cloudy.svg
+  - output: png/weather-partly-cloudy-day.png
+    input: bootstrap/cloud-sun.svg
     size: medium
 
-  - output: partly-cloudy-night.png
-    input: weather-night-partly-cloudy.svg
+  - output: png/weather-partly-cloudy-night.png
+    input: bootstrap/cloud-moon.svg
     size: medium
 
-  - output: rain.png
-    input: weather-rainy.svg
+  - output: png/weather-rain.png
+    input: bootstrap/cloud-rain.svg
     size: medium
 
-  - output: recycling.png
-    input: recycle.svg
+  - output: png/recycling.png
+    input: bootstrap/recycle.svg
     size: medium
 
-  - output: sleet.png
-    input: weather-snowy-rainy.svg
+  - output: png/weather-sleet.png
+    input: bootstrap/cloud-sleet.svg
     size: medium
 
-  - output: snow.png
-    input: weather-snowy.svg
+  - output: png/weather-snow.png
+    input: bootstrap/cloud-snow.svg
     size: medium
 
-  - output: sunrise.png
-    input: weather-sunset-up.svg
+  - output: png/sunrise.png
+    input: bootstrap/sunrise.svg
     size: medium
 
-  - output: sunset.png
-    input: weather-sunset-down.svg
+  - output: png/sunset.png
+    input: bootstrap/sunset.svg
     size: medium
 
-  - output: thunderstorm.png
-    input: weather-lightning.svg
+  - output: png/weather-thunderstorm.png
+    input: bootstrap/cloud-lightning.svg
     size: medium
 
-  - output: triangle-down.png
-    input: triangle-down.svg
+  - output: png/triangle-down.png
+    input: material/triangle-down.svg
     size: small
 
-  - output: triangle-up.png
-    input: triangle.svg
+  - output: png/triangle-up.png
+    input: material/triangle.svg
     size: small
 
-  - output: wind.png
-    input: weather-windy.svg
+  - output: png/weather-wind.png
+    input: bootstrap/wind.svg
     size: medium

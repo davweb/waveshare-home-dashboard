@@ -81,10 +81,10 @@ class WeatherDataSource(DataSource):
         now = datetime.now()
 
         if sunrise < now < sunset:
-            event_name = 'Sunset'
+            is_sunrise = False
             event_time = sunset
         else:
-            event_name = 'Sunrise'
+            is_sunrise = True
             event_time = sunrise
 
         hours = [
@@ -113,7 +113,7 @@ class WeatherDataSource(DataSource):
                 'precip_type': data['day']['precip_type'],
             },
             'sun': {
-                'event': event_name,
+                'is_sunrise': is_sunrise,
                 'time': event_time.strftime('%-H:%M')
             },
             'hours': hours,
