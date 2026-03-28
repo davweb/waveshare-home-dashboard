@@ -70,6 +70,24 @@ inline void format_short_date(char *buf, size_t buf_size, time_t epoch, time_t n
     }
 }
 
+// Formats a last-seen timestamp: within 24h → "H:MM" (e.g. "9:05"), older → "D Mon" (e.g. "23 Feb").
+// epoch=0 → empty string.
+inline void format_last_seen(char *buf, size_t buf_size, time_t epoch, time_t now) {
+    if (epoch == 0) {
+        buf[0] = '\0';
+        return;
+    }
+    struct tm t;
+    localtime_r(&epoch, &t);
+    if (now - epoch < 86400) {
+        snprintf(buf, buf_size, "%d:%02d", t.tm_hour, t.tm_min);
+    } else {
+        char month_abbr[8];
+        strftime(month_abbr, sizeof(month_abbr), "%b", &t);
+        snprintf(buf, buf_size, "%d %s", t.tm_mday, month_abbr);
+    }
+}
+
 // Formats a  lead time relative to now: "Today", "Tomorrow", or the number of days in the future (e.g. "3 days"). lead_epoch=0 → empty string.
 inline void format_lead_time(char *buf, size_t buf_size, time_t epoch, time_t now) {
     if (epoch == 0) {

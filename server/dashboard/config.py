@@ -15,6 +15,11 @@ def _get_arguments() -> argparse.Namespace:
     parser.add_argument('-l', '--lat-long', action='store', help='Latitude and Longitude for weather')
     parser.add_argument('-k', '--pirate-api-key', action='store', help='API Key for Pirate Weather')
     parser.add_argument('-r', '--recycling-calendar-url', action='store', help='URL for recycling collection calendar')
+    parser.add_argument('--unifi-url', action='store', help='Base URL of the UniFi controller (e.g. https://192.168.1.1)')
+    parser.add_argument('--unifi-username', action='store', help='UniFi controller username')
+    parser.add_argument('--unifi-password', action='store', help='UniFi controller password')
+    parser.add_argument('--unifi-site', action='store', help='UniFi site name (default: default)')
+    parser.add_argument('--unifi-client', action='append', help='Client to watch, format: mac=name')
 
     return parser.parse_args()
 
@@ -94,6 +99,65 @@ class Config:
             return os.environ['PIRATE_API_KEY']
 
         raise ValueError('No Pirate API Key provided')
+
+    @property
+    def unifi_url(self) -> str:
+        """Base URL of the UniFi controller (e.g. https://192.168.1.1)"""
+
+        if self._args.unifi_url:
+            return self._args.unifi_url
+
+        if 'UNIFI_URL' in os.environ:
+            return os.environ['UNIFI_URL']
+
+        raise ValueError('No UniFi controller URL provided')
+
+    @property
+    def unifi_username(self) -> str:
+
+        if self._args.unifi_username:
+            return self._args.unifi_username
+
+        if 'UNIFI_USERNAME' in os.environ:
+            return os.environ['UNIFI_USERNAME']
+
+        raise ValueError('No UniFi username provided')
+
+    @property
+    def unifi_password(self) -> str:
+
+        if self._args.unifi_password:
+            return self._args.unifi_password
+
+        if 'UNIFI_PASSWORD' in os.environ:
+            return os.environ['UNIFI_PASSWORD']
+
+        raise ValueError('No UniFi password provided')
+
+    @property
+    def unifi_site(self) -> str:
+
+        if self._args.unifi_site:
+            return self._args.unifi_site
+
+        if 'UNIFI_SITE' in os.environ:
+            return os.environ['UNIFI_SITE']
+
+        return 'default'
+
+    @property
+    def unifi_client_names(self) -> dict[str, str]:
+        """MAC-to-name mapping. Also defines which clients are watched."""
+
+        if self._args.unifi_client:
+            pairs = self._args.unifi_client
+        elif 'UNIFI_CLIENT_NAMES' in os.environ:
+            pairs = os.environ['UNIFI_CLIENT_NAMES'].split(',')
+        else:
+            return {}
+
+        result = dict(pair.split('=', 1) for pair in pairs if '=' in pair)
+        return {mac.strip().lower(): name for mac, name in result.items()}
 
     @property
     def log_level(self) -> int:

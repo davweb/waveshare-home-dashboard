@@ -96,8 +96,9 @@ static void fetchData() {
     static SunData sun_data;
     static WeatherData weather_data;
     static RecyclingData recycling_data;
+    static PresenceData presence_data;
 
-    if (!fetch_dashboard_data(g_bus_data, sun_data, weather_data, recycling_data)) {
+    if (!fetch_dashboard_data(g_bus_data, sun_data, weather_data, recycling_data, presence_data)) {
         ESP_LOGW(TAG, "Failed to get data from dashboard server.");
 
         if (lvgl_port_lock(portMAX_DELAY)) {
@@ -158,10 +159,20 @@ static void fetchData() {
     sun.is_sunrise(sun_data.is_sunrise);
     sun.time(sun_data.time);
 
+    ArrayOfPresenceValue presence(presence_data.num_people);
+    for (int i = 0; i < presence_data.num_people; i++) {
+        PresenceValue item;
+        item.name(presence_data.items[i].name);
+        item.connected(presence_data.items[i].connected);
+        item.last_seen(presence_data.items[i].last_seen);
+        presence.at(i, item);
+    }
+
     if (lvgl_port_lock(portMAX_DELAY)) {
         flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_WEATHER, weather);
         flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_SUN, sun);
         flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_RECYCLING, recycling);
+        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_PRESENCE, presence);
         flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_SERVER_CONNECTED, Value(true));
 
         lvgl_port_unlock();

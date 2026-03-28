@@ -10,6 +10,6 @@ idf.py -p /dev/cu.usbmodem* -B ${BUILD_DIR} flash
 
 # Put things back after the release build
 export SDKCONFIG_DEFAULTS="sdkconfig.defaults;sdkconfig.local"
-BUILD_DIR=build
+BUILD_DIR=build_cli
 
 idf.py -B ${BUILD_DIR} set-target esp32s3

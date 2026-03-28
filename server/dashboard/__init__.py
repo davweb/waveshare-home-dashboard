@@ -10,6 +10,7 @@ from typing import Any
 import schedule
 from . import oxontime
 from . import recycling
+from . import unifi
 from . import weather
 from .config import CONFIG
 
@@ -145,10 +146,27 @@ class RecyclingDataSource(DataSource):
         return schedule.every().day.at('00:00')
 
 
+class UnifiDataSource(DataSource):
+    """DataSource for network presence via UniFi controller"""
+
+    def get_name(self) -> str:
+        return 'presence'
+
+    def get_data(self) -> list[dict]:
+        return unifi.get_connected_macs()
+
+    def format_data(self, data: list[dict]) -> list[dict]:
+        return data
+
+    def get_schedule(self) -> schedule.Job:
+        return schedule.every(1).minutes
+
+
 DATA_SOURCES = [
     BusDataSource(),
     WeatherDataSource(),
-    RecyclingDataSource()
+    RecyclingDataSource(),
+    UnifiDataSource()
 ]
 DATA = {}
 

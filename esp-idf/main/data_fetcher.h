@@ -50,6 +50,20 @@ struct WeatherData {
     WeatherHourData hours[24];
 };
 
+#define PRESENCE_COUNT 5
+
+struct PresenceItemData {
+    char name[32];
+    bool connected;
+    time_t last_seen_epoch;
+    char last_seen[16];
+};
+
+struct PresenceData {
+    int num_people;
+    PresenceItemData items[PRESENCE_COUNT];
+};
+
 #define RECYCLING_COUNT 4
 
 struct RecyclingItemData {
@@ -65,7 +79,7 @@ struct RecyclingData {
     RecyclingItemData items[RECYCLING_COUNT];
 };
 
-inline bool fetch_dashboard_data(BusData &bus, SunData &sun, WeatherData &weather, RecyclingData &recycling) {
+inline bool fetch_dashboard_data(BusData &bus, SunData &sun, WeatherData &weather, RecyclingData &recycling, PresenceData &presence) {
     JsonDocument doc;
 
     if (!getJsonFromUrl(doc, CONFIG_DASHBOARD_SERVER_URL)) {
@@ -128,6 +142,16 @@ inline bool fetch_dashboard_data(BusData &bus, SunData &sun, WeatherData &weathe
             recycling.items[i].short_date[0] = '\0';
             recycling.items[i].lead_time[0] = '\0';
         }
+    }
+
+    // Presence
+    presence.num_people = doc["presence"].size();
+    if (presence.num_people > PRESENCE_COUNT) presence.num_people = PRESENCE_COUNT;
+    for (int i = 0; i < presence.num_people; i++) {
+        strlcpy(presence.items[i].name, doc["presence"][i]["name"] | "", sizeof(presence.items[i].name));
+        presence.items[i].connected = doc["presence"][i]["connected"] | false;
+        presence.items[i].last_seen_epoch = doc["presence"][i]["last_seen"] | 0L;
+        format_last_seen(presence.items[i].last_seen, sizeof(presence.items[i].last_seen), presence.items[i].last_seen_epoch, now);
     }
 
     return true;

@@ -29,6 +29,14 @@ icons:
     input: bootstrap/wifi-off.svg
     size: large
 
+  - output: png/person-in.png
+    input: bootstrap/person-fill.svg
+    size: medium
+
+  - output: png/person-out.png
+    input: bootstrap/person.svg
+    size: medium
+
   - output: png/recycling.png
     input: bootstrap/recycle.svg
     size: medium
