@@ -70,6 +70,15 @@ int main() {
     // Far past → empty string
     CHECK("far past → empty",       fmt(make_date(2025, 1,  1), test_date) == "");
 
+    // Month boundary → "21 days"
+    CHECK("month boundary → 21 days", fmt(make_date(2025, 7, 1), test_date) == "21 days");
+
+    // Year boundary: Dec 31 reference, target is Jan 1 → Tomorrow
+    CHECK("year boundary → Tomorrow", fmt(make_date(2026, 1, 1), make_date(2025, 12, 31)) == "Tomorrow");
+
+    // Large future date → "365 days"
+    CHECK("365 days → 365 days",    fmt(make_date(2026, 6, 10), test_date) == "365 days");
+
     printf("\n%d passed, %d failed\n", passed, failed);
     return failed > 0 ? 1 : 0;
 }
