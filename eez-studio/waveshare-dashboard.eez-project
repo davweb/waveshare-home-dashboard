@@ -6287,7 +6287,7 @@
                   "left": 0,
                   "top": 5,
                   "width": 100,
-                  "height": 59,
+                  "height": 39,
                   "customInputs": [],
                   "customOutputs": [],
                   "style": {
@@ -6318,7 +6318,7 @@
                     "definition": {
                       "MAIN": {
                         "DEFAULT": {
-                          "text_font": "INTER_48",
+                          "text_font": "INTER_32",
                           "text_align": "CENTER",
                           "text_color": "Secondary"
                         }
@@ -6336,9 +6336,9 @@
                   "objID": "352b4358-83db-40a5-b1a4-dfb3815a3243",
                   "type": "LVGLContainerWidget",
                   "left": 0,
-                  "top": 80,
+                  "top": 52,
                   "width": 100,
-                  "height": 400,
+                  "height": 428,
                   "customInputs": [],
                   "customOutputs": [],
                   "style": {
@@ -6360,7 +6360,7 @@
                       "left": 0,
                       "top": 0,
                       "width": 100,
-                      "height": 90,
+                      "height": 98,
                       "customInputs": [],
                       "customOutputs": [],
                       "style": {
@@ -6406,7 +6406,7 @@
                       "left": 0,
                       "top": 0,
                       "width": 100,
-                      "height": 90,
+                      "height": 98,
                       "customInputs": [],
                       "customOutputs": [],
                       "style": {
@@ -6452,7 +6452,7 @@
                       "left": 0,
                       "top": 0,
                       "width": 100,
-                      "height": 90,
+                      "height": 98,
                       "customInputs": [],
                       "customOutputs": [],
                       "style": {
@@ -6498,7 +6498,7 @@
                       "left": 0,
                       "top": 0,
                       "width": 100,
-                      "height": 90,
+                      "height": 98,
                       "customInputs": [],
                       "customOutputs": [],
                       "style": {
@@ -6558,7 +6558,8 @@
                           "layout": "FLEX",
                           "flex_flow": "COLUMN",
                           "pad_left": 10,
-                          "pad_right": 10
+                          "pad_right": 10,
+                          "pad_row": 9
                         }
                       }
                     }
@@ -11133,7 +11134,7 @@
           "left": 0,
           "top": 0,
           "width": 100,
-          "height": 90,
+          "height": 98,
           "customInputs": [],
           "customOutputs": [],
           "style": {
@@ -11152,8 +11153,8 @@
             {
               "objID": "a7dc99cf-9347-43e0-c0c4-6037fe30f26b",
               "type": "LVGLUserWidgetWidget",
-              "left": 15,
-              "top": 5,
+              "left": 18,
+              "top": 12,
               "width": 80,
               "height": 80,
               "customInputs": [],
@@ -11168,8 +11169,8 @@
               "eventHandlers": [],
               "leftUnit": "px",
               "topUnit": "px",
-              "widthUnit": "content",
-              "heightUnit": "content",
+              "widthUnit": "px",
+              "heightUnit": "px",
               "children": [],
               "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
               "hiddenFlagType": "literal",
@@ -11198,8 +11199,8 @@
             {
               "objID": "d3464f75-4359-4b86-8e8d-b1f83a90a3ba",
               "type": "LVGLLabelWidget",
-              "left": 110,
-              "top": 9,
+              "left": 117,
+              "top": 13,
               "width": 329,
               "height": 39,
               "customInputs": [],
@@ -11250,8 +11251,8 @@
             {
               "objID": "99596378-84e0-4a37-cf08-1da12eee0542",
               "type": "LVGLContainerWidget",
-              "left": 110,
-              "top": 50,
+              "left": 118,
+              "top": 56,
               "width": 300,
               "height": 34,
               "customInputs": [],
