@@ -7143,10 +7143,10 @@
                     "definition": {
                       "MAIN": {
                         "DEFAULT": {
-                          "grid_cell_column_pos": 3,
+                          "grid_cell_column_pos": 0,
                           "grid_cell_column_span": 1,
                           "grid_cell_x_align": "STRETCH",
-                          "grid_cell_row_pos": 0,
+                          "grid_cell_row_pos": 1,
                           "grid_cell_row_span": 1,
                           "grid_cell_y_align": "STRETCH"
                         }
@@ -7201,10 +7201,10 @@
                     "definition": {
                       "MAIN": {
                         "DEFAULT": {
-                          "grid_cell_column_pos": 4,
+                          "grid_cell_column_pos": 1,
                           "grid_cell_column_span": 1,
                           "grid_cell_x_align": "STRETCH",
-                          "grid_cell_row_pos": 0,
+                          "grid_cell_row_pos": 1,
                           "grid_cell_row_span": 1,
                           "grid_cell_y_align": "STRETCH"
                         }
@@ -7240,10 +7240,11 @@
                     "DEFAULT": {
                       "bg_opa": 255,
                       "grid_row_dsc_array": "FR(1),FR(1)",
-                      "grid_column_dsc_array": "FR(1),FR(1),FR(1),FR(1),FR(1)",
+                      "grid_column_dsc_array": "FR(1),FR(1),FR(1)",
                       "bg_color": "Main Background",
                       "pad_column": 0,
-                      "layout": "GRID"
+                      "layout": "GRID",
+                      "pad_row": 0
                     }
                   }
                 }
@@ -11862,7 +11863,7 @@
                   "left": 0,
                   "top": 90,
                   "width": 100,
-                  "height": 68,
+                  "height": 66,
                   "customInputs": [],
                   "customOutputs": [],
                   "style": {
@@ -11894,7 +11895,7 @@
                       "MAIN": {
                         "DEFAULT": {
                           "text_color": "Primary",
-                          "text_font": "INTER_24",
+                          "text_font": "INTER_36",
                           "text_align": "CENTER",
                           "flex_grow": 1
                         }
@@ -11914,8 +11915,8 @@
                   "type": "LVGLLabelWidget",
                   "left": 25,
                   "top": 180,
-                  "width": 73,
-                  "height": 20,
+                  "width": 95,
+                  "height": 24,
                   "customInputs": [],
                   "customOutputs": [],
                   "style": {
@@ -11932,8 +11933,8 @@
                   "heightUnit": "content",
                   "children": [],
                   "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
-                  "hiddenFlag": "presence.connected == true",
-                  "hiddenFlagType": "expression",
+                  "hiddenFlag": "",
+                  "hiddenFlagType": "literal",
                   "clickableFlagType": "literal",
                   "flagScrollbarMode": "",
                   "flagScrollDirection": "",
@@ -11947,7 +11948,7 @@
                     "definition": {
                       "MAIN": {
                         "DEFAULT": {
-                          "text_font": "INTER_16",
+                          "text_font": "INTER_20",
                           "text_color": "Secondary"
                         }
                       }
@@ -11955,18 +11956,19 @@
                   },
                   "group": "",
                   "groupIndex": 0,
-                  "text": "Last Seen",
-                  "textType": "literal",
+                  "text": "presence.connected ? \"At Home\" : \"Last Seen\"",
+                  "textType": "expression",
                   "longMode": "WRAP",
-                  "recolor": false
+                  "recolor": false,
+                  "previewValue": "Last Seen"
                 },
                 {
                   "objID": "03119818-a641-4b85-e6a9-500d475f118b",
                   "type": "LVGLLabelWidget",
                   "left": 25,
                   "top": 180,
-                  "width": 41,
-                  "height": 30,
+                  "width": 49,
+                  "height": 24,
                   "customInputs": [],
                   "customOutputs": [],
                   "style": {
@@ -11984,7 +11986,7 @@
                   "heightUnit": "content",
                   "children": [],
                   "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
-                  "hiddenFlag": "presence.connected == true",
+                  "hiddenFlag": "presence.connected",
                   "hiddenFlagType": "expression",
                   "clickableFlagType": "literal",
                   "flagScrollbarMode": "",
@@ -11999,9 +12001,8 @@
                     "definition": {
                       "MAIN": {
                         "DEFAULT": {
-                          "text_font": "INTER_16",
-                          "text_color": "Primary",
-                          "pad_bottom": 10
+                          "text_font": "INTER_20",
+                          "text_color": "Primary"
                         }
                       }
                     }
@@ -12037,7 +12038,9 @@
                       "layout": "FLEX",
                       "flex_flow": "COLUMN",
                       "flex_cross_place": "CENTER",
-                      "pad_row": 4
+                      "pad_row": 0,
+                      "pad_bottom": 25,
+                      "pad_top": 10
                     }
                   }
                 }
@@ -12062,10 +12065,10 @@
             "definition": {
               "MAIN": {
                 "DEFAULT": {
-                  "pad_top": 10,
+                  "pad_top": 5,
                   "pad_left": 5,
                   "pad_right": 5,
-                  "pad_bottom": 10
+                  "pad_bottom": 5
                 }
               }
             }
@@ -12207,8 +12210,8 @@
       "name": "PresenceWidget",
       "left": 0,
       "top": 0,
-      "width": 130,
-      "height": 240,
+      "width": 230,
+      "height": 249,
       "isUsedAsUserWidget": true,
       "createAtStart": true,
       "deleteOnScreenUnload": false

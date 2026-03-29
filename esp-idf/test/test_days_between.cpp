@@ -73,6 +73,9 @@ int main() {
     CHECK("365 days apart",
         days_between(make_time(2026, 1, 1), make_time(2025, 1, 1)) == 365);
 
+    CHECK("DST Boundary",
+        days_between(make_time(2026, 3, 29, 9, 13, 59), make_time(2026, 3, 27, 17, 13, 0)) == 2);
+
     printf("\n%d passed, %d failed\n", passed, failed);
     return failed > 0 ? 1 : 0;
 }

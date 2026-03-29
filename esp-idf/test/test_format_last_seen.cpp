@@ -37,33 +37,42 @@ static std::string fmt(time_t epoch, time_t now) {
 }
 
 int main() {
-    setlocale(LC_TIME, "C"); // ensure English month names
+    setlocale(LC_TIME, "C"); // ensure English day/month names
 
-    // Fixed reference: 2025-06-10 15:00
-    time_t now = make_datetime(2025, 6, 10, 15, 0);
+    // Fixed reference: 2025-06-10 15:00 (Tuesday)
+    time_t now = make_datetime(2025, 6, 10, 23, 0);
 
     printf("format_last_seen tests\n");
 
     // epoch == 0 → empty string
-    CHECK("epoch 0 → empty",                fmt(0, now) == "");
+    CHECK("epoch 0 → empty",                     fmt(0, now) == "");
 
-    // Within 24h → H:MM (no leading zero on hour, leading zero on minute)
+    // Same calendar day → H:MM
     CHECK("single-digit hour, zero min → 9:00",  fmt(make_datetime(2025, 6, 10,  9,  0), now) == "9:00");
     CHECK("single-digit hour, non-zero min → 9:05", fmt(make_datetime(2025, 6, 10, 9, 5), now) == "9:05");
-    CHECK("double-digit hour → 12:30",       fmt(make_datetime(2025, 6, 10, 12, 30), now) == "12:30");
-    CHECK("midnight → 0:00",                 fmt(make_datetime(2025, 6, 10,  0,  0), now) == "0:00");
-    CHECK("just before 24h boundary → time", fmt(now - 86399, now).find(":") != std::string::npos);
+    CHECK("double-digit hour → 12:30",           fmt(make_datetime(2025, 6, 10, 12, 30), now) == "12:30");
+    CHECK("midnight today → 0:00",               fmt(make_datetime(2025, 6, 10,  0,  0), now) == "0:00");
 
-    // Exactly 24h ago → date (now - epoch == 86400, not < 86400)
-    CHECK("exactly 24h ago → date",          fmt(now - 86400, now).find(":") == std::string::npos);
+    // Calendar-day boundary: 23:59 yesterday is a different calendar day even if <1h ago
+    CHECK("23:59 yesterday → Yesterday",         fmt(make_datetime(2025, 6,  9, 23, 59), now) == "Yesterday");
 
-    // Older than 24h → D Mon (no leading zero on day)
-    CHECK("yesterday → 9 Jun",               fmt(make_datetime(2025, 6,  9, 12,  0), now) == "9 Jun");
-    CHECK("single-digit day → 3 Jun",        fmt(make_datetime(2025, 6,  3, 12,  0), now) == "3 Jun");
-    CHECK("double-digit day → 10 May",       fmt(make_datetime(2025, 5, 10, 12,  0), now) == "10 May");
-    CHECK("month boundary → 31 May",         fmt(make_datetime(2025, 5, 31, 12,  0), now) == "31 May");
-    CHECK("far past → 1 Jan",                fmt(make_datetime(2025, 1,  1, 12,  0), now) == "1 Jan");
-    CHECK("year boundary → 31 Dec",          fmt(make_datetime(2024, 12, 31, 12,  0), now) == "31 Dec");
+    // Yesterday
+    CHECK("yesterday midday → Yesterday",        fmt(make_datetime(2025, 6,  9, 12,  0), now) == "Yesterday");
+
+    // 2–7 days ago → Weekday (now is Tuesday 2025-06-10)
+    CHECK("2 days ago → Sunday",            fmt(make_datetime(2025, 6,  8, 0,  1), now) == "Sunday");
+    CHECK("2 days ago → Sunday",            fmt(make_datetime(2025, 6,  8, 23,  59), now) == "Sunday");
+
+    CHECK("3 days ago → Saturday",          fmt(make_datetime(2025, 6,  7, 12,  0), now) == "Saturday");
+    CHECK("6 days ago → Wednesday",         fmt(make_datetime(2025, 6,  4, 12,  0), now) == "Wednesday");
+    CHECK("7 days ago → Tuesday",           fmt(make_datetime(2025, 6,  3, 12,  0), now) == "Tuesday");
+
+    // >7 days ago → D Mon
+    CHECK("8 days ago → 2 Jun",                  fmt(make_datetime(2025, 6,  2, 12,  0), now) == "2 Jun");
+    CHECK("single-digit day → 1 Jun",            fmt(make_datetime(2025, 6,  1, 12,  0), now) == "1 Jun");
+    CHECK("double-digit day → 10 May",           fmt(make_datetime(2025, 5, 10, 12,  0), now) == "10 May");
+    CHECK("far past → 1 Jan",                    fmt(make_datetime(2025, 1,  1, 12,  0), now) == "1 Jan");
+    CHECK("year boundary → 31 Dec",              fmt(make_datetime(2024, 12, 31, 12,  0), now) == "31 Dec");
 
     printf("\n%d passed, %d failed\n", passed, failed);
     return failed > 0 ? 1 : 0;

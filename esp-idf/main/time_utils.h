@@ -41,8 +41,8 @@ inline int days_between(time_t a, time_t b) {
     struct tm a_midnight, b_midnight;
     localtime_r(&a, &a_midnight);
     localtime_r(&b, &b_midnight);
-    a_midnight.tm_hour = 0; a_midnight.tm_min = 0; a_midnight.tm_sec = 0;
-    b_midnight.tm_hour = 0; b_midnight.tm_min = 0; b_midnight.tm_sec = 0;
+    a_midnight.tm_hour = 0; a_midnight.tm_min = 0; a_midnight.tm_sec = 0; a_midnight.tm_isdst = -1;
+    b_midnight.tm_hour = 0; b_midnight.tm_min = 0; b_midnight.tm_sec = 0; b_midnight.tm_isdst = -1;
     return (int)((mktime(&a_midnight) - mktime(&b_midnight)) / 86400);
 }
 
@@ -70,17 +70,26 @@ inline void format_short_date(char *buf, size_t buf_size, time_t epoch, time_t n
     }
 }
 
-// Formats a last-seen timestamp: within 24h → "H:MM" (e.g. "9:05"), older → "D Mon" (e.g. "23 Feb").
+// Formats a last-seen timestamp:
+//   same calendar day       → "H:MM"         e.g. "19:34"
+//   1 calendar day ago      → "Yesterday"
+//   2–7 calendar days ago   → "Last Weekday"  e.g. "Last Wednesday"
+//   >7 calendar days ago    → "D Mon"         e.g. "24 Mar"
 // epoch=0 → empty string.
 inline void format_last_seen(char *buf, size_t buf_size, time_t epoch, time_t now) {
     if (epoch == 0) {
         buf[0] = '\0';
         return;
     }
+    int days_ago = -days_between(epoch, now);
     struct tm t;
     localtime_r(&epoch, &t);
-    if (now - epoch < 86400) {
+    if (days_ago == 0) {
         snprintf(buf, buf_size, "%d:%02d", t.tm_hour, t.tm_min);
+    } else if (days_ago == 1) {
+        strlcpy(buf, "Yesterday", buf_size);
+    } else if (days_ago >= 2 && days_ago <= 7) {
+        strftime(buf, buf_size, "%A", &t);
     } else {
         char month_abbr[8];
         strftime(month_abbr, sizeof(month_abbr), "%b", &t);
