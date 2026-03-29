@@ -7581,7 +7581,7 @@
                           "MAIN": {
                             "DEFAULT": {
                               "radius": 15,
-                              "bg_color": "Card Background",
+                              "bg_color": "Menu Background",
                               "bg_opa": 255,
                               "border_color": "Accent",
                               "border_width": 2
@@ -7811,7 +7811,7 @@
                           "MAIN": {
                             "DEFAULT": {
                               "radius": 15,
-                              "bg_color": "Card Background",
+                              "bg_color": "Menu Background",
                               "bg_opa": 255,
                               "border_width": 2,
                               "border_color": "Accent"
@@ -8033,7 +8033,7 @@
                           "MAIN": {
                             "DEFAULT": {
                               "radius": 15,
-                              "bg_color": "Card Background",
+                              "bg_color": "Menu Background",
                               "bg_opa": 255,
                               "border_color": "Accent",
                               "border_width": 2
@@ -8263,7 +8263,7 @@
                           "MAIN": {
                             "DEFAULT": {
                               "radius": 15,
-                              "bg_color": "Card Background",
+                              "bg_color": "Menu Background",
                               "bg_opa": 255,
                               "border_color": "Accent",
                               "border_width": 2
@@ -8493,7 +8493,7 @@
                           "MAIN": {
                             "DEFAULT": {
                               "radius": 15,
-                              "bg_color": "Card Background",
+                              "bg_color": "Menu Background",
                               "bg_opa": 255,
                               "border_color": "Accent",
                               "border_width": 2
@@ -8723,7 +8723,7 @@
                           "MAIN": {
                             "DEFAULT": {
                               "radius": 15,
-                              "bg_color": "Card Background",
+                              "bg_color": "Menu Background",
                               "bg_opa": 255,
                               "border_color": "Accent",
                               "border_width": 2
@@ -14687,6 +14687,10 @@
     {
       "objID": "149b2234-ee3b-4988-c815-4aa7bea3cacd",
       "name": "Inactive"
+    },
+    {
+      "objID": "7732ecae-0727-4c74-86f0-dc59a2923679",
+      "name": "Menu Background"
     }
   ],
   "themes": [
@@ -14705,7 +14709,8 @@
         "#ff3b3b",
         "#52c4a0",
         "#b0b8c1",
-        "#555555"
+        "#555555",
+        "#1e1e1e"
       ]
     }
   ]
