@@ -1,14 +1,15 @@
 """Fetch bus time by scraping https://oxontime.com/"""
 
-from datetime import datetime
+from datetime import datetime, timezone
 from functools import cache
 import json
 import requests
-from dateutil import parser
+from dateutil import parser, tz
 from .config import CONFIG
 
-LOCATIONS_URL = 'https://oxontime.com/pwi/getShareLocations'
-TIMES_URL = 'https://oxontime.com/pwi/departureBoard/{}'
+_LONDON_TZ = tz.gettz('Europe/London')
+_LOCATIONS_URL = 'https://oxontime.com/pwi/getShareLocations'
+_TIMES_URL = 'https://oxontime.com/pwi/departureBoard/{}'
 
 
 @cache
@@ -18,7 +19,7 @@ def _bus_stop_name(bus_stop_id) -> str:
     if bus_stop_id in overrides:
         return overrides[bus_stop_id]
 
-    page = requests.get(LOCATIONS_URL, timeout=60)
+    page = requests.get(_LOCATIONS_URL, timeout=60)
     locations = json.loads(page.content)
 
     for location in locations:
@@ -28,10 +29,17 @@ def _bus_stop_name(bus_stop_id) -> str:
     return f'Bus Stop {bus_stop_id}'
 
 
+def _to_utc(time_str: str) -> datetime:
+    dt = parser.parse(time_str)
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=_LONDON_TZ)
+    return dt.astimezone(timezone.utc)
+
+
 def _bus_details(bus) -> tuple[str, str, datetime]:
     route = bus['route_code']
     destination = bus['destination']
-    departure_time = parser.parse(bus['expected_arrival_time'] or bus['aimed_arrival_time'])
+    departure_time = _to_utc(bus['expected_arrival_time'] or bus['aimed_arrival_time'])
 
     return (route, destination, departure_time)
 
@@ -39,12 +47,12 @@ def _bus_details(bus) -> tuple[str, str, datetime]:
 def extract_bus_information(bus_stop_id) -> tuple[str, datetime, list[tuple[str, str, datetime]]]:
     """Download bus time information page and return the data"""
 
-    url = TIMES_URL.format(bus_stop_id)
+    url = _TIMES_URL.format(bus_stop_id)
     page = requests.get(url, timeout=60)
     data = json.loads(page.content)[bus_stop_id]
 
     stop_name = _bus_stop_name(bus_stop_id)
-    refresh_time = parser.parse(data['time'])
+    refresh_time = _to_utc(data['time'])
     buses = [_bus_details(bus) for bus in data['calls']]
 
     return (stop_name, refresh_time, buses)
