@@ -55,7 +55,6 @@ struct WeatherData {
 struct PresenceItemData {
     char name[32];
     bool connected;
-    time_t last_seen_epoch;
     char last_seen[16];
 };
 
@@ -150,8 +149,12 @@ inline bool fetch_dashboard_data(BusData &bus, SunData &sun, WeatherData &weathe
     for (int i = 0; i < presence.num_people; i++) {
         strlcpy(presence.items[i].name, doc["presence"][i]["name"] | "", sizeof(presence.items[i].name));
         presence.items[i].connected = doc["presence"][i]["connected"] | false;
-        presence.items[i].last_seen_epoch = doc["presence"][i]["last_seen"] | 0L;
-        format_last_seen(presence.items[i].last_seen, sizeof(presence.items[i].last_seen), presence.items[i].last_seen_epoch, now);
+
+        if (presence.items[i].connected) {
+            presence.items[i].last_seen[0] = '\0';
+        } else {
+            format_last_seen(presence.items[i].last_seen, sizeof(presence.items[i].last_seen), doc["presence"][i]["last_seen"] | 0L, now);
+        }
     }
 
     return true;

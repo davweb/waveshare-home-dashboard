@@ -21,6 +21,10 @@ icons:
     input: bootstrap/house-fill.svg
     size: medium
 
+  - output: png/menu.png
+    input: bootstrap/three-dots.svg
+    size: medium
+
   - output: png/no-data.png
     input: bootstrap/database-slash.svg
     size: large
@@ -39,6 +43,10 @@ icons:
 
   - output: png/recycling.png
     input: bootstrap/recycle.svg
+    size: medium
+
+  - output: png/sleep.png
+    input: bootstrap/power.svg
     size: medium
 
   - output: png/sunrise.png
