@@ -1,6 +1,6 @@
 """Server for Inkplate Dashboard"""
 
-from http.server import HTTPServer, BaseHTTPRequestHandler
+from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 import json
 import logging
 from . import get_data, initialise_data_fetching
@@ -35,7 +35,8 @@ def configure_logging() -> None:
 
 def start_web_server() -> None:
     """Start the webserver listening on the required port"""
-    server = HTTPServer(('', CONFIG.port), DashboardHandler)
+    server = ThreadingHTTPServer(('', CONFIG.port), DashboardHandler)
+    server.timeout = 10
     server.serve_forever()
 
 
