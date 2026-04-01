@@ -13,5 +13,11 @@ add_compile_definitions(
     EEZ_PLATFORM_ESP32
 )
 
+## Firmware version — embedded in the binary via esp_app_desc_t.
+## Override from release.sh via: idf.py -DPROJECT_VER="..."
+if(NOT DEFINED PROJECT_VER)
+    set(PROJECT_VER "dev")
+endif()
+
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 project(waveshare_dashboard)

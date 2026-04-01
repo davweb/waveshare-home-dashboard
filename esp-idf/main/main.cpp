@@ -10,6 +10,7 @@
 #include <ClockTools.h>
 #include <HttpTools.h>
 #include <HttpServer.h>
+#include <OtaUpdate.h>
 #include <ui.h>
 #include <vars.h>
 #include <structs.h>
@@ -24,6 +25,47 @@
 static const char *TAG = "main";
 
 using namespace esp_panel::drivers;
+
+// ---------------------------------------------------------------------------
+// OTA hooks — implement bodies here to wire events into EEZ Flow later
+// ---------------------------------------------------------------------------
+
+static void on_ota_start(const char *new_version)
+{
+    ESP_LOGI(TAG, "OTA update starting: new version %s", new_version);
+
+    if (lvgl_port_lock(portMAX_DELAY)) {
+        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_FIRMWARE_PROGRESS, Value(0));
+        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_STATE, SystemState_FIRMWARE_UPDATE);
+        lvgl_port_unlock();
+    }
+    else {
+        ESP_LOGE(TAG, "Failed to lock LVGL mutex to show firmware update screen");
+    }
+}
+
+static void on_ota_progress(int percent)
+{
+    ESP_LOGI(TAG, "OTA progress: %d%%", percent);
+    flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_FIRMWARE_PROGRESS, Value(percent));
+}
+
+static void on_ota_complete(bool success, const char *message)
+{
+    if (success) {
+        ESP_LOGI(TAG, "OTA complete (%s) — rebooting", message);
+    } else {
+        ESP_LOGE(TAG, "OTA failed: %s", message);
+    }
+
+    if (lvgl_port_lock(portMAX_DELAY)) {
+        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_STATE, SystemState_RUNNING);
+        lvgl_port_unlock();
+    }
+    else {
+        ESP_LOGE(TAG, "Failed to lock LVGL mutex to dismiss firmware update screen");
+    }
+}
 
 static BusData g_bus_data;
 Board *g_panel;
@@ -102,7 +144,7 @@ static void fetchData() {
         ESP_LOGW(TAG, "Failed to get data from dashboard server.");
 
         if (lvgl_port_lock(portMAX_DELAY)) {
-            flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_SERVER_CONNECTED, Value(false));
+            flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_STATE, SystemState_NO_DATA);
             lvgl_port_unlock();
         }
         else {
@@ -173,7 +215,7 @@ static void fetchData() {
         flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_SUN, sun);
         flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_RECYCLING, recycling);
         flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_PRESENCE, presence);
-        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_SERVER_CONNECTED, Value(true));
+        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_STATE, SystemState_RUNNING);
 
         lvgl_port_unlock();
     }
@@ -201,6 +243,8 @@ extern "C" void app_main(void)
     startWiFi();
     startHttpServer();
 
+    ota_set_callbacks(on_ota_start, on_ota_progress, on_ota_complete);
+
     ui_init();
     lvgl_port_set_ui_tick_cb(ui_tick);
     lvgl_port_unlock();
@@ -210,6 +254,8 @@ extern "C" void app_main(void)
     static uint64_t lastFetchTime = 0;
     static uint64_t recalculateInterval = 5000; // Recalculate due times every 5 seconds
     static uint64_t lastRecalculateTime = 0;
+    static uint64_t otaCheckInterval = 5 * 60 * 1000; // Check for OTA updates every 5 minutes
+    static uint64_t lastOtaCheckTime  = 0;
 
     while (true) {
         uint64_t currentTime = esp_timer_get_time() / 1000ULL;
@@ -220,7 +266,7 @@ extern "C" void app_main(void)
                 ESP_LOGW(TAG, "WiFi Disconnected");
 
                 if (lvgl_port_lock(portMAX_DELAY)) {
-                    flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_WIFI_CONNECTED, Value(false));
+                    flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_STATE, SystemState_NO_WIFI);
                     lvgl_port_unlock();
                     prevWifiConnected = false;
                 }
@@ -247,6 +293,14 @@ extern "C" void app_main(void)
             else if (currentTime - lastRecalculateTime >= recalculateInterval) {
                 lastRecalculateTime = currentTime;
                 recalculateDueTimes();
+            }
+
+            // OTA check — runs on first WiFi connect, then every CONFIG_OTA_CHECK_INTERVAL_MINUTES
+            if (lastOtaCheckTime == 0 || (currentTime - lastOtaCheckTime >= otaCheckInterval)) {
+                lastOtaCheckTime = currentTime;
+                ota_check_and_update(CONFIG_DASHBOARD_SERVER_URL);
+                // If an update was applied the device reboots inside ota_check_and_update;
+                // reaching here means no update was needed or the check failed.
             }
         }
 

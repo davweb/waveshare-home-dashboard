@@ -176,6 +176,20 @@
         "defaultValue": "[\n    {\n      name: \"Daisy\",\n      connected: true,\n      last_seen: \"\"\n    },\n    {\n      name: \"Dave\",\n      connected: true,\n      last_seen: \"\"\n    },\n    {\n      name: \"Jack\",\n      connected: false,\n      last_seen: \"15:43\"\n    },\n    {\n      name: \"Toby\",\n      connected: true,\n      last_seen: \"\"\n    },\n    {\n      name: \"Vicky\",\n      connected: true,\n      last_seen: \"\"\n    }\n]",
         "persistent": false,
         "native": false
+      },
+      {
+        "objID": "f71889b5-4bfe-4f40-81fe-88495a8060e5",
+        "name": "state",
+        "type": "enum:SystemState",
+        "defaultValue": "SystemState.NO_WIFI",
+        "persistent": false
+      },
+      {
+        "objID": "ac0e24ec-f880-48c6-b24c-cacc8ea514b4",
+        "name": "firmware_progress",
+        "type": "integer",
+        "defaultValue": "0",
+        "persistent": false
       }
     ],
     "structures": [
@@ -481,6 +495,32 @@
             "automaticValue": true
           }
         ]
+      },
+      {
+        "objID": "c3651e53-42c9-46c9-9329-779573f39426",
+        "name": "SystemState",
+        "members": [
+          {
+            "objID": "8f013614-fd12-4098-bd1d-63bb9586293d",
+            "name": "FIRMWARE_UPDATE",
+            "automaticValue": true
+          },
+          {
+            "objID": "249bd641-fb26-419a-862b-15a2b3aba445",
+            "name": "NO_WIFI",
+            "automaticValue": true
+          },
+          {
+            "objID": "85d1a5ec-641b-49f2-c392-792a8dfa8117",
+            "name": "NO_DATA",
+            "automaticValue": true
+          },
+          {
+            "objID": "c7036a37-2bcb-4d61-c412-6d1b2f76721a",
+            "name": "RUNNING",
+            "automaticValue": true
+          }
+        ]
       }
     ]
   },
@@ -653,7 +693,7 @@
             {
               "objID": "1cb53aa6-c445-4100-8cbd-0caa8fb15528",
               "type": "LVGLLabelWidget",
-              "left": 178,
+              "left": 0,
               "top": 122,
               "width": 427,
               "height": 59,
@@ -687,7 +727,8 @@
                 "definition": {
                   "MAIN": {
                     "DEFAULT": {
-                      "text_font": "INTER_48"
+                      "text_font": "INTER_48",
+                      "align": "TOP_MID"
                     }
                   }
                 }
@@ -702,7 +743,7 @@
             {
               "objID": "0ebead21-71a6-4f31-ccfe-1cc2d40fa34c",
               "type": "LVGLImageWidget",
-              "left": 323,
+              "left": 0,
               "top": 214,
               "width": 144,
               "height": 144,
@@ -732,7 +773,14 @@
               "disabledStateType": "literal",
               "states": "",
               "localStyles": {
-                "objID": "0fd3da5d-019f-46fb-a45e-d49779e2a700"
+                "objID": "0fd3da5d-019f-46fb-a45e-d49779e2a700",
+                "definition": {
+                  "MAIN": {
+                    "DEFAULT": {
+                      "align": "TOP_MID"
+                    }
+                  }
+                }
               },
               "group": "",
               "groupIndex": 0,
@@ -816,128 +864,6 @@
           "groupIndex": 0
         },
         {
-          "objID": "42b705f7-dfa9-4680-e9c7-792624b836ba",
-          "type": "IsTrueActionComponent",
-          "left": 464,
-          "top": -189,
-          "width": 134,
-          "height": 68,
-          "customInputs": [],
-          "customOutputs": [],
-          "value": "wifi_connected"
-        },
-        {
-          "objID": "94e86509-828f-40ba-d625-d3bb867d717d",
-          "type": "LVGLActionComponent",
-          "left": 983,
-          "top": -284,
-          "width": 298,
-          "height": 53,
-          "customInputs": [],
-          "customOutputs": [],
-          "actions": [
-            {
-              "objID": "2ff450e7-d838-482f-cf89-87cd7e0c6a04",
-              "action": "changeScreen",
-              "screen": "Dashboard",
-              "screenType": "literal",
-              "fadeMode": "NONE",
-              "fadeModeType": "literal",
-              "speed": 200,
-              "speedType": "literal",
-              "delay": 0,
-              "delayType": "literal",
-              "useStack": true,
-              "useStackType": "literal"
-            }
-          ]
-        },
-        {
-          "objID": "10614476-ff7c-42ad-e1b3-2c81f3043c92",
-          "type": "LVGLActionComponent",
-          "left": 722,
-          "top": -66,
-          "width": 286,
-          "height": 53,
-          "customInputs": [],
-          "customOutputs": [],
-          "actions": [
-            {
-              "objID": "9ee02546-ff93-485b-c0a2-9d2343e82066",
-              "action": "changeScreen",
-              "screen": "No Wifi",
-              "screenType": "literal",
-              "fadeMode": "NONE",
-              "fadeModeType": "literal",
-              "speed": 200,
-              "speedType": "literal",
-              "delay": 0,
-              "delayType": "literal",
-              "useStack": true,
-              "useStackType": "literal"
-            }
-          ]
-        },
-        {
-          "objID": "a9b03ea1-39a3-4846-d4b9-3c3d668dedda",
-          "type": "WatchVariableActionComponent",
-          "left": 166,
-          "top": -278,
-          "width": 160,
-          "height": 53,
-          "customInputs": [],
-          "customOutputs": [],
-          "variable": "wifi_connected"
-        },
-        {
-          "objID": "6dfdef57-3033-4ca4-afb9-10185297bff4",
-          "type": "IsTrueActionComponent",
-          "left": 718,
-          "top": -252,
-          "width": 147,
-          "height": 68,
-          "customInputs": [],
-          "customOutputs": [],
-          "value": "server_connected"
-        },
-        {
-          "objID": "3263c799-734f-41b5-dcfb-d91578540e15",
-          "type": "LVGLActionComponent",
-          "left": 981,
-          "top": -154,
-          "width": 286,
-          "height": 53,
-          "customInputs": [],
-          "customOutputs": [],
-          "actions": [
-            {
-              "objID": "c40e8169-2534-43d5-a27d-104a66aa8c2c",
-              "action": "changeScreen",
-              "screen": "No Data",
-              "screenType": "literal",
-              "fadeMode": "NONE",
-              "fadeModeType": "literal",
-              "speed": 200,
-              "speedType": "literal",
-              "delay": 0,
-              "delayType": "literal",
-              "useStack": true,
-              "useStackType": "literal"
-            }
-          ]
-        },
-        {
-          "objID": "b7491890-1ccf-423e-8aff-8f6aac14e7a4",
-          "type": "WatchVariableActionComponent",
-          "left": 154,
-          "top": -154,
-          "width": 172,
-          "height": 53,
-          "customInputs": [],
-          "customOutputs": [],
-          "variable": "server_connected"
-        },
-        {
           "objID": "3e74a931-ba20-4af8-9c57-d60d188de0fe",
           "type": "SetVariableActionComponent",
           "left": 886,
@@ -958,56 +884,198 @@
               "value": "true"
             }
           ]
+        },
+        {
+          "objID": "0180edd4-2f66-4e14-99b6-32985e45eac9",
+          "type": "WatchVariableActionComponent",
+          "left": 180,
+          "top": -659,
+          "width": 105,
+          "height": 53,
+          "customInputs": [],
+          "customOutputs": [],
+          "variable": "state"
+        },
+        {
+          "objID": "1c3a4cf0-0fa5-44cd-c848-c5d7b6f2662c",
+          "type": "SwitchActionComponent",
+          "left": 419,
+          "top": -683,
+          "width": 315,
+          "height": 106,
+          "customInputs": [],
+          "customOutputs": [],
+          "tests": [
+            {
+              "objID": "b46a850b-481b-4700-c3d7-8852f817d3fa",
+              "condition": "state == SystemState.FIRMWARE_UPDATE",
+              "outputName": "firmware"
+            },
+            {
+              "objID": "2e8a5785-9838-4f29-833b-5cf136fe8b41",
+              "condition": "state == SystemState.NO_WIFI",
+              "outputName": "no_wifi",
+              "outputValue": ""
+            },
+            {
+              "objID": "e04fea2e-c6e5-4f08-eb36-6ec721440bc1",
+              "condition": "state == SystemState.NO_DATA",
+              "outputName": "no_data",
+              "outputValue": ""
+            },
+            {
+              "objID": "cf328e68-dace-4085-9340-cb1f8535b456",
+              "condition": "state == SystemState.RUNNING",
+              "outputName": "running"
+            }
+          ]
+        },
+        {
+          "objID": "fcb73346-2f74-474a-f27a-683f4ac54df5",
+          "type": "LVGLActionComponent",
+          "left": 865,
+          "top": -709,
+          "width": 286,
+          "height": 53,
+          "customInputs": [],
+          "customOutputs": [],
+          "actions": [
+            {
+              "objID": "b00fc044-c4ca-43cd-aec9-6b1dd060c08a",
+              "action": "changeScreen",
+              "screen": "No Wifi",
+              "screenType": "literal",
+              "fadeMode": "NONE",
+              "fadeModeType": "literal",
+              "speed": 200,
+              "speedType": "literal",
+              "delay": 0,
+              "delayType": "literal",
+              "useStack": true,
+              "useStackType": "literal"
+            }
+          ]
+        },
+        {
+          "objID": "7718a1b8-cad5-4363-e543-50de9e2d536b",
+          "type": "LVGLActionComponent",
+          "left": 859,
+          "top": -529,
+          "width": 298,
+          "height": 53,
+          "customInputs": [],
+          "customOutputs": [],
+          "actions": [
+            {
+              "objID": "d1772d85-b32c-4c94-a857-93c2e7783e1d",
+              "action": "changeScreen",
+              "screen": "Dashboard",
+              "screenType": "literal",
+              "fadeMode": "NONE",
+              "fadeModeType": "literal",
+              "speed": 200,
+              "speedType": "literal",
+              "delay": 0,
+              "delayType": "literal",
+              "useStack": true,
+              "useStackType": "literal"
+            }
+          ]
+        },
+        {
+          "objID": "4dcad3df-1e73-4f2d-f403-17584b42beae",
+          "type": "LVGLActionComponent",
+          "left": 859,
+          "top": -619,
+          "width": 286,
+          "height": 53,
+          "customInputs": [],
+          "customOutputs": [],
+          "actions": [
+            {
+              "objID": "80761ef3-e412-4901-ec03-6da962efb34e",
+              "action": "changeScreen",
+              "screen": "No Data",
+              "screenType": "literal",
+              "fadeMode": "NONE",
+              "fadeModeType": "literal",
+              "speed": 200,
+              "speedType": "literal",
+              "delay": 0,
+              "delayType": "literal",
+              "useStack": true,
+              "useStackType": "literal"
+            }
+          ]
+        },
+        {
+          "objID": "b623a351-a14d-407c-94e5-40b734e97f4f",
+          "type": "LVGLActionComponent",
+          "left": 865,
+          "top": -792,
+          "width": 335,
+          "height": 53,
+          "customInputs": [],
+          "customOutputs": [],
+          "actions": [
+            {
+              "objID": "f565ff4d-9abd-4be6-b5be-4a6f9c81b0f0",
+              "action": "changeScreen",
+              "screen": "Firmware Update",
+              "screenType": "literal",
+              "fadeMode": "NONE",
+              "fadeModeType": "literal",
+              "speed": 200,
+              "speedType": "literal",
+              "delay": 0,
+              "delayType": "literal",
+              "useStack": true,
+              "useStackType": "literal"
+            }
+          ]
         }
       ],
       "connectionLines": [
-        {
-          "objID": "950d03ce-9db2-4597-8285-f49302bd2c2c",
-          "source": "42b705f7-dfa9-4680-e9c7-792624b836ba",
-          "output": "False",
-          "target": "10614476-ff7c-42ad-e1b3-2c81f3043c92",
-          "input": "@seqin"
-        },
-        {
-          "objID": "0900be98-e358-4aca-a89e-e206d7b38d3c",
-          "source": "6dfdef57-3033-4ca4-afb9-10185297bff4",
-          "output": "True",
-          "target": "94e86509-828f-40ba-d625-d3bb867d717d",
-          "input": "@seqin"
-        },
-        {
-          "objID": "28ba7504-7ef7-4dde-ff1d-ac6e63a402cb",
-          "source": "42b705f7-dfa9-4680-e9c7-792624b836ba",
-          "output": "True",
-          "target": "6dfdef57-3033-4ca4-afb9-10185297bff4",
-          "input": "@seqin"
-        },
-        {
-          "objID": "56cf3d8a-4fb2-47e3-d93a-272ad04e8cac",
-          "source": "6dfdef57-3033-4ca4-afb9-10185297bff4",
-          "output": "False",
-          "target": "3263c799-734f-41b5-dcfb-d91578540e15",
-          "input": "@seqin"
-        },
-        {
-          "objID": "3e6bb0f0-6308-417d-b299-b32d99ada0f9",
-          "source": "a9b03ea1-39a3-4846-d4b9-3c3d668dedda",
-          "output": "variable",
-          "target": "42b705f7-dfa9-4680-e9c7-792624b836ba",
-          "input": "@seqin"
-        },
-        {
-          "objID": "4337e021-afa8-4ead-b12e-0f49cf30a23a",
-          "source": "b7491890-1ccf-423e-8aff-8f6aac14e7a4",
-          "output": "variable",
-          "target": "42b705f7-dfa9-4680-e9c7-792624b836ba",
-          "input": "@seqin"
-        },
         {
           "objID": "240e8b13-a708-4d1e-f1f8-e2054fe066f4",
           "source": "b3e3dc34-37fe-4cb4-cee9-c16de464ff94",
           "output": "CLICKED",
           "target": "3e74a931-ba20-4af8-9c57-d60d188de0fe",
+          "input": "@seqin"
+        },
+        {
+          "objID": "f3b1d54a-67ad-4648-c7a8-f9b994e2da67",
+          "source": "0180edd4-2f66-4e14-99b6-32985e45eac9",
+          "output": "variable",
+          "target": "1c3a4cf0-0fa5-44cd-c848-c5d7b6f2662c",
+          "input": "@seqin"
+        },
+        {
+          "objID": "9b619efe-9347-4145-9364-78fbc1541b5b",
+          "source": "1c3a4cf0-0fa5-44cd-c848-c5d7b6f2662c",
+          "output": "no_wifi",
+          "target": "fcb73346-2f74-474a-f27a-683f4ac54df5",
+          "input": "@seqin"
+        },
+        {
+          "objID": "d003de78-d4fd-4861-ad44-793d36ef0ddf",
+          "source": "1c3a4cf0-0fa5-44cd-c848-c5d7b6f2662c",
+          "output": "running",
+          "target": "7718a1b8-cad5-4363-e543-50de9e2d536b",
+          "input": "@seqin"
+        },
+        {
+          "objID": "f557ff29-f6f7-44ab-cf4f-a33794bb8891",
+          "source": "1c3a4cf0-0fa5-44cd-c848-c5d7b6f2662c",
+          "output": "no_data",
+          "target": "4dcad3df-1e73-4f2d-f403-17584b42beae",
+          "input": "@seqin"
+        },
+        {
+          "objID": "7d1a9e42-7fe4-4327-a008-512233e0379b",
+          "source": "1c3a4cf0-0fa5-44cd-c848-c5d7b6f2662c",
+          "output": "firmware",
+          "target": "b623a351-a14d-407c-94e5-40b734e97f4f",
           "input": "@seqin"
         }
       ],
@@ -1100,7 +1168,7 @@
             {
               "objID": "54533c92-8174-4eaa-dbd3-1c4c7193e0c1",
               "type": "LVGLImageWidget",
-              "left": 323,
+              "left": 0,
               "top": 214,
               "width": 144,
               "height": 144,
@@ -1130,7 +1198,14 @@
               "disabledStateType": "literal",
               "states": "",
               "localStyles": {
-                "objID": "bf12a6e7-ea6c-4173-888d-255deae5ec54"
+                "objID": "bf12a6e7-ea6c-4173-888d-255deae5ec54",
+                "definition": {
+                  "MAIN": {
+                    "DEFAULT": {
+                      "align": "TOP_MID"
+                    }
+                  }
+                }
               },
               "group": "",
               "groupIndex": 0,
@@ -1172,6 +1247,169 @@
       "componentGroups": [],
       "userProperties": [],
       "name": "No Data",
+      "left": 0,
+      "top": 0,
+      "width": 800,
+      "height": 480,
+      "isUsedAsUserWidget": false,
+      "createAtStart": true,
+      "deleteOnScreenUnload": false
+    },
+    {
+      "objID": "0539707e-921b-49d3-f349-333d2a2200e3",
+      "components": [
+        {
+          "objID": "02edf490-9d30-4b58-c1c1-3570514a7b10",
+          "type": "LVGLScreenWidget",
+          "left": 0,
+          "top": 0,
+          "width": 800,
+          "height": 480,
+          "customInputs": [],
+          "customOutputs": [],
+          "style": {
+            "objID": "11662171-1243-4f68-9b0a-772a9f0d5ce8",
+            "useStyle": "default",
+            "conditionalStyles": [],
+            "childStyles": []
+          },
+          "timeline": [],
+          "eventHandlers": [],
+          "leftUnit": "px",
+          "topUnit": "px",
+          "widthUnit": "px",
+          "heightUnit": "px",
+          "children": [
+            {
+              "objID": "1bf0b398-1884-449d-c2be-8ab53f99c596",
+              "type": "LVGLLabelWidget",
+              "left": 0,
+              "top": 148,
+              "width": 474,
+              "height": 59,
+              "customInputs": [],
+              "customOutputs": [],
+              "style": {
+                "objID": "257f7069-081b-4a72-8bc4-bd932398bfe8",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": []
+              },
+              "timeline": [],
+              "eventHandlers": [],
+              "leftUnit": "px",
+              "topUnit": "px",
+              "widthUnit": "content",
+              "heightUnit": "content",
+              "children": [],
+              "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+              "hiddenFlagType": "literal",
+              "clickableFlagType": "literal",
+              "flagScrollbarMode": "",
+              "flagScrollDirection": "",
+              "scrollSnapX": "",
+              "scrollSnapY": "",
+              "checkedStateType": "literal",
+              "disabledStateType": "literal",
+              "states": "",
+              "localStyles": {
+                "objID": "6567e350-a1f3-45c1-aeee-c03d84f5e936",
+                "definition": {
+                  "MAIN": {
+                    "DEFAULT": {
+                      "text_font": "INTER_48",
+                      "align": "TOP_MID"
+                    }
+                  }
+                }
+              },
+              "group": "",
+              "groupIndex": 0,
+              "text": "Updating Firmware...",
+              "textType": "literal",
+              "longMode": "WRAP",
+              "recolor": false
+            },
+            {
+              "objID": "76316829-b3b9-47c8-f5e9-d273d59e234d",
+              "type": "LVGLBarWidget",
+              "left": 0,
+              "top": 248,
+              "width": 382,
+              "height": 26,
+              "customInputs": [],
+              "customOutputs": [],
+              "style": {
+                "objID": "8bb49223-5d62-4a9f-e70c-fc51bd0a9e26",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": []
+              },
+              "timeline": [],
+              "eventHandlers": [],
+              "leftUnit": "px",
+              "topUnit": "px",
+              "widthUnit": "px",
+              "heightUnit": "px",
+              "children": [],
+              "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+              "hiddenFlagType": "literal",
+              "clickableFlag": true,
+              "clickableFlagType": "literal",
+              "flagScrollbarMode": "",
+              "flagScrollDirection": "",
+              "scrollSnapX": "",
+              "scrollSnapY": "",
+              "checkedStateType": "literal",
+              "disabledStateType": "literal",
+              "states": "",
+              "localStyles": {
+                "objID": "89579f68-9b40-4ba7-8cf5-517297ea5a82",
+                "definition": {
+                  "MAIN": {
+                    "DEFAULT": {
+                      "align": "TOP_MID"
+                    }
+                  }
+                }
+              },
+              "group": "",
+              "groupIndex": 0,
+              "min": 0,
+              "max": 100,
+              "mode": "NORMAL",
+              "value": "firmware_progress",
+              "valueType": "expression",
+              "valueStart": 0,
+              "valueStartType": "literal",
+              "enableAnimation": false
+            }
+          ],
+          "widgetFlags": "CLICKABLE|PRESS_LOCK|CLICK_FOCUSABLE|GESTURE_BUBBLE|SNAPPABLE|SCROLLABLE|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER",
+          "hiddenFlagType": "literal",
+          "clickableFlag": true,
+          "clickableFlagType": "literal",
+          "checkedStateType": "literal",
+          "disabledStateType": "literal",
+          "states": "",
+          "localStyles": {
+            "objID": "6f4b5e11-572a-4a44-a54e-0f8e147956aa",
+            "definition": {
+              "MAIN": {
+                "DEFAULT": {
+                  "bg_color": "#fff"
+                }
+              }
+            }
+          },
+          "groupIndex": 0
+        }
+      ],
+      "connectionLines": [],
+      "localVariables": [],
+      "componentGroups": [],
+      "userProperties": [],
+      "name": "Firmware Update",
       "left": 0,
       "top": 0,
       "width": 800,

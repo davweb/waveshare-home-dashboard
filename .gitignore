@@ -8,3 +8,4 @@ __pycache__
 .claude
 server/run.sh
 TODO.md
+esp-idf/sdkconfig.release_local
