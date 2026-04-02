@@ -21,6 +21,7 @@
 #include "user_actions.h"
 #include "global_vars.h"
 #include "data_fetcher.h"
+#include "system_info.h"
 
 static const char *TAG = "main";
 
@@ -247,6 +248,7 @@ extern "C" void app_main(void)
 
     ui_init();
     lvgl_port_set_ui_tick_cb(ui_tick);
+    set_system_information();
     lvgl_port_unlock();
 
     static bool prevWifiConnected = false;
@@ -277,7 +279,7 @@ extern "C" void app_main(void)
                 ESP_LOGI(TAG, "WiFi Connected");
 
                 if (lvgl_port_lock(portMAX_DELAY)) {
-                    flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_WIFI_CONNECTED, Value(true));
+                    flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_STATE, SystemState_NO_DATA);
                     lvgl_port_unlock();
                     prevWifiConnected = true;
                 }

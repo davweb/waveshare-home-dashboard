@@ -9,6 +9,10 @@ sizes:
     size_px: 144
 
 icons:
+  - output: png/about.png
+    input: bootstrap/info-circle.svg
+    size: medium
+
   - output: png/bin.png
     input: bootstrap/trash.svg
     size: medium
