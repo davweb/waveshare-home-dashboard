@@ -1,7 +1,7 @@
 #include "esp_log.h"
 #include "esp_heap_caps.h"
 #include "esp_http_client.h"
-#include <ArduinoJson.h>
+#include <cJSON.h>
 #include <stdlib.h>
 #include <string.h>
 #include "HttpTools.h"
@@ -47,10 +47,10 @@ static esp_err_t http_event_handler(esp_http_client_event_t *evt)
     return ESP_OK;
 }
 
-bool getJsonFromUrl(JsonDocument &doc, const char *url) {
+cJSON *getCJsonFromUrl(const char *url) {
     if (!isWiFiConnected()) {
         ESP_LOGE(TAG, "Not connected to WiFi network");
-        return false;
+        return nullptr;
     }
 
     ESP_LOGD(TAG, "Getting JSON from URL %s", url);
@@ -60,7 +60,7 @@ bool getJsonFromUrl(JsonDocument &doc, const char *url) {
     buf.data = (char *)heap_caps_malloc(buf.capacity, MALLOC_CAP_SPIRAM);
     if (!buf.data) {
         ESP_LOGE(TAG, "Failed to allocate initial response buffer");
-        return false;
+        return nullptr;
     }
     buf.data[0] = '\0';
 
@@ -73,7 +73,7 @@ bool getJsonFromUrl(JsonDocument &doc, const char *url) {
     if (!client) {
         ESP_LOGE(TAG, "Failed to initialize HTTP client");
         free(buf.data);
-        return false;
+        return nullptr;
     }
 
     esp_err_t err = esp_http_client_perform(client);
@@ -81,28 +81,26 @@ bool getJsonFromUrl(JsonDocument &doc, const char *url) {
     esp_http_client_cleanup(client);
 
     if (err == ESP_ERR_HTTP_INCOMPLETE_DATA && buf.len > 0) {
-        // Server (Python BaseHTTP) closes the connection without a proper chunked
-        // encoding terminator. The data arrived in full — treat as success.
         ESP_LOGW(TAG, "Server closed without chunked terminator, got %d bytes — continuing", buf.len);
     } else if (err != ESP_OK) {
         ESP_LOGE(TAG, "HTTP GET failed: %s", esp_err_to_name(err));
         free(buf.data);
-        return false;
+        return nullptr;
     }
 
     if (status_code != 200) {
         ESP_LOGE(TAG, "HTTP GET failed with status code %d", status_code);
         free(buf.data);
-        return false;
+        return nullptr;
     }
 
-    DeserializationError error = deserializeJson(doc, buf.data, buf.len);
+    cJSON *root = cJSON_ParseWithLength(buf.data, buf.len);
     free(buf.data);
 
-    if (error) {
-        ESP_LOGE(TAG, "deserializeJson() failed: %s", error.c_str());
-        return false;
+    if (!root) {
+        ESP_LOGE(TAG, "cJSON_Parse() failed");
+        return nullptr;
     }
 
-    return true;
+    return root;
 }

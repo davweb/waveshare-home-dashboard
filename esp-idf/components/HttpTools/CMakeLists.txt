@@ -1,5 +1,5 @@
 idf_component_register(
     SRCS "HttpTools.cpp"
     INCLUDE_DIRS "."
-    REQUIRES Wireless esp_http_client bblanchon__arduinojson
+    REQUIRES Wireless esp_http_client json
 )

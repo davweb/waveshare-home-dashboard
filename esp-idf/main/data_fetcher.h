@@ -2,7 +2,7 @@
 
 #include <time.h>
 #include <string.h>
-#include <ArduinoJson.h>
+#include <cJSON.h>
 #include <HttpTools.h>
 #include "time_utils.h"
 
@@ -79,57 +79,68 @@ struct RecyclingData {
 };
 
 inline bool fetch_dashboard_data(BusData &bus, SunData &sun, WeatherData &weather, RecyclingData &recycling, PresenceData &presence) {
-    JsonDocument doc;
-
-    if (!getJsonFromUrl(doc, CONFIG_DASHBOARD_SERVER_URL)) {
+    cJSON *root = getCJsonFromUrl(CONFIG_DASHBOARD_SERVER_URL);
+    if (!root) {
         return false;
     }
 
     // Bus stops
+    cJSON *bus_stops = cJSON_GetObjectItem(root, "bus_stops");
     for (int j = 0; j < 2; j++) {
-        strlcpy(bus.stops[j].name, doc["bus_stops"][j]["name"] | "", sizeof(bus.stops[j].name));
+        cJSON *stop = cJSON_GetArrayItem(bus_stops, j);
+        strlcpy(bus.stops[j].name, cjson_str(stop, "name"), sizeof(bus.stops[j].name));
+        cJSON *buses = stop ? cJSON_GetObjectItem(stop, "buses") : nullptr;
         for (int i = 0; i < 3; i++) {
-            strlcpy(bus.stops[j].arrivals[i].route, doc["bus_stops"][j]["buses"][i]["route"] | "", sizeof(bus.stops[j].arrivals[i].route));
-            strlcpy(bus.stops[j].arrivals[i].destination, doc["bus_stops"][j]["buses"][i]["destination"] | "", sizeof(bus.stops[j].arrivals[i].destination));
-            bus.stops[j].arrivals[i].due_epoch = doc["bus_stops"][j]["buses"][i]["due_time"] | 0L;
+            cJSON *arrival = cJSON_GetArrayItem(buses, i);
+            strlcpy(bus.stops[j].arrivals[i].route, cjson_str(arrival, "route"), sizeof(bus.stops[j].arrivals[i].route));
+            strlcpy(bus.stops[j].arrivals[i].destination, cjson_str(arrival, "destination"), sizeof(bus.stops[j].arrivals[i].destination));
+            bus.stops[j].arrivals[i].due_epoch = cjson_long(arrival, "due_time");
         }
     }
 
     // Sun
-    sun.is_sunrise = doc["weather"]["sun"]["is_sunrise"] | false;
-    strlcpy(sun.time, doc["weather"]["sun"]["time"] | "", sizeof(sun.time));
+    cJSON *weather_obj = cJSON_GetObjectItem(root, "weather");
+    cJSON *sun_obj = weather_obj ? cJSON_GetObjectItem(weather_obj, "sun") : nullptr;
+    sun.is_sunrise = cjson_bool(sun_obj, "is_sunrise");
+    strlcpy(sun.time, cjson_str(sun_obj, "time"), sizeof(sun.time));
 
     // Weather current
-    weather.current_temperature = doc["weather"]["current"]["temperature"] | 0;
-    weather.current_feels_like  = doc["weather"]["current"]["feels_like"] | 0;
-    strlcpy(weather.current_icon, doc["weather"]["current"]["icon"] | "", sizeof(weather.current_icon));
+    cJSON *current = weather_obj ? cJSON_GetObjectItem(weather_obj, "current") : nullptr;
+    weather.current_temperature = cjson_int(current, "temperature");
+    weather.current_feels_like  = cjson_int(current, "feels_like");
+    strlcpy(weather.current_icon, cjson_str(current, "icon"), sizeof(weather.current_icon));
 
     // Weather day
-    weather.day_min_temperature = doc["weather"]["day"]["min_temperature"] | 0;
-    weather.day_max_temperature = doc["weather"]["day"]["max_temperature"] | 0;
-    weather.day_precip_chance   = doc["weather"]["day"]["precip_chance"] | 0;
-    strlcpy(weather.day_precip_type, doc["weather"]["day"]["precip_type"] | "Rain", sizeof(weather.day_precip_type));
+    cJSON *day = weather_obj ? cJSON_GetObjectItem(weather_obj, "day") : nullptr;
+    weather.day_min_temperature = cjson_int(day, "min_temperature");
+    weather.day_max_temperature = cjson_int(day, "max_temperature");
+    weather.day_precip_chance   = cjson_int(day, "precip_chance");
+    strlcpy(weather.day_precip_type, cjson_str(day, "precip_type", "Rain"), sizeof(weather.day_precip_type));
 
     // Weather hours
-    weather.num_hours = doc["weather"]["hours"].size();
+    cJSON *hours = weather_obj ? cJSON_GetObjectItem(weather_obj, "hours") : nullptr;
+    weather.num_hours = hours ? cJSON_GetArraySize(hours) : 0;
     if (weather.num_hours > 24) weather.num_hours = 24;
     for (int i = 0; i < weather.num_hours; i++) {
-        weather.hours[i].hour          = doc["weather"]["hours"][i]["hour"] | 0;
-        weather.hours[i].temperature   = doc["weather"]["hours"][i]["temperature"] | 0;
-        weather.hours[i].feels_like    = doc["weather"]["hours"][i]["feels_like"] | 0;
-        weather.hours[i].precip_chance = doc["weather"]["hours"][i]["precip_chance"] | 0;
-        weather.hours[i].wind_speed    = doc["weather"]["hours"][i]["wind_speed"] | 0;
-        weather.hours[i].uv_index      = doc["weather"]["hours"][i]["uv_index"] | 0;
-        strlcpy(weather.hours[i].icon, doc["weather"]["hours"][i]["icon"] | "none", sizeof(weather.hours[i].icon));
+        cJSON *hour = cJSON_GetArrayItem(hours, i);
+        weather.hours[i].hour          = cjson_int(hour, "hour");
+        weather.hours[i].temperature   = cjson_int(hour, "temperature");
+        weather.hours[i].feels_like    = cjson_int(hour, "feels_like");
+        weather.hours[i].precip_chance = cjson_int(hour, "precip_chance");
+        weather.hours[i].wind_speed    = cjson_int(hour, "wind_speed");
+        weather.hours[i].uv_index      = cjson_int(hour, "uv_index");
+        strlcpy(weather.hours[i].icon, cjson_str(hour, "icon", "none"), sizeof(weather.hours[i].icon));
     }
 
     // Recycling
-    recycling.num_collections = doc["recycling"].size();
+    cJSON *recycling_arr = cJSON_GetObjectItem(root, "recycling");
+    recycling.num_collections = recycling_arr ? cJSON_GetArraySize(recycling_arr) : 0;
     if (recycling.num_collections > RECYCLING_COUNT) recycling.num_collections = RECYCLING_COUNT;
     time_t now = time(nullptr);
     for (int i = 0; i < recycling.num_collections; i++) {
-        strlcpy(recycling.items[i].type, doc["recycling"][i]["type"] | "", sizeof(recycling.items[i].type));
-        recycling.items[i].date_epoch = doc["recycling"][i]["date_epoch"] | 0L;
+        cJSON *item = cJSON_GetArrayItem(recycling_arr, i);
+        strlcpy(recycling.items[i].type, cjson_str(item, "type"), sizeof(recycling.items[i].type));
+        recycling.items[i].date_epoch = cjson_long(item, "date_epoch");
         if (recycling.items[i].date_epoch > 0) {
             struct tm recycling_tm;
             localtime_r(&recycling.items[i].date_epoch, &recycling_tm);
@@ -144,18 +155,20 @@ inline bool fetch_dashboard_data(BusData &bus, SunData &sun, WeatherData &weathe
     }
 
     // Presence
-    presence.num_people = doc["presence"].size();
+    cJSON *presence_arr = cJSON_GetObjectItem(root, "presence");
+    presence.num_people = presence_arr ? cJSON_GetArraySize(presence_arr) : 0;
     if (presence.num_people > PRESENCE_COUNT) presence.num_people = PRESENCE_COUNT;
     for (int i = 0; i < presence.num_people; i++) {
-        strlcpy(presence.items[i].name, doc["presence"][i]["name"] | "", sizeof(presence.items[i].name));
-        presence.items[i].connected = doc["presence"][i]["connected"] | false;
-
+        cJSON *item = cJSON_GetArrayItem(presence_arr, i);
+        strlcpy(presence.items[i].name, cjson_str(item, "name"), sizeof(presence.items[i].name));
+        presence.items[i].connected = cjson_bool(item, "connected");
         if (presence.items[i].connected) {
             presence.items[i].last_seen[0] = '\0';
         } else {
-            format_last_seen(presence.items[i].last_seen, sizeof(presence.items[i].last_seen), doc["presence"][i]["last_seen"] | 0L, now);
+            format_last_seen(presence.items[i].last_seen, sizeof(presence.items[i].last_seen), cjson_long(item, "last_seen"), now);
         }
     }
 
+    cJSON_Delete(root);
     return true;
 }

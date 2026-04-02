@@ -1,10 +1,34 @@
-#include <ArduinoJson.h>
+#pragma once
+
+#include <cJSON.h>
 
 /**
- * Fetch and parse a JSON document from a URL
+ * Fetch and parse a JSON document from a URL into a cJSON object.
+ * Caller is responsible for calling cJSON_Delete() on the returned object.
  *
- * @param doc A reference to a `JsonDocument` object to store the parsed JSON.
  * @param url The URL to fetch the JSON from.
- * @return `true` if the JSON was fetched and parsed successfully, `false` otherwise.
+ * @return A pointer to the parsed cJSON object, or nullptr on failure.
  */
-bool getJsonFromUrl(JsonDocument &doc, const char *url);
+cJSON *getCJsonFromUrl(const char *url);
+
+// Helpers to safely extract values from a cJSON object with defaults
+
+inline const char *cjson_str(cJSON *obj, const char *key, const char *def = "") {
+    cJSON *item = cJSON_GetObjectItem(obj, key);
+    return (cJSON_IsString(item) && item->valuestring) ? item->valuestring : def;
+}
+
+inline int cjson_int(cJSON *obj, const char *key, int def = 0) {
+    cJSON *item = cJSON_GetObjectItem(obj, key);
+    return cJSON_IsNumber(item) ? item->valueint : def;
+}
+
+inline long cjson_long(cJSON *obj, const char *key, long def = 0L) {
+    cJSON *item = cJSON_GetObjectItem(obj, key);
+    return cJSON_IsNumber(item) ? (long)item->valuedouble : def;
+}
+
+inline bool cjson_bool(cJSON *obj, const char *key, bool def = false) {
+    cJSON *item = cJSON_GetObjectItem(obj, key);
+    return cJSON_IsBool(item) ? cJSON_IsTrue(item) : def;
+}

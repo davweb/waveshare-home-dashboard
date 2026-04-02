@@ -9,4 +9,4 @@ then
 fi
 
 export "SDKCONFIG_DEFAULTS=sdkconfig.defaults;sdkconfig.local"
-export BUILD_DIR=build_cli
+export BUILD_DIR=build
