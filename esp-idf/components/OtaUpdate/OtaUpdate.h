@@ -1,8 +1,15 @@
 #pragma once
 
+#include <time.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+typedef struct {
+char server_version[32]; // Last version string seen from the server ("" if never checked)
+    time_t check_time;       // Time of last check (0 if never checked)
+} OtaLastCheck;
 
 // ---------------------------------------------------------------------------
 // Callbacks — register these to hook OTA events into EEZ Flow actions
@@ -20,9 +27,13 @@ typedef void (*ota_progress_cb_t)(int percent);
 // success == false → something went wrong; message describes the failure.
 typedef void (*ota_complete_cb_t)(bool success, const char *message);
 
-void ota_set_callbacks(ota_start_cb_t  on_start,
-                       ota_progress_cb_t on_progress,
-                       ota_complete_cb_t on_complete);
+// Called after every version check (successful or not); result contains the server version and check time.
+typedef void (*ota_checked_cb_t)(OtaLastCheck result);
+
+void ota_set_callbacks(ota_start_cb_t    on_start,
+                       ota_progress_cb_t  on_progress,
+                       ota_complete_cb_t  on_complete,
+                       ota_checked_cb_t   on_checked);
 
 // ---------------------------------------------------------------------------
 // Core API

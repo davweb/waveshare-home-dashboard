@@ -69,6 +69,11 @@ static void on_ota_complete(bool success, const char *message)
     }
 }
 
+static void on_ota_checked(OtaLastCheck result)
+{
+    set_ota_information(result);
+}
+
 static BusData g_bus_data;
 Board *g_panel;
 
@@ -246,7 +251,7 @@ extern "C" void app_main(void)
     startWiFi();
     startHttpServer();
 
-    ota_set_callbacks(on_ota_start, on_ota_progress, on_ota_complete);
+    ota_set_callbacks(on_ota_start, on_ota_progress, on_ota_complete, on_ota_checked);
 
     ui_init();
     lvgl_port_set_ui_tick_cb(ui_tick);
@@ -258,7 +263,7 @@ extern "C" void app_main(void)
     static uint64_t lastFetchTime = 0;
     static uint64_t recalculateInterval = 5000; // Recalculate due times every 5 seconds
     static uint64_t lastRecalculateTime = 0;
-    static uint64_t otaCheckInterval = 5 * 60 * 1000; // Check for OTA updates every 5 minutes
+    static uint64_t otaCheckInterval = 30 * 60 * 1000; // Check for OTA updates every 30 minutes
     static uint64_t lastOtaCheckTime  = 0;
 
     while (true) {
@@ -300,7 +305,7 @@ extern "C" void app_main(void)
                 recalculateDueTimes();
             }
 
-            // OTA check — runs on first WiFi connect, then every CONFIG_OTA_CHECK_INTERVAL_MINUTES
+            // OTA check — runs on first WiFi connect, then every 30 minutes
             if (lastOtaCheckTime == 0 || (currentTime - lastOtaCheckTime >= otaCheckInterval)) {
                 lastOtaCheckTime = currentTime;
                 ota_check_and_update(CONFIG_DASHBOARD_SERVER_URL);

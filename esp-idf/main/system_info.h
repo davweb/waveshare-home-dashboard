@@ -9,9 +9,12 @@
 #include <structs.h>
 #include <vars.h>
 #include <eez-flow.h>
+#include <OtaUpdate.h>
 
+#include "time_utils.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 using namespace eez;
 using namespace esp_panel::drivers;
@@ -55,6 +58,25 @@ inline void set_system_information() {
     info.board(g_panel->getConfig().name);
     info.chip_model(chip_model_str);
     info.timezone(CONFIG_CLOCK_POSIX_TZ);
+    info.server_url(CONFIG_DASHBOARD_SERVER_URL);
 
     flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_SYSTEM_INFO, info);
+}
+
+inline void set_ota_information(OtaLastCheck last) {
+
+    char last_check_str[64];
+    format_date_time(last_check_str, sizeof(last_check_str), last.check_time);
+
+    OtaInformationValue ota;
+    ota.server_version(last.server_version);
+    ota.ota_last_check(last_check_str);
+
+    if (lvgl_port_lock(portMAX_DELAY)) {
+        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_OTA_INFO, ota);
+        lvgl_port_unlock();
+    }
+    else {
+        ESP_LOGE("system_info", "Failed to lock LVGL mutex to update OTA info");
+    }
 }

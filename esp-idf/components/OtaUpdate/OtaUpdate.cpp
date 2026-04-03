@@ -9,6 +9,7 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include <time.h>
 
 static const char *TAG = "OtaUpdate";
 
@@ -19,14 +20,17 @@ static const char *TAG = "OtaUpdate";
 static ota_start_cb_t    s_on_start    = nullptr;
 static ota_progress_cb_t s_on_progress = nullptr;
 static ota_complete_cb_t s_on_complete = nullptr;
+static ota_checked_cb_t  s_on_checked  = nullptr;
 
 void ota_set_callbacks(ota_start_cb_t    on_start,
-                       ota_progress_cb_t on_progress,
-                       ota_complete_cb_t on_complete)
+                       ota_progress_cb_t  on_progress,
+                       ota_complete_cb_t  on_complete,
+                       ota_checked_cb_t   on_checked)
 {
     s_on_start    = on_start;
     s_on_progress = on_progress;
     s_on_complete = on_complete;
+    s_on_checked  = on_checked;
 }
 
 // ---------------------------------------------------------------------------
@@ -89,11 +93,11 @@ static bool fetch_server_version(const char *url, char *out_version, size_t out_
     }
 
     bool ok = false;
+    cJSON *version_item = cJSON_GetObjectItem(root, "version");
     cJSON *available = cJSON_GetObjectItem(root, "available");
     if (cJSON_IsTrue(available)) {
-        cJSON *version = cJSON_GetObjectItem(root, "version");
-        if (cJSON_IsString(version) && version->valuestring) {
-            strlcpy(out_version, version->valuestring, out_len);
+        if (cJSON_IsString(version_item) && version_item->valuestring) {
+            strlcpy(out_version, version_item->valuestring, out_len);
             ok = true;
         }
     } else {
@@ -237,23 +241,29 @@ static bool download_and_flash(const char *url, const char *new_version)
 
 bool ota_check_and_update(const char *server_url)
 {
+    OtaLastCheck last_check = {};
+    last_check.check_time = time(nullptr);
+
     if (!isWiFiConnected()) {
         ESP_LOGW(TAG, "WiFi not connected — skipping OTA check");
+        if (s_on_checked) s_on_checked(last_check);
         return false;
     }
 
     char version_url[128];
     snprintf(version_url, sizeof(version_url), "%s/ota/version", server_url);
 
-    char server_version[32] = {};
-    if (!fetch_server_version(version_url, server_version, sizeof(server_version))) {
+    if (!fetch_server_version(version_url, last_check.server_version, sizeof(last_check.server_version))) {
+        if (s_on_checked) s_on_checked(last_check);
         return false;
     }
 
-    const char *running = ota_current_version();
-    ESP_LOGI(TAG, "Running firmware: %s  Server firmware: %s", running, server_version);
+    if (s_on_checked) s_on_checked(last_check);
 
-    if (strcmp(server_version, running) == 0) {
+    const char *running = ota_current_version();
+    ESP_LOGI(TAG, "Running firmware: %s  Server firmware: %s", running, last_check.server_version);
+
+    if (strcmp(last_check.server_version, running) == 0) {
         ESP_LOGI(TAG, "Firmware is up to date");
         return false;
     }
@@ -261,5 +271,5 @@ bool ota_check_and_update(const char *server_url)
     char firmware_url[128];
     snprintf(firmware_url, sizeof(firmware_url), "%s/ota/firmware", server_url);
 
-    return download_and_flash(firmware_url, server_version);
+    return download_and_flash(firmware_url, last_check.server_version);
 }

@@ -97,6 +97,19 @@ inline void format_last_seen(char *buf, size_t buf_size, time_t epoch, time_t no
     }
 }
 
+// Formats a time_t as "HH:MM:SS DD/MM/YYYY". epoch=0 → empty string.
+inline void format_date_time(char *buf, size_t buf_size, time_t epoch) {
+    if (epoch == 0) {
+        buf[0] = '\0';
+        return;
+    }
+    struct tm t;
+    localtime_r(&epoch, &t);
+    snprintf(buf, buf_size, "%02d:%02d:%02d %02d/%02d/%04d",
+        t.tm_hour, t.tm_min, t.tm_sec,
+        t.tm_mday, t.tm_mon + 1, t.tm_year + 1900);
+}
+
 // Formats a  lead time relative to now: "Today", "Tomorrow", or the number of days in the future (e.g. "3 days"). lead_epoch=0 → empty string.
 inline void format_lead_time(char *buf, size_t buf_size, time_t epoch, time_t now) {
     if (epoch == 0) {
