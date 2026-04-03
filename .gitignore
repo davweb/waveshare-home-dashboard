@@ -9,3 +9,4 @@ __pycache__
 server/run.sh
 TODO.md
 esp-idf/sdkconfig.release_local
+fonts

@@ -25,6 +25,14 @@ icons:
     input: bootstrap/house-fill.svg
     size: medium
 
+  - output: png/memory.png
+    input: bootstrap/memory.svg
+    size: medium
+
+  - output: png/menu-dots.png
+    input: bootstrap/three-dots.svg
+    size: medium
+
   - output: png/menu.png
     input: bootstrap/three-dots.svg
     size: medium

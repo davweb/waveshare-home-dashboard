@@ -22,6 +22,7 @@
 #include "global_vars.h"
 #include "data_fetcher.h"
 #include "system_info.h"
+#include "stats.h"
 
 static const char *TAG = "main";
 
@@ -226,6 +227,7 @@ static void fetchData() {
     }
 }
 
+
 extern "C" void app_main(void)
 {
     g_panel = initialiseDisplayPanel();
@@ -291,6 +293,7 @@ extern "C" void app_main(void)
                 lastFetchTime = currentTime;
                 lastRecalculateTime = currentTime;
                 fetchData();
+                updateMemoryUsage();
             }
             else if (currentTime - lastRecalculateTime >= recalculateInterval) {
                 lastRecalculateTime = currentTime;
