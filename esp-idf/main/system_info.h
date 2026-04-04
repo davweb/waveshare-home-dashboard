@@ -3,6 +3,8 @@
 #include "esp_app_desc.h"
 #include "esp_chip_info.h"
 #include "esp_idf_version.h"
+#include "esp_ota_ops.h"
+#include "esp_partition.h"
 #include <esp_panel_versions.h>
 #include <esp_display_panel.hpp>
 #include <lvgl.h>
@@ -24,8 +26,13 @@ extern Board *g_panel;
 inline void set_system_information() {
     const esp_app_desc_t *desc = esp_app_get_description();
 
+    struct tm build_tm = {};
+    char build_combined[32];
+    snprintf(build_combined, sizeof(build_combined), "%s %s", desc->date, desc->time);
+    strptime(build_combined, "%b %d %Y %H:%M:%S", &build_tm);
+    build_tm.tm_isdst = -1;
     char build_date[32];
-    snprintf(build_date, sizeof(build_date), "%s %s", desc->date, desc->time);
+    format_date_time(build_date, sizeof(build_date), mktime(&build_tm));
 
     char panel_version[16];
     snprintf(panel_version, sizeof(panel_version), "%d.%d.%d",
@@ -49,6 +56,23 @@ inline void set_system_information() {
     snprintf(chip_model_str, sizeof(chip_model_str), "%s rev v%d.%d",
         chip_model_name, chip_info.revision / 100, chip_info.revision % 100);
 
+    const esp_partition_t *running_partition = esp_ota_get_running_partition();
+
+    ArrayOfPartitionInformationValue partitions(2);
+    int idx = 0;
+    esp_partition_iterator_t it = esp_partition_find(ESP_PARTITION_TYPE_APP, ESP_PARTITION_SUBTYPE_ANY, NULL);
+    while (it != NULL && idx < 2) {
+        const esp_partition_t *p = esp_partition_get(it);
+        esp_app_desc_t p_desc;
+        PartitionInformationValue entry;
+        entry.name(p->label);
+        entry.current(p == running_partition);
+        entry.app_version(esp_ota_get_partition_description(p, &p_desc) == ESP_OK ? p_desc.version : "");
+        partitions.at(idx++, entry);
+        it = esp_partition_next(it);
+    }
+    if (it != NULL) esp_partition_iterator_release(it);
+
     SystemInformationValue info;
     info.app_version(desc->version);
     info.build_date(build_date);
@@ -59,6 +83,7 @@ inline void set_system_information() {
     info.chip_model(chip_model_str);
     info.timezone(CONFIG_CLOCK_POSIX_TZ);
     info.server_url(CONFIG_DASHBOARD_SERVER_URL);
+    info.partitions(partitions);
 
     flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_SYSTEM_INFO, info);
 }
