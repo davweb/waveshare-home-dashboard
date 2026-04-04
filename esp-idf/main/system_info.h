@@ -31,7 +31,7 @@ inline void set_system_information() {
     snprintf(build_combined, sizeof(build_combined), "%s %s", desc->date, desc->time);
     strptime(build_combined, "%b %d %Y %H:%M:%S", &build_tm);
     build_tm.tm_isdst = -1;
-    char build_date[32];
+    char build_date[64];
     format_date_time(build_date, sizeof(build_date), mktime(&build_tm));
 
     char panel_version[16];

@@ -1,4 +1,5 @@
 #!/opt/homebrew/bin/zsh
+set -o errexit
 
 source ./start.sh
 
