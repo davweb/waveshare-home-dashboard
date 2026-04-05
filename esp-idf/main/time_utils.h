@@ -107,8 +107,8 @@ inline void format_date_time(char *buf, size_t buf_size, time_t epoch) {
     localtime_r(&epoch, &t);
     char month[16];
     strftime(month, sizeof(month), "%B", &t);
-    snprintf(buf, buf_size, "%d %s %04d %02d:%02d",
-        t.tm_mday, month, t.tm_year + 1900, t.tm_hour, t.tm_min);
+    snprintf(buf, buf_size, "%d %s %04d %02d:%02d:%02d",
+        t.tm_mday, month, t.tm_year + 1900, t.tm_hour, t.tm_min, t.tm_sec);
 }
 
 // Formats a  lead time relative to now: "Today", "Tomorrow", or the number of days in the future (e.g. "3 days"). lead_epoch=0 → empty string.

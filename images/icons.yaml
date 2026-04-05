@@ -57,10 +57,6 @@ icons:
     input: bootstrap/recycle.svg
     size: medium
 
-  - output: png/selected.png
-    input: bootstrap/arrow-left.svg
-    size: small
-
   - output: png/sleep.png
     input: bootstrap/power.svg
     size: medium
