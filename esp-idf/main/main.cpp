@@ -22,7 +22,6 @@
 #include "global_vars.h"
 #include "data_fetcher.h"
 #include "system_info.h"
-#include "stats.h"
 
 static const char *TAG = "main";
 
@@ -49,7 +48,10 @@ static void on_ota_start(const char *new_version)
 static void on_ota_progress(int percent)
 {
     ESP_LOGI(TAG, "OTA progress: %d%%", percent);
-    flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_FIRMWARE_PROGRESS, Value(percent));
+    if (lvgl_port_lock(portMAX_DELAY)) {
+        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_FIRMWARE_PROGRESS, Value(percent));
+        lvgl_port_unlock();
+    }
 }
 
 static void on_ota_complete(bool success, const char *message)
@@ -114,8 +116,11 @@ static void recalculateDueTimes() {
         bus_stops.at(j, bus_stop);
     }
 
+    CPUStatsValue cpu_stats = buildCPUStats();
+
     if (lvgl_port_lock(portMAX_DELAY)) {
         flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_BUS_STOPS, bus_stops);
+        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_CPU_STATISTICS, cpu_stats);
         lvgl_port_unlock();
     }
     else {
@@ -217,13 +222,15 @@ static void fetchData() {
         presence.at(i, item);
     }
 
+    ArrayOfMemoryUsageValue memory = buildMemoryUsage();
+
     if (lvgl_port_lock(portMAX_DELAY)) {
         flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_WEATHER, weather);
         flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_SUN, sun);
         flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_RECYCLING, recycling);
         flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_PRESENCE, presence);
+        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_MEMORY_USAGE, memory);
         flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_STATE, SystemState_RUNNING);
-
         lvgl_port_unlock();
     }
     else {
@@ -257,6 +264,7 @@ extern "C" void app_main(void)
     lvgl_port_set_ui_tick_cb(ui_tick);
     set_system_information();
     lvgl_port_unlock();
+    init_cpu_statistics();
 
     static bool prevWifiConnected = false;
     static uint64_t fetchInterval = 30000; // Fetch data every 30 seconds
@@ -298,7 +306,6 @@ extern "C" void app_main(void)
                 lastFetchTime = currentTime;
                 lastRecalculateTime = currentTime;
                 fetchData();
-                updateMemoryUsage();
             }
             else if (currentTime - lastRecalculateTime >= recalculateInterval) {
                 lastRecalculateTime = currentTime;
