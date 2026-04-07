@@ -42,11 +42,9 @@ void ota_set_callbacks(ota_start_cb_t    on_start,
 // Returns the version string compiled into the running firmware.
 const char *ota_current_version(void);
 
-// Contacts <server_url>/ota/version, compares with the running version.
-// If a different version is available, streams the firmware from
-// <server_url>/ota/firmware and applies it, then calls esp_restart().
-// Returns false if no update is needed or an error occurred (no reboot).
-bool ota_check_and_update(const char *server_url);
+// Runs ota_check_and_update in a background FreeRTOS task so the caller
+// (e.g. an LVGL event handler) is not blocked.
+void ota_check_and_update(const char *server_url);
 
 #ifdef __cplusplus
 }

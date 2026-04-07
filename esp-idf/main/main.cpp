@@ -317,7 +317,6 @@ extern "C" void app_main(void)
                 lastOtaCheckTime = currentTime;
                 ota_check_and_update(CONFIG_DASHBOARD_SERVER_URL);
                 // If an update was applied the device reboots inside ota_check_and_update;
-                // reaching here means no update was needed or the check failed.
             }
         }
 

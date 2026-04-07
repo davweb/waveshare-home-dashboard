@@ -7,6 +7,9 @@
 #include "cJSON.h"
 #include "Wireless.h"
 
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
@@ -239,7 +242,7 @@ static bool download_and_flash(const char *url, const char *new_version)
 // Public entry point
 // ---------------------------------------------------------------------------
 
-bool ota_check_and_update(const char *server_url)
+static bool do_ota_check_and_update(const char *server_url)
 {
     OtaLastCheck last_check = {};
     last_check.check_time = time(nullptr);
@@ -272,4 +275,21 @@ bool ota_check_and_update(const char *server_url)
     snprintf(firmware_url, sizeof(firmware_url), "%s/ota/firmware", server_url);
 
     return download_and_flash(firmware_url, last_check.server_version);
+}
+
+static volatile bool s_ota_running = false;
+
+void ota_check_and_update(const char *server_url)
+{
+    if (s_ota_running) {
+        ESP_LOGW(TAG, "OTA check already in progress — ignoring");
+        return;
+    }
+    s_ota_running = true;
+
+    xTaskCreate([](void *arg) {
+        do_ota_check_and_update(static_cast<const char *>(arg));
+        s_ota_running = false;
+        vTaskDelete(nullptr);
+    }, "ota_check", 8192, const_cast<char *>(server_url), tskIDLE_PRIORITY + 1, nullptr);
 }
