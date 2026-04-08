@@ -21,11 +21,11 @@ def get_next_recycling_collections(count: int = 4) -> list[RecyclingCollection]:
     collections = []
 
     for event in events:
-        dtstart = event.get('DTSTART').dt
+        dtstart = event.get('DTSTART').dt  # type: ignore[no-untyped-call]
 
         # Check if it's a date object (all-day events store only dates, not datetimes)
         if isinstance(dtstart, date) and not isinstance(dtstart, datetime):
-            summary = event.get('SUMMARY').to_ical().decode('utf-8').strip()
+            summary = event.get('SUMMARY').to_ical().decode('utf-8').strip()  # type: ignore[no-untyped-call]
             collection_type = 'Recycling' if 'RECYCLING' in summary else 'Rubbish'
             collection: RecyclingCollection = {
                 'date': dtstart,

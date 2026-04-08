@@ -5,6 +5,8 @@ import argparse
 import logging
 import os
 
+FIRMWARE_PATH = '/ota/firmware'
+
 
 def _get_arguments() -> argparse.Namespace:
     """Parse command line arguments"""
@@ -15,11 +17,18 @@ def _get_arguments() -> argparse.Namespace:
     parser.add_argument('-l', '--lat-long', action='store', help='Latitude and Longitude for weather')
     parser.add_argument('-k', '--pirate-api-key', action='store', help='API Key for Pirate Weather')
     parser.add_argument('-r', '--recycling-calendar-url', action='store', help='URL for recycling collection calendar')
-    parser.add_argument('--unifi-url', action='store', help='Base URL of the UniFi controller (e.g. https://192.168.1.1)')
+    parser.add_argument('--unifi-url', action='store',
+                        help='Base URL of the UniFi controller (e.g. https://192.168.1.1)')
     parser.add_argument('--unifi-username', action='store', help='UniFi controller username')
     parser.add_argument('--unifi-password', action='store', help='UniFi controller password')
     parser.add_argument('--unifi-site', action='store', help='UniFi site name (default: default)')
     parser.add_argument('--unifi-client', action='append', help='Client to watch, format: mac=name')
+    parser.add_argument('--mqtt-broker-host', action='store', help='MQTT broker hostname')
+    parser.add_argument('--mqtt-broker-port', action='store', type=int, help='MQTT broker port')
+    parser.add_argument('--mqtt-topic-prefix', action='store', help='MQTT topic prefix (e.g. dashboard)')
+    parser.add_argument('--server-base-url', action='store',
+                        help='Publicly accessible base URL of this server '
+                             '(e.g. http://dashboard-server:8000), used in OTA MQTT messages')
 
     return parser.parse_args()
 
@@ -114,6 +123,7 @@ class Config:
 
     @property
     def unifi_username(self) -> str:
+        """UniFi controller username"""
 
         if self._args.unifi_username:
             return self._args.unifi_username
@@ -125,6 +135,7 @@ class Config:
 
     @property
     def unifi_password(self) -> str:
+        """UniFi controller password"""
 
         if self._args.unifi_password:
             return self._args.unifi_password
@@ -136,6 +147,7 @@ class Config:
 
     @property
     def unifi_site(self) -> str:
+        """UniFi site name"""
 
         if self._args.unifi_site:
             return self._args.unifi_site
@@ -158,6 +170,42 @@ class Config:
 
         result = dict(pair.split('=', 1) for pair in pairs if '=' in pair)
         return {mac.strip().lower(): name for mac, name in result.items()}
+
+    @property
+    def mqtt_broker_host(self) -> str:
+        """MQTT broker hostname"""
+
+        if self._args.mqtt_broker_host:
+            return self._args.mqtt_broker_host
+
+        return os.environ.get('MQTT_BROKER_HOST', 'mosquitto.home.arpa')
+
+    @property
+    def mqtt_broker_port(self) -> int:
+        """MQTT broker port"""
+
+        if self._args.mqtt_broker_port:
+            return self._args.mqtt_broker_port
+
+        return int(os.environ.get('MQTT_BROKER_PORT', '1883'))
+
+    @property
+    def mqtt_topic_prefix(self) -> str:
+        """MQTT topic prefix"""
+
+        if self._args.mqtt_topic_prefix:
+            return self._args.mqtt_topic_prefix
+
+        return os.environ.get('MQTT_TOPIC_PREFIX', 'dashboard')
+
+    @property
+    def server_base_url(self) -> str:
+        """Publicly accessible base URL of this server, used in OTA MQTT messages."""
+
+        if self._args.server_base_url:
+            return self._args.server_base_url
+
+        return os.environ.get('SERVER_BASE_URL', 'http://dashboard.home.arpa')
 
     @property
     def log_level(self) -> int:

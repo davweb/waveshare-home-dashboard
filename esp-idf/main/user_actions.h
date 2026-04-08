@@ -93,7 +93,3 @@ void action_rain_chance_to_color(lv_event_t *e) {
 
     flow::setUserProperty(ACTION_RAIN_CHANCE_TO_COLOR_PROPERTY_COLOR, IntegerValue(color));
 }
-
-void action_check_for_update(lv_event_t *e) {
-    ota_check_and_update(CONFIG_DASHBOARD_SERVER_URL);
-}

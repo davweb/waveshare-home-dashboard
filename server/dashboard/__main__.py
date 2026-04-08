@@ -4,8 +4,9 @@ from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 from urllib.parse import urlparse, parse_qs
 import json
 import logging
-from . import get_data, initialise_data_fetching
-from .config import CONFIG
+
+from . import initialise_data_fetching
+from .config import CONFIG, FIRMWARE_PATH
 from . import ota
 
 
@@ -13,56 +14,23 @@ class DashboardHandler(BaseHTTPRequestHandler):
     """Webserver Class"""
 
     def do_GET(self) -> None:  # pylint: disable=invalid-name
+        """Handle GET requests"""
         path = urlparse(self.path).path
-        if path == '/ota/version':
-            self._handle_ota_version()
-        elif path == '/ota/firmware':
+        if path == FIRMWARE_PATH:
             self._handle_ota_firmware_download()
         else:
-            self._handle_dashboard_data()
+            self.send_error(404)
 
     def do_POST(self) -> None:  # pylint: disable=invalid-name
+        """Handle POST requests"""
         path = urlparse(self.path).path
-        if path == '/ota/firmware':
+        if path == FIRMWARE_PATH:
             self._handle_ota_firmware_upload()
         else:
             self.send_error(404)
 
     # ------------------------------------------------------------------
-    # Dashboard data
-    # ------------------------------------------------------------------
-
-    def _handle_dashboard_data(self) -> None:
-        body = json.dumps(get_data()).encode()
-        self.send_response(200)
-        self.send_header('Content-type', 'application/json')
-        self.send_header('Content-Length', str(len(body)))
-        self.end_headers()
-        self.wfile.write(body)
-
-    # ------------------------------------------------------------------
-    # OTA: version query
-    # ------------------------------------------------------------------
-
-    def _handle_ota_version(self) -> None:
-        version = ota.get_version()
-        firmware_path = ota.get_firmware_path()
-        if version is None or firmware_path is None:
-            body = json.dumps({'available': False, 'version': None}).encode()
-        else:
-            body = json.dumps({
-                'available': True,
-                'version': version,
-                'size': firmware_path.stat().st_size,
-            }).encode()
-        self.send_response(200)
-        self.send_header('Content-type', 'application/json')
-        self.send_header('Content-Length', str(len(body)))
-        self.end_headers()
-        self.wfile.write(body)
-
-    # ------------------------------------------------------------------
-    # OTA: firmware download (device pulls this)
+    # OTA: firmware download (device pulls this via HTTP)
     # ------------------------------------------------------------------
 
     def _handle_ota_firmware_download(self) -> None:
@@ -107,6 +75,8 @@ class DashboardHandler(BaseHTTPRequestHandler):
         data = self.rfile.read(content_length)
         ota.save_firmware(data, version)
 
+        ota.publish_version()
+
         body = json.dumps({'ok': True, 'version': version, 'size': len(data)}).encode()
         self.send_response(200)
         self.send_header('Content-type', 'application/json')
@@ -114,15 +84,14 @@ class DashboardHandler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body)
 
-    def log_message(self, message_format, *args) -> None:  # pylint: disable=arguments-differ
+    def log_message(self, message_format: str, *args: object) -> None:  # pylint: disable=arguments-differ
         return logging.info(message_format, *args)
 
 
 def configure_logging() -> None:
     """Configure logging"""
 
-    logging.basicConfig(encoding='utf-8',
-                        format='%(asctime)s %(levelname)s %(message)s',
+    logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s',
                         datefmt='[%Y-%m-%dT%H:%M:%S%z]',
                         level=CONFIG.log_level)
 
@@ -139,6 +108,10 @@ def main() -> None:
 
     configure_logging()
     initialise_data_fetching()
+
+    # Publish OTA version info if firmware is already present on disk
+    ota.publish_version()
+
     start_web_server()
 
 

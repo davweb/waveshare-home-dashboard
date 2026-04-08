@@ -48,7 +48,9 @@ def get_weather_data() -> dict:
             'min_temperature': today['temperatureLow'],
             'max_temperature': today['temperatureHigh'],
             'precip_chance_percent': today['precipProbability'] * 100,
-            'precip_type': 'Snow' if today.get('precipType') == 'snow' else 'Sleet' if today.get('precipType') == 'sleet' else 'Rain',
+            'precip_type': ('Snow' if today.get('precipType') == 'snow'
+                            else 'Sleet' if today.get('precipType') == 'sleet'
+                            else 'Rain'),
         },
         'hourly': hourly,
     }

@@ -8,7 +8,7 @@ from .config import CONFIG
 logger = logging.getLogger(__name__)
 
 
-def get_connected_macs() -> set[str]:
+def get_connected_macs() -> list[dict]:
     """Return the set of MAC addresses currently connected to the network.
 
     Tries the legacy standalone controller endpoint first, then falls back to

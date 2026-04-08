@@ -125,7 +125,7 @@ inline void set_system_information() {
     info.software_info(sw);
     info.hardware_info(hw);
     info.timezone(CONFIG_CLOCK_POSIX_TZ);
-    info.server_url(CONFIG_DASHBOARD_SERVER_URL);
+    info.server_url(CONFIG_MQTT_BROKER_URL);
     info.partitions(partitions);
 
     flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_SYSTEM_INFO, info);
@@ -153,14 +153,9 @@ inline ArrayOfMemoryUsageValue buildMemoryUsage() {
     return memory;
 }
 
-inline void set_ota_information(OtaLastCheck last) {
-
-    char last_check_str[64];
-    format_date_time(last_check_str, sizeof(last_check_str), last.check_time);
-
+inline void set_ota_information(const char *new_version) {
     OtaInformationValue ota;
-    ota.server_version(last.server_version);
-    ota.ota_last_check(last_check_str);
+    ota.server_version(new_version);
 
     if (lvgl_port_lock(portMAX_DELAY)) {
         flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_OTA_INFO, ota);

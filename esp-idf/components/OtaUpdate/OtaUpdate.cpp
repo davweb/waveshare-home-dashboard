@@ -23,17 +23,14 @@ static const char *TAG = "OtaUpdate";
 static ota_start_cb_t    s_on_start    = nullptr;
 static ota_progress_cb_t s_on_progress = nullptr;
 static ota_complete_cb_t s_on_complete = nullptr;
-static ota_checked_cb_t  s_on_checked  = nullptr;
 
 void ota_set_callbacks(ota_start_cb_t    on_start,
                        ota_progress_cb_t  on_progress,
-                       ota_complete_cb_t  on_complete,
-                       ota_checked_cb_t   on_checked)
+                       ota_complete_cb_t  on_complete)
 {
     s_on_start    = on_start;
     s_on_progress = on_progress;
     s_on_complete = on_complete;
-    s_on_checked  = on_checked;
 }
 
 // ---------------------------------------------------------------------------
@@ -43,72 +40,6 @@ void ota_set_callbacks(ota_start_cb_t    on_start,
 const char *ota_current_version(void)
 {
     return esp_app_get_description()->version;
-}
-
-// ---------------------------------------------------------------------------
-// Step 1 — query the server for the available firmware version
-// ---------------------------------------------------------------------------
-// Returns true and writes the version string into out_version on success.
-
-static bool fetch_server_version(const char *url, char *out_version, size_t out_len)
-{
-    esp_http_client_config_t cfg = {};
-    cfg.url        = url;
-    cfg.timeout_ms = 10000;
-
-    esp_http_client_handle_t client = esp_http_client_init(&cfg);
-    if (!client) {
-        ESP_LOGE(TAG, "HTTP init failed for version check");
-        return false;
-    }
-
-    esp_err_t err = esp_http_client_open(client, 0);
-    if (err != ESP_OK) {
-        ESP_LOGE(TAG, "HTTP open failed: %s", esp_err_to_name(err));
-        esp_http_client_cleanup(client);
-        return false;
-    }
-
-    esp_http_client_fetch_headers(client);
-    int status = esp_http_client_get_status_code(client);
-    if (status != 200) {
-        ESP_LOGE(TAG, "Version check returned HTTP %d", status);
-        esp_http_client_close(client);
-        esp_http_client_cleanup(client);
-        return false;
-    }
-
-    // Small JSON response — 256 bytes is plenty
-    char buf[256] = {};
-    int read = esp_http_client_read(client, buf, sizeof(buf) - 1);
-    esp_http_client_close(client);
-    esp_http_client_cleanup(client);
-
-    if (read <= 0) {
-        ESP_LOGE(TAG, "Empty version response");
-        return false;
-    }
-
-    cJSON *root = cJSON_ParseWithLength(buf, (size_t)read);
-    if (!root) {
-        ESP_LOGE(TAG, "Failed to parse version JSON");
-        return false;
-    }
-
-    bool ok = false;
-    cJSON *version_item = cJSON_GetObjectItem(root, "version");
-    cJSON *available = cJSON_GetObjectItem(root, "available");
-    if (cJSON_IsTrue(available)) {
-        if (cJSON_IsString(version_item) && version_item->valuestring) {
-            strlcpy(out_version, version_item->valuestring, out_len);
-            ok = true;
-        }
-    } else {
-        ESP_LOGI(TAG, "Server reports no firmware available");
-    }
-
-    cJSON_Delete(root);
-    return ok;
 }
 
 // ---------------------------------------------------------------------------
@@ -238,58 +169,37 @@ static bool download_and_flash(const char *url, const char *new_version)
     return true;   // unreachable
 }
 
-// ---------------------------------------------------------------------------
-// Public entry point
-// ---------------------------------------------------------------------------
-
-static bool do_ota_check_and_update(const char *server_url)
-{
-    OtaLastCheck last_check = {};
-    last_check.check_time = time(nullptr);
-
-    if (!isWiFiConnected()) {
-        ESP_LOGW(TAG, "WiFi not connected — skipping OTA check");
-        if (s_on_checked) s_on_checked(last_check);
-        return false;
-    }
-
-    char version_url[128];
-    snprintf(version_url, sizeof(version_url), "%s/ota/version", server_url);
-
-    if (!fetch_server_version(version_url, last_check.server_version, sizeof(last_check.server_version))) {
-        if (s_on_checked) s_on_checked(last_check);
-        return false;
-    }
-
-    if (s_on_checked) s_on_checked(last_check);
-
-    const char *running = ota_current_version();
-    ESP_LOGI(TAG, "Running firmware: %s  Server firmware: %s", running, last_check.server_version);
-
-    if (strcmp(last_check.server_version, running) == 0) {
-        ESP_LOGI(TAG, "Firmware is up to date");
-        return false;
-    }
-
-    char firmware_url[128];
-    snprintf(firmware_url, sizeof(firmware_url), "%s/ota/firmware", server_url);
-
-    return download_and_flash(firmware_url, last_check.server_version);
-}
-
 static volatile bool s_ota_running = false;
+static char s_pending_firmware_url[256];
+static char s_pending_server_version[32];
 
-void ota_check_and_update(const char *server_url)
+// ---------------------------------------------------------------------------
+// MQTT-driven OTA — version info via MQTT, firmware binary via HTTP
+// ---------------------------------------------------------------------------
+
+void ota_apply_mqtt_update(const char *server_version, const char *firmware_url)
 {
     if (s_ota_running) {
-        ESP_LOGW(TAG, "OTA check already in progress — ignoring");
+        ESP_LOGW(TAG, "OTA already in progress — ignoring");
         return;
     }
+
     s_ota_running = true;
 
-    xTaskCreate([](void *arg) {
-        do_ota_check_and_update(static_cast<const char *>(arg));
+    const char *current_version = ota_current_version();
+    ESP_LOGI(TAG, "Current: %s - Server: %s", current_version, server_version);
+
+    if (strcmp(server_version, current_version) == 0) {
+        ESP_LOGI(TAG, "Firmware is up to date");
+        s_ota_running = false;
+        return;
+    }
+
+    strlcpy(s_pending_firmware_url,   firmware_url,   sizeof(s_pending_firmware_url));
+    strlcpy(s_pending_server_version, server_version, sizeof(s_pending_server_version));
+    xTaskCreate([](void *) {
+        download_and_flash(s_pending_firmware_url, s_pending_server_version);
         s_ota_running = false;
         vTaskDelete(nullptr);
-    }, "ota_check", 8192, const_cast<char *>(server_url), tskIDLE_PRIORITY + 1, nullptr);
+    }, "ota_download", 8192, nullptr, tskIDLE_PRIORITY + 1, nullptr);
 }

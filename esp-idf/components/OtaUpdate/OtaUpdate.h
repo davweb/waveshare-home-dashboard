@@ -6,11 +6,6 @@
 extern "C" {
 #endif
 
-typedef struct {
-char server_version[32]; // Last version string seen from the server ("" if never checked)
-    time_t check_time;       // Time of last check (0 if never checked)
-} OtaLastCheck;
-
 // ---------------------------------------------------------------------------
 // Callbacks — register these to hook OTA events into EEZ Flow actions
 // ---------------------------------------------------------------------------
@@ -27,13 +22,9 @@ typedef void (*ota_progress_cb_t)(int percent);
 // success == false → something went wrong; message describes the failure.
 typedef void (*ota_complete_cb_t)(bool success, const char *message);
 
-// Called after every version check (successful or not); result contains the server version and check time.
-typedef void (*ota_checked_cb_t)(OtaLastCheck result);
-
 void ota_set_callbacks(ota_start_cb_t    on_start,
                        ota_progress_cb_t  on_progress,
-                       ota_complete_cb_t  on_complete,
-                       ota_checked_cb_t   on_checked);
+                       ota_complete_cb_t  on_complete);
 
 // ---------------------------------------------------------------------------
 // Core API
@@ -42,9 +33,11 @@ void ota_set_callbacks(ota_start_cb_t    on_start,
 // Returns the version string compiled into the running firmware.
 const char *ota_current_version(void);
 
-// Runs ota_check_and_update in a background FreeRTOS task so the caller
-// (e.g. an LVGL event handler) is not blocked.
-void ota_check_and_update(const char *server_url);
+// Called when OTA version info arrives via MQTT.
+// Compares server_version to the running firmware; if different, downloads firmware_url via HTTP.
+// Both strings are copied internally — safe to call with temporary buffers.
+// Runs in a background task; caches the last seen values for ota_recheck_from_mqtt().
+void ota_apply_mqtt_update(const char *server_version, const char *firmware_url);
 
 #ifdef __cplusplus
 }

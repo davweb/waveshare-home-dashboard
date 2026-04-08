@@ -1,0 +1,20 @@
+menu "MQTT configuration"
+
+    config MQTT_BROKER_URL
+        string "MQTT broker URL"
+        default "mqtt://mosquitto.home.arpa"
+        help
+            URI of the MQTT broker. Examples:
+            mqtt://mosquitto.home.arpa
+            mqtt://192.168.1.10:1883
+
+    config MQTT_TOPIC_PREFIX
+        string "MQTT topic prefix"
+        default "dashboard"
+        help
+            Leading segment for all subscribed topics.
+            e.g. "dashboard" → dashboard/bus_stops, dashboard/weather, etc.
+            Change per device (e.g. "dashboard-dev") to isolate dev/prod traffic
+            on the same broker.
+
+endmenu

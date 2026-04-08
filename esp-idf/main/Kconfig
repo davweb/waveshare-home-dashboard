@@ -1,10 +1,1 @@
-menu "Dashboard configuration"
-
-    config DASHBOARD_SERVER_URL
-        string "Dashboard server URL"
-        default "http://dashboard-server"
-        help
-            URL of the dashboard server to fetch data from.
-            Set in sdkconfig.local.
-
-endmenu
+# Dashboard data is received via MQTT. See components/MqttTools/Kconfig for configuration.

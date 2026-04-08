@@ -14,11 +14,13 @@ Endpoints (wired in __main__.py):
 import logging
 import os
 from pathlib import Path
+from . import mqtt_publisher
+from .config import CONFIG, FIRMWARE_PATH
 
 logger = logging.getLogger(__name__)
 
 _FIRMWARE_FILENAME = 'firmware.bin'
-_VERSION_FILENAME  = 'version.txt'
+_VERSION_FILENAME = 'version.txt'
 
 
 def _firmware_dir() -> Path:
@@ -41,12 +43,20 @@ def get_version() -> str | None:
     return p.read_text(encoding='utf-8').strip()
 
 
+def publish_version() -> None:
+    """Publish the current firmware version to MQTT. Publishes blank version if none is stored."""
+    version = get_version() or ''
+    firmware_url = f"{CONFIG.server_base_url}{FIRMWARE_PATH}"
+    mqtt_publisher.publish('ota', {'version': version, 'url': firmware_url})
+    logger.info('Published OTA version %r to MQTT (url: %s)', version, firmware_url)
+
+
 def save_firmware(data: bytes, version: str) -> None:
     """Atomically replace the stored firmware binary and version."""
     d = _firmware_dir()
     # Write to temp files then rename so reads never see partial writes
     bin_tmp = d / (_FIRMWARE_FILENAME + '.tmp')
-    ver_tmp = d / (_VERSION_FILENAME  + '.tmp')
+    ver_tmp = d / (_VERSION_FILENAME + '.tmp')
     bin_tmp.write_bytes(data)
     ver_tmp.write_text(version, encoding='utf-8')
     bin_tmp.rename(d / _FIRMWARE_FILENAME)

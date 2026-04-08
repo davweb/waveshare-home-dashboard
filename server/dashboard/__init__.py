@@ -13,6 +13,7 @@ from . import recycling
 from . import unifi
 from . import weather
 from .config import CONFIG
+from . import mqtt_publisher
 
 
 class DataSource(ABC):
@@ -27,7 +28,7 @@ class DataSource(ABC):
         """Load data from the source"""
 
     @abstractmethod
-    def format_data(self, data: Any) -> dict:
+    def format_data(self, data: Any) -> dict | list[dict]:
         """Format the data into a dictionary, run each time the JSON is sent to the client"""
 
     @abstractmethod
@@ -88,7 +89,7 @@ class WeatherDataSource(DataSource):
             is_sunrise = True
             event_time = sunrise
 
-        hours = [
+        hours: list[dict[str, int | str]] = [
             {
                 'hour': entry['time'].hour,
                 'icon': entry.get('icon', ''),
@@ -136,7 +137,10 @@ class RecyclingDataSource(DataSource):
     def format_data(self, data: list[recycling.RecyclingCollection]) -> list[dict]:
         return [
             {
-                'date_epoch': int(datetime(collection['date'].year, collection['date'].month, collection['date'].day).timestamp()),
+                'date_epoch': int(datetime(
+                    collection['date'].year,
+                    collection['date'].month,
+                    collection['date'].day).timestamp()),
                 'type': collection['type']
             }
             for collection in data
@@ -156,7 +160,14 @@ class UnifiDataSource(DataSource):
         return unifi.get_connected_macs()
 
     def format_data(self, data: list[dict]) -> list[dict]:
-        return data
+        return [
+            {
+                'name': client['name'],
+                'connected': client['connected'],
+                'last_seen': 0 if client['connected'] else client['last_seen']
+            }
+            for client in data
+        ]
 
     def get_schedule(self) -> schedule.Job:
         return schedule.every(1).minutes
@@ -168,13 +179,25 @@ DATA_SOURCES = [
     RecyclingDataSource(),
     UnifiDataSource()
 ]
-DATA = {}
+DATA: dict[str, dict | list[dict]] = {}
 
 
-def _update_data_source(data_source):
+def _publish_data_source(data_source: DataSource) -> None:
+    name = data_source.get_name()
+    if name not in DATA:
+        return
+    try:
+        payload = data_source.format_data(DATA[name])
+        mqtt_publisher.publish(name, payload)
+    except Exception:  # pylint: disable=broad-exception-caught
+        logging.exception('Failed to publish %s to MQTT', name)
+
+
+def _update_data_source(data_source: DataSource) -> None:
     try:
         logging.info('Updating %s', data_source.get_name())
         DATA[data_source.get_name()] = data_source.get_data()
+        _publish_data_source(data_source)
     except Exception:  # pylint: disable=broad-exception-caught
         logging.exception('Failed to update %s', data_source.get_name())
 

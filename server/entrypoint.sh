@@ -29,9 +29,8 @@ then
 fi
 
 # Show dependency versions
-debug `python --version`
+debug `uv run python --version`
 
-# Run now
+# Run now
 cd /app
-source venv/bin/activate
-python -m dashboard
+uv run python -m dashboard

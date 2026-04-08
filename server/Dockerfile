@@ -1,14 +1,13 @@
 FROM alpine:edge
 
-# Install python
-RUN apk add --no-cache python3
-# Build a virtual env to build the python dependencies in to
-RUN python3 -m venv /app/venv
-# Install python dependenices into temporary build image
-COPY requirements.txt /app
-RUN source /app/venv/bin/activate && pip3 install --no-cache-dir --requirement /app/requirements.txt
+# Install python and uv
+RUN apk add --no-cache python3 uv
 
 WORKDIR /app
+
+# Install dependencies from lockfile
+COPY pyproject.toml uv.lock /app/
+RUN uv sync --frozen --no-dev
 
 # Copy the app files
 COPY dashboard dashboard
