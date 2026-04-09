@@ -26,6 +26,8 @@ def _on_connect(_client: mqtt.Client, _userdata: object, _flags: object,
     logger.info('MQTT connected to %s:%d (prefix: %s)',
                 CONFIG.mqtt_broker_host, CONFIG.mqtt_broker_port,
                 CONFIG.mqtt_topic_prefix)
+    _client.publish(f"{CONFIG.mqtt_topic_prefix}/server",
+                    json.dumps({"connected": True}), qos=1, retain=True)
 
 
 def _on_disconnect(_client: mqtt.Client, _userdata: object, _flags: object,
@@ -40,6 +42,8 @@ def _get_client() -> mqtt.Client:
         _CLIENT = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
         _CLIENT.on_connect = _on_connect
         _CLIENT.on_disconnect = _on_disconnect
+        _CLIENT.will_set(f"{CONFIG.mqtt_topic_prefix}/server",
+                         json.dumps({"connected": False}), qos=1, retain=True)
         _CLIENT.connect_async(CONFIG.mqtt_broker_host, CONFIG.mqtt_broker_port)
         _CLIENT.loop_start()
     return _CLIENT

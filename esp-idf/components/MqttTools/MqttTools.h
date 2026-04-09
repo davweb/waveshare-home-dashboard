@@ -10,6 +10,7 @@ enum class MqttTopic {
     RECYCLING,
     PRESENCE,
     OTA,
+    SERVER,
 };
 
 // Callback invoked on the MQTT client task when a message arrives on a known topic.

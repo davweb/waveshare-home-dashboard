@@ -274,7 +274,6 @@ static void onMqttMessage(MqttTopic topic, cJSON *json)
 
             if (lvgl_port_lock(portMAX_DELAY)) {
                 flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_PRESENCE, presence);
-                flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_STATE, SystemState_RUNNING);
                 lvgl_port_unlock();
             }
             else {
@@ -293,6 +292,20 @@ static void onMqttMessage(MqttTopic topic, cJSON *json)
                 ota_apply_mqtt_update(version, url);
             } else {
                 ESP_LOGW(TAG, "OTA payload missing version or url");
+            }
+            break;
+        }
+
+        case MqttTopic::SERVER: {
+            cJSON *connected_item = cJSON_GetObjectItem(json, "connected");
+            bool is_connected = connected_item && cJSON_IsTrue(connected_item);
+
+            if (lvgl_port_lock(portMAX_DELAY)) {
+                flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_STATE,
+                    is_connected ? SystemState_RUNNING : SystemState_NO_DATA);
+                lvgl_port_unlock();
+            } else {
+                ESP_LOGE(TAG, "Failed to lock LVGL mutex to update server state");
             }
             break;
         }

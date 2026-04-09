@@ -16,6 +16,7 @@ static std::string s_topic_weather;
 static std::string s_topic_recycling;
 static std::string s_topic_presence;
 static std::string s_topic_ota;
+static std::string s_topic_server;
 
 static bool topic_from_event(const char *topic, int len, MqttTopic &out)
 {
@@ -25,6 +26,7 @@ static bool topic_from_event(const char *topic, int len, MqttTopic &out)
     if (t == s_topic_recycling) { out = MqttTopic::RECYCLING; return true; }
     if (t == s_topic_presence)  { out = MqttTopic::PRESENCE;  return true; }
     if (t == s_topic_ota)       { out = MqttTopic::OTA;       return true; }
+    if (t == s_topic_server)    { out = MqttTopic::SERVER;    return true; }
     return false;
 }
 
@@ -42,6 +44,7 @@ static void mqtt_event_handler(void * /*handler_args*/, esp_event_base_t /*base*
             esp_mqtt_client_subscribe(s_client, s_topic_recycling.c_str(), 1);
             esp_mqtt_client_subscribe(s_client, s_topic_presence.c_str(),  1);
             esp_mqtt_client_subscribe(s_client, s_topic_ota.c_str(),       1);
+            esp_mqtt_client_subscribe(s_client, s_topic_server.c_str(),    1);
             break;
 
         case MQTT_EVENT_DISCONNECTED:
@@ -90,6 +93,7 @@ void mqtt_init(MqttMessageCallback cb)
     s_topic_recycling = std::string(prefix) + "/recycling";
     s_topic_presence  = std::string(prefix) + "/presence";
     s_topic_ota       = std::string(prefix) + "/ota";
+    s_topic_server    = std::string(prefix) + "/server";
 
     esp_mqtt_client_config_t cfg = {};
     cfg.broker.address.uri = CONFIG_MQTT_BROKER_URL;
