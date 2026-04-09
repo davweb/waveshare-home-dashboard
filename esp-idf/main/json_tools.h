@@ -2,15 +2,6 @@
 
 #include <cJSON.h>
 
-/**
- * Fetch and parse a JSON document from a URL into a cJSON object.
- * Caller is responsible for calling cJSON_Delete() on the returned object.
- *
- * @param url The URL to fetch the JSON from.
- * @return A pointer to the parsed cJSON object, or nullptr on failure.
- */
-cJSON *getCJsonFromUrl(const char *url);
-
 // Helpers to safely extract values from a cJSON object with defaults
 
 inline const char *cjson_str(cJSON *obj, const char *key, const char *def = "") {

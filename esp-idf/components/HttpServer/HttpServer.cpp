@@ -6,8 +6,6 @@
 #include "lvgl.h"
 #include "lvgl_v8_port.h"
 
-#include <cstring>
-
 static const char *TAG = "HttpServer";
 
 // ---------------------------------------------------------------------------

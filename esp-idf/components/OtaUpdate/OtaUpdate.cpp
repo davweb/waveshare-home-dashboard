@@ -4,7 +4,6 @@
 #include "esp_ota_ops.h"
 #include "esp_http_client.h"
 #include "esp_app_format.h"
-#include "cJSON.h"
 #include "Wireless.h"
 
 #include "freertos/FreeRTOS.h"
@@ -12,7 +11,6 @@
 
 #include <string.h>
 #include <stdlib.h>
-#include <time.h>
 
 static const char *TAG = "OtaUpdate";
 

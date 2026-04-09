@@ -17,7 +17,6 @@
 #include <structs.h>
 #include <vars.h>
 #include <eez-flow.h>
-#include <OtaUpdate.h>
 
 #include "time_utils.h"
 #include <stdio.h>
