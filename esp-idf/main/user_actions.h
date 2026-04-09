@@ -36,6 +36,10 @@ void action_reset_weather_scroll(lv_event_t *e) {
     lv_obj_scroll_to_x(objects.weather_hours, 0, LV_ANIM_OFF);
 }
 
+void action_reset_about_scroll(lv_event_t *e) {
+    lv_obj_scroll_to_y(objects.about_container, 0, LV_ANIM_OFF);
+}
+
 void action_uv_index_to_color(lv_event_t *e) {
     int uv = flow::getUserProperty(ACTION_UV_INDEX_TO_COLOR_PROPERTY_UV_INDEX).getInt();
 

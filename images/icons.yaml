@@ -77,10 +77,6 @@ icons:
     input: material/triangle.svg
     size: small
 
-  - output: png/updates.png
-    input: bootstrap/cloud-arrow-down.svg
-    size: medium
-
   - output: png/weather-clear-day.png
     input: bootstrap/sun.svg
     size: medium
