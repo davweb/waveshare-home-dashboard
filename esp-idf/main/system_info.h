@@ -120,14 +120,32 @@ inline void set_system_information() {
     }
     if (it != NULL) esp_partition_iterator_release(it);
 
+    MqttInformationValue mqtt_info;
+    mqtt_info.broker_address(CONFIG_MQTT_BROKER_URL);
+    mqtt_info.broker_version("");
+    mqtt_info.topic_prefix(CONFIG_MQTT_TOPIC_PREFIX);
+
     SystemInformationValue info;
     info.software_info(sw);
     info.hardware_info(hw);
-    info.timezone(CONFIG_CLOCK_POSIX_TZ);
-    info.server_url(CONFIG_MQTT_BROKER_URL);
     info.partitions(partitions);
+    info.mqtt(mqtt_info);
 
     flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_SYSTEM_INFO, info);
+}
+
+inline void update_mqtt_broker_version(const char *version) {
+    if (lvgl_port_lock(portMAX_DELAY)) {
+        Value sys_info = flow::getGlobalVariable(FLOW_GLOBAL_VARIABLE_SYSTEM_INFO);
+        SystemInformationValue info(sys_info);
+        MqttInformationValue mqtt_info = info.mqtt();
+        mqtt_info.broker_version(version);
+        info.mqtt(mqtt_info);
+        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_SYSTEM_INFO, info);
+        lvgl_port_unlock();
+    } else {
+        ESP_LOGE("system_info", "Failed to lock LVGL mutex to update MQTT broker version");
+    }
 }
 
 inline ArrayOfMemoryUsageValue buildMemoryUsage() {

@@ -11,6 +11,7 @@ enum class MqttTopic {
     PRESENCE,
     OTA,
     SERVER,
+    SYS_BROKER_VERSION,
 };
 
 // Callback invoked on the MQTT client task when a message arrives on a known topic.

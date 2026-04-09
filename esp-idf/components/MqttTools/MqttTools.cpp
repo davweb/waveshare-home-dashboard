@@ -21,12 +21,13 @@ static std::string s_topic_server;
 static bool topic_from_event(const char *topic, int len, MqttTopic &out)
 {
     std::string t(topic, (size_t)len);
-    if (t == s_topic_bus_stops) { out = MqttTopic::BUS_STOPS; return true; }
-    if (t == s_topic_weather)   { out = MqttTopic::WEATHER;   return true; }
-    if (t == s_topic_recycling) { out = MqttTopic::RECYCLING; return true; }
-    if (t == s_topic_presence)  { out = MqttTopic::PRESENCE;  return true; }
-    if (t == s_topic_ota)       { out = MqttTopic::OTA;       return true; }
-    if (t == s_topic_server)    { out = MqttTopic::SERVER;    return true; }
+    if (t == s_topic_bus_stops)          { out = MqttTopic::BUS_STOPS;          return true; }
+    if (t == s_topic_weather)            { out = MqttTopic::WEATHER;             return true; }
+    if (t == s_topic_recycling)          { out = MqttTopic::RECYCLING;           return true; }
+    if (t == s_topic_presence)           { out = MqttTopic::PRESENCE;            return true; }
+    if (t == s_topic_ota)                { out = MqttTopic::OTA;                 return true; }
+    if (t == s_topic_server)             { out = MqttTopic::SERVER;              return true; }
+    if (t == "$SYS/broker/version")      { out = MqttTopic::SYS_BROKER_VERSION; return true; }
     return false;
 }
 
@@ -45,6 +46,7 @@ static void mqtt_event_handler(void * /*handler_args*/, esp_event_base_t /*base*
             esp_mqtt_client_subscribe(s_client, s_topic_presence.c_str(),  1);
             esp_mqtt_client_subscribe(s_client, s_topic_ota.c_str(),       1);
             esp_mqtt_client_subscribe(s_client, s_topic_server.c_str(),    1);
+            esp_mqtt_client_subscribe(s_client, "$SYS/broker/version",     1);
             break;
 
         case MQTT_EVENT_DISCONNECTED:
@@ -57,6 +59,18 @@ static void mqtt_event_handler(void * /*handler_args*/, esp_event_base_t /*base*
             MqttTopic topic;
             if (!topic_from_event(event->topic, event->topic_len, topic)) {
                 ESP_LOGW(TAG, "Message on unknown topic, ignoring");
+                break;
+            }
+
+            // $SYS topics carry plain text, not JSON — wrap as a cJSON string.
+            if (topic == MqttTopic::SYS_BROKER_VERSION) {
+                std::string payload(event->data, (size_t)event->data_len);
+                ESP_LOGD(TAG, "MQTT $SYS/broker/version: %s", payload.c_str());
+                cJSON *root = cJSON_CreateString(payload.c_str());
+                if (root) {
+                    s_callback(topic, root);
+                    cJSON_Delete(root);
+                }
                 break;
             }
 

@@ -282,6 +282,15 @@ static void onMqttMessage(MqttTopic topic, cJSON *json)
             break;
         }
 
+        case MqttTopic::SYS_BROKER_VERSION: {
+            // json is a cJSON string node wrapping the plain-text payload
+            if (cJSON_IsString(json) && json->valuestring) {
+                ESP_LOGI(TAG, "MQTT broker version: %s", json->valuestring);
+                update_mqtt_broker_version(json->valuestring);
+            }
+            break;
+        }
+
         case MqttTopic::OTA: {
             const char *version = cjson_str(json, "version");
             const char *url     = cjson_str(json, "url");
