@@ -12,7 +12,8 @@ using namespace esp_panel::drivers;
 //https://github.com/esp-arduino-libs/ESP32_Display_Panel/blob/master/examples/platformio/lvgl_v8_port/src/main.cpp
 
 Board * initialiseDisplayPanel() {
-    Board *board = new Board();
+    static Board s_board;
+    Board *board = &s_board;
     board->init();
 
     #if LVGL_PORT_AVOID_TEAR

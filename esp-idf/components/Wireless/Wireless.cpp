@@ -35,6 +35,7 @@ static void wifi_event_handler(void *arg, esp_event_base_t event_base,
 void startWiFi() {
     if (CONFIG_WIFI_SSID[0] == '\0') {
         ESP_LOGE(TAG, "No WiFi credentials configured.");
+        return;
     }
 
     esp_err_t ret = nvs_flash_init();

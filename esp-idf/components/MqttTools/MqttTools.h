@@ -1,22 +1,32 @@
 #pragma once
 
-#include <functional>
-#include <string>
-#include <cJSON.h>
+#include "sdkconfig.h"
+
+// ---------------------------------------------------------------------------
+// Topic table — one row per topic.  To add a topic:
+//   1. Add a row here
+//   2. Add a case in onMqttMessage (main.cpp)
+// Everything else (enum, statics, subscribe, routing) is derived automatically.
+// ---------------------------------------------------------------------------
+
+#define MQTT_TOPICS(X) \
+    X(BUS_STOPS,          CONFIG_MQTT_TOPIC_PREFIX "/bus_stops") \
+    X(WEATHER,            CONFIG_MQTT_TOPIC_PREFIX "/weather")   \
+    X(RECYCLING,          CONFIG_MQTT_TOPIC_PREFIX "/recycling") \
+    X(PRESENCE,           CONFIG_MQTT_TOPIC_PREFIX "/presence")  \
+    X(OTA,                CONFIG_MQTT_TOPIC_PREFIX "/ota")       \
+    X(SERVER,             CONFIG_MQTT_TOPIC_PREFIX "/server")    \
+    X(SYS_BROKER_VERSION, "$SYS/broker/version")
 
 enum class MqttTopic {
-    BUS_STOPS,
-    WEATHER,
-    RECYCLING,
-    PRESENCE,
-    OTA,
-    SERVER,
-    SYS_BROKER_VERSION,
+#define X(name, str) name,
+    MQTT_TOPICS(X)
+#undef X
 };
 
 // Callback invoked on the MQTT client task when a message arrives on a known topic.
-// root is the parsed cJSON tree — the callback must NOT call cJSON_Delete on it.
-using MqttMessageCallback = std::function<void(MqttTopic topic, cJSON *root)>;
+// data is the raw payload (NOT null-terminated); len is its length.
+using MqttMessageCallback = void(*)(MqttTopic topic, const char *data, int len);
 
 // Start the MQTT client and register the message callback.
 // Call once after WiFi is started; esp-mqtt handles reconnection automatically.

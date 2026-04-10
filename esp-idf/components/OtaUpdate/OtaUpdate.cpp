@@ -11,6 +11,7 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include <atomic>
 
 static const char *TAG = "OtaUpdate";
 
@@ -98,7 +99,7 @@ static bool download_and_flash(const char *url, const char *new_version)
         return false;
     }
 
-    char *buf = static_cast<char *>(malloc(OTA_BUF_SIZE));
+    char *buf = static_cast<char *>(heap_caps_malloc(OTA_BUF_SIZE, MALLOC_CAP_SPIRAM));
     if (!buf) {
         ESP_LOGE(TAG, "Failed to allocate OTA buffer");
         esp_ota_abort(ota_handle);
@@ -167,7 +168,7 @@ static bool download_and_flash(const char *url, const char *new_version)
     return true;   // unreachable
 }
 
-static volatile bool s_ota_running = false;
+static std::atomic<bool> s_ota_running{false};
 static char s_pending_firmware_url[256];
 static char s_pending_server_version[32];
 
@@ -177,12 +178,11 @@ static char s_pending_server_version[32];
 
 void ota_apply_mqtt_update(const char *server_version, const char *firmware_url)
 {
-    if (s_ota_running) {
+    bool expected = false;
+    if (!s_ota_running.compare_exchange_strong(expected, true)) {
         ESP_LOGW(TAG, "OTA already in progress — ignoring");
         return;
     }
-
-    s_ota_running = true;
 
     const char *current_version = ota_current_version();
     ESP_LOGI(TAG, "Current: %s - Server: %s", current_version, server_version);

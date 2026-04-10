@@ -6,6 +6,9 @@
 #include "json_tools.h"
 #include "time_utils.h"
 
+static constexpr int BUS_STOP_COUNT    = 2;
+static constexpr int BUS_ARRIVAL_COUNT = 3;
+
 struct BusArrivalData {
     char route[4];
     char destination[32];
@@ -14,11 +17,11 @@ struct BusArrivalData {
 
 struct BusStopData {
     char name[32];
-    BusArrivalData arrivals[3];
+    BusArrivalData arrivals[BUS_ARRIVAL_COUNT];
 };
 
 struct BusData {
-    BusStopData stops[2];
+    BusStopData stops[BUS_STOP_COUNT];
 };
 
 struct SunData {
@@ -81,15 +84,15 @@ struct RecyclingData {
 // Parse a bus_stops JSON array (the payload of the dashboard/bus_stops MQTT topic).
 inline bool parse_bus_stops(cJSON *root, BusData &bus)
 {
-    for (int j = 0; j < 2; j++) {
+    for (int j = 0; j < BUS_STOP_COUNT; j++) {
         cJSON *stop = cJSON_GetArrayItem(root, j);
-        strlcpy(bus.stops[j].name, cjson_str(stop, "name"), sizeof(bus.stops[j].name));
         cJSON *buses = stop ? cJSON_GetObjectItem(stop, "buses") : nullptr;
-        for (int i = 0; i < 3; i++) {
+        strlcpy(bus.stops[j].name, cjson_str(stop, "name"), sizeof(bus.stops[j].name));
+        for (int i = 0; i < BUS_ARRIVAL_COUNT; i++) {
             cJSON *arrival = cJSON_GetArrayItem(buses, i);
             strlcpy(bus.stops[j].arrivals[i].route,       cjson_str(arrival, "route"),       sizeof(bus.stops[j].arrivals[i].route));
             strlcpy(bus.stops[j].arrivals[i].destination, cjson_str(arrival, "destination"), sizeof(bus.stops[j].arrivals[i].destination));
-            bus.stops[j].arrivals[i].due_epoch = cjson_long(arrival, "due_time");
+            bus.stops[j].arrivals[i].due_epoch = cjson_epoch(arrival, "due_time");
         }
     }
 
@@ -142,7 +145,7 @@ inline bool parse_recycling(cJSON *root, RecyclingData &recycling)
     for (int i = 0; i < recycling.num_collections; i++) {
         cJSON *item = cJSON_GetArrayItem(root, i);
         strlcpy(recycling.items[i].type, cjson_str(item, "type"), sizeof(recycling.items[i].type));
-        recycling.items[i].date_epoch = cjson_long(item, "date_epoch");
+        recycling.items[i].date_epoch = cjson_epoch(item, "date_epoch");
         if (recycling.items[i].date_epoch > 0) {
             struct tm recycling_tm;
             localtime_r(&recycling.items[i].date_epoch, &recycling_tm);
@@ -174,7 +177,7 @@ inline bool parse_presence(cJSON *root, PresenceData &presence)
             presence.items[i].last_seen[0] = '\0';
         } else {
             format_last_seen(presence.items[i].last_seen, sizeof(presence.items[i].last_seen),
-                             cjson_long(item, "last_seen"), now);
+                             cjson_epoch(item, "last_seen"), now);
         }
     }
 

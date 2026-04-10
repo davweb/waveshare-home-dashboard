@@ -3,6 +3,7 @@
 #include "freertos/semphr.h"
 #include "esp_log.h"
 #include "esp_timer.h"
+#include <atomic>
 #include <esp_display_panel.hpp>
 #include <lvgl.h>
 #include <lvgl_v8_port.h>
@@ -90,7 +91,7 @@ static SemaphoreHandle_t s_bus_mutex = nullptr;
 
 // Set by the MQTT callback when new bus data arrives so the main loop
 // recalculates immediately rather than waiting for the next 5-second tick.
-static volatile bool s_bus_updated = false;
+static std::atomic<bool> s_bus_updated{false};
 
 // ---------------------------------------------------------------------------
 // Bus due-time recalculation — only called from the main loop task.
@@ -99,8 +100,8 @@ static volatile bool s_bus_updated = false;
 static void recalculateDueTimes()
 {
     // Static so labels remain valid while referenced by the EEZ value.
-    static char bus_due_labels[2][3][8];
-    static int  bus_due_seconds[2][3];
+    static char bus_due_labels[BUS_STOP_COUNT][BUS_ARRIVAL_COUNT][8];
+    static int  bus_due_seconds[BUS_STOP_COUNT][BUS_ARRIVAL_COUNT];
 
     // Snapshot under mutex so the MQTT task can safely update g_bus_data.
     BusData bus;
@@ -109,8 +110,8 @@ static void recalculateDueTimes()
     xSemaphoreGive(s_bus_mutex);
 
     time_t now = time(nullptr);
-    for (int j = 0; j < 2; j++) {
-        for (int i = 0; i < 3; i++) {
+    for (int j = 0; j < BUS_STOP_COUNT; j++) {
+        for (int i = 0; i < BUS_ARRIVAL_COUNT; i++) {
             time_t epoch = bus.stops[j].arrivals[i].due_epoch;
             bus_due_seconds[j][i] = epoch > 0 ? (int)(epoch - now) : 0;
             if (bus.stops[j].arrivals[i].route[0] == '\0') {
@@ -121,10 +122,10 @@ static void recalculateDueTimes()
         }
     }
 
-    ArrayOfBusStopValue bus_stops(2);
-    for (int j = 0; j < 2; j++) {
-        ArrayOfBusArrivalValue arrivals(3);
-        for (int i = 0; i < 3; i++) {
+    ArrayOfBusStopValue bus_stops(BUS_STOP_COUNT);
+    for (int j = 0; j < BUS_STOP_COUNT; j++) {
+        ArrayOfBusArrivalValue arrivals(BUS_ARRIVAL_COUNT);
+        for (int i = 0; i < BUS_ARRIVAL_COUNT; i++) {
             BusArrivalValue arrival;
             arrival.route(bus.stops[j].arrivals[i].route);
             arrival.destination(bus.stops[j].arrivals[i].destination);
@@ -138,11 +139,8 @@ static void recalculateDueTimes()
         bus_stops.at(j, bus_stop);
     }
 
-    CPUStatsValue cpu_stats = buildCPUStats();
-
     if (lvgl_port_lock(portMAX_DELAY)) {
         flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_BUS_STOPS, bus_stops);
-        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_CPU_STATISTICS, cpu_stats);
         lvgl_port_unlock();
     }
     else {
@@ -174,13 +172,22 @@ static WeatherType icon_string_to_weather_type(const char *icon) {
 // MQTT message callback — runs on the MQTT client task
 // ---------------------------------------------------------------------------
 
-static void onMqttMessage(MqttTopic topic, cJSON *json)
+static void onMqttMessage(MqttTopic topic, const char *data, int len)
 {
+    // Helper: parse the raw payload as JSON. Caller must cJSON_Delete the result.
+    auto parse_json = [&]() -> cJSON * {
+        cJSON *root = cJSON_ParseWithLength(data, (size_t)len);
+        if (!root) ESP_LOGW(TAG, "Failed to parse JSON on topic %d", (int)topic);
+        return root;
+    };
+
     switch (topic) {
 
         case MqttTopic::BUS_STOPS: {
+            cJSON *json = parse_json(); if (!json) break;
             BusData new_bus = {};
             parse_bus_stops(json, new_bus);
+            cJSON_Delete(json);
             xSemaphoreTake(s_bus_mutex, portMAX_DELAY);
             g_bus_data = new_bus;
             xSemaphoreGive(s_bus_mutex);
@@ -189,7 +196,9 @@ static void onMqttMessage(MqttTopic topic, cJSON *json)
         }
 
         case MqttTopic::WEATHER: {
+            cJSON *json = parse_json(); if (!json) break;
             parse_weather(json, g_sun_data, g_weather_data);
+            cJSON_Delete(json);
 
             WeatherValue weather;
 
@@ -236,7 +245,9 @@ static void onMqttMessage(MqttTopic topic, cJSON *json)
         }
 
         case MqttTopic::RECYCLING: {
+            cJSON *json = parse_json(); if (!json) break;
             parse_recycling(json, g_recycling_data);
+            cJSON_Delete(json);
 
             ArrayOfRecyclingValue recycling(g_recycling_data.num_collections);
             for (int i = 0; i < g_recycling_data.num_collections; i++) {
@@ -261,7 +272,9 @@ static void onMqttMessage(MqttTopic topic, cJSON *json)
         }
 
         case MqttTopic::PRESENCE: {
+            cJSON *json = parse_json(); if (!json) break;
             parse_presence(json, g_presence_data);
+            cJSON_Delete(json);
 
             ArrayOfPresenceValue presence(g_presence_data.num_people);
             for (int i = 0; i < g_presence_data.num_people; i++) {
@@ -283,15 +296,19 @@ static void onMqttMessage(MqttTopic topic, cJSON *json)
         }
 
         case MqttTopic::SYS_BROKER_VERSION: {
-            // json is a cJSON string node wrapping the plain-text payload
-            if (cJSON_IsString(json) && json->valuestring) {
-                ESP_LOGI(TAG, "MQTT broker version: %s", json->valuestring);
-                update_mqtt_broker_version(json->valuestring);
-            }
+            // Plain text payload — null-terminate into a stack buffer.
+            char version_buf[64];
+            size_t vlen = (size_t)len < sizeof(version_buf) - 1
+                          ? (size_t)len : sizeof(version_buf) - 1;
+            memcpy(version_buf, data, vlen);
+            version_buf[vlen] = '\0';
+            ESP_LOGI(TAG, "MQTT broker version: %s", version_buf);
+            update_mqtt_broker_version(version_buf);
             break;
         }
 
         case MqttTopic::OTA: {
+            cJSON *json = parse_json(); if (!json) break;
             const char *version = cjson_str(json, "version");
             const char *url     = cjson_str(json, "url");
 
@@ -302,12 +319,14 @@ static void onMqttMessage(MqttTopic topic, cJSON *json)
             } else {
                 ESP_LOGW(TAG, "OTA payload missing version or url");
             }
+            cJSON_Delete(json);
             break;
         }
 
         case MqttTopic::SERVER: {
-            cJSON *connected_item = cJSON_GetObjectItem(json, "connected");
-            bool is_connected = connected_item && cJSON_IsTrue(connected_item);
+            cJSON *json = parse_json(); if (!json) break;
+            bool is_connected = cJSON_IsTrue(cJSON_GetObjectItem(json, "connected"));
+            cJSON_Delete(json);
 
             if (lvgl_port_lock(portMAX_DELAY)) {
                 flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_STATE,
