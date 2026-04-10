@@ -39,10 +39,20 @@ inline void init_cpu_statistics() {
     temperature_sensor_enable(s_temp_sensor);
 }
 
+static const char* rssi_to_quality(int rssi) {
+    if (rssi > -50)  return "Excellent";
+    if (rssi > -60)  return "Good";
+    if (rssi > -70)  return "Fair";
+    if (rssi > -80)  return "Weak";
+    return "Poor";
+}
+
 inline HardwareStatsValue buildHardwareStats() {
     HardwareStatsValue stats;
     stats.frequency_mhz(CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ);
-    stats.network_rssi(getWiFiRSSI());
+    int rssi = getWiFiRSSI();
+    stats.network_rssi(rssi);
+    stats.network_quality(rssi != 0 ? rssi_to_quality(rssi) : "");
 
     if (s_temp_sensor) {
         float temp;

@@ -565,6 +565,11 @@
             "objID": "6b3e3019-0b5c-40d7-8f01-01443b8fdc43",
             "name": "network_rssi",
             "type": "integer"
+          },
+          {
+            "objID": "8225b49e-ee7f-4105-eedc-5b00b772b10e",
+            "name": "network_quality",
+            "type": "string"
           }
         ]
       },
@@ -9761,7 +9766,8 @@
                     "objID": "89d4cd78-426d-4277-c56b-951893b1683c",
                     "values": {
                       "3add752c-a1fa-4351-91ca-e156a7f6e715": "network_info",
-                      "0e3c6844-c26a-4f0b-b00d-9ae778c9ddf8": "hw_statistics.network_rssi"
+                      "0e3c6844-c26a-4f0b-b00d-9ae778c9ddf8": "hw_statistics.network_rssi",
+                      "8bc5e02e-d504-4705-81c3-d7bbfd7e79dd": "hw_statistics.network_quality"
                     }
                   }
                 },
@@ -11372,7 +11378,7 @@
                   },
                   "group": "",
                   "groupIndex": 0,
-                  "image": "bus",
+                  "image": "person-in",
                   "setPivot": false,
                   "pivotX": 0,
                   "pivotY": 0,
@@ -11697,7 +11703,7 @@
           "type": "LVGLActionComponent",
           "left": 245,
           "top": -88,
-          "width": 415,
+          "width": 378,
           "height": 53,
           "customInputs": [],
           "customOutputs": [],
@@ -11705,7 +11711,7 @@
             {
               "objID": "5d705889-e296-4116-c765-b8c08178efa5",
               "action": "changeScreen",
-              "screen": "Full Bus Times",
+              "screen": "Presence",
               "screenType": "literal",
               "fadeMode": "NONE",
               "fadeModeType": "literal",
@@ -19145,7 +19151,7 @@
                   },
                   "group": "",
                   "groupIndex": 0,
-                  "text": "rssi + \" dbBm\"",
+                  "text": "rssi + \" dbBm\" + \" (\" + quality + \")\"",
                   "textType": "expression",
                   "longMode": "WRAP",
                   "recolor": false,
@@ -19694,6 +19700,13 @@
           "objID": "07a44530-4c09-490a-c12e-c049596089e5",
           "name": "rssi",
           "type": "integer",
+          "assignable": false
+        },
+        {
+          "id": "8bc5e02e-d504-4705-81c3-d7bbfd7e79dd",
+          "objID": "7cc33f9f-d9ea-43c3-d68a-28441bb97822",
+          "name": "quality",
+          "type": "string",
           "assignable": false
         }
       ],
