@@ -229,9 +229,15 @@ static void onMqttMessage(MqttTopic topic, const char *data, int len)
             }
             weather.hours(hours);
 
+            char sun_time_str[8];
+            {
+                struct tm sun_tm;
+                localtime_r(&g_sun_data.time_utc, &sun_tm);
+                snprintf(sun_time_str, sizeof(sun_time_str), "%d:%02d", sun_tm.tm_hour, sun_tm.tm_min);
+            }
             SunTimeValue sun;
             sun.is_sunrise(g_sun_data.is_sunrise);
-            sun.time(g_sun_data.time);
+            sun.time(sun_time_str);
 
             if (lvgl_port_lock(portMAX_DELAY)) {
                 flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_WEATHER, weather);

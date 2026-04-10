@@ -37,8 +37,8 @@ def get_weather_data() -> dict:
 
     today = data['daily']['data'][0]
     return {
-        'sunrise': datetime.fromtimestamp(today['sunriseTime']),
-        'sunset': datetime.fromtimestamp(today['sunsetTime']),
+        'sunrise': datetime.fromtimestamp(today['sunriseTime'], tz=timezone.utc),
+        'sunset': datetime.fromtimestamp(today['sunsetTime'], tz=timezone.utc),
         'current': {
             'temperature': data['currently']['temperature'],
             'icon': data['currently']['icon'],

@@ -26,7 +26,7 @@ struct BusData {
 
 struct SunData {
     bool is_sunrise;
-    char time[16];
+    time_t time_utc;
 };
 
 struct WeatherHourData {
@@ -105,7 +105,7 @@ inline bool parse_weather(cJSON *root, SunData &sun, WeatherData &weather)
 {
     cJSON *sun_obj = cJSON_GetObjectItem(root, "sun");
     sun.is_sunrise = cjson_bool(sun_obj, "is_sunrise");
-    strlcpy(sun.time, cjson_str(sun_obj, "time"), sizeof(sun.time));
+    sun.time_utc   = cjson_epoch(sun_obj, "time_utc");
 
     cJSON *current = cJSON_GetObjectItem(root, "current");
     weather.current_temperature = cjson_int(current, "temperature");

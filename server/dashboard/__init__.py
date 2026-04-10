@@ -1,7 +1,7 @@
 """Home Dashboard Server"""
 
 from abc import ABC, abstractmethod
-from datetime import datetime
+from datetime import datetime, timezone
 import functools
 import logging
 import threading
@@ -80,7 +80,7 @@ class WeatherDataSource(DataSource):
     def format_data(self, data: Any) -> dict:
         sunrise = data['sunrise']
         sunset = data['sunset']
-        now = datetime.now()
+        now = datetime.now(timezone.utc)
 
         if sunrise < now < sunset:
             is_sunrise = False
@@ -116,7 +116,7 @@ class WeatherDataSource(DataSource):
             },
             'sun': {
                 'is_sunrise': is_sunrise,
-                'time': event_time.strftime('%-H:%M')
+                'time_utc': int(event_time.timestamp())
             },
             'hours': hours,
         }
