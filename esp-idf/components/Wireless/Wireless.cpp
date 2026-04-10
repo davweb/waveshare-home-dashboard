@@ -15,6 +15,11 @@ static const char *TAG = "Wireless";
 
 static bool s_wifi_connected = false;
 static esp_netif_t *s_sta_netif = NULL;
+static WifiStateCallback s_wifi_state_callback = NULL;
+
+void setWiFiStateCallback(WifiStateCallback callback) {
+    s_wifi_state_callback = callback;
+}
 
 static void wifi_event_handler(void *arg, esp_event_base_t event_base,
                                 int32_t event_id, void *event_data)
@@ -24,11 +29,13 @@ static void wifi_event_handler(void *arg, esp_event_base_t event_base,
     } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED) {
         s_wifi_connected = false;
         ESP_LOGW(TAG, "WiFi disconnected, retrying...");
+        if (s_wifi_state_callback) s_wifi_state_callback(false);
         esp_wifi_connect();
     } else if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP) {
         ip_event_got_ip_t *event = (ip_event_got_ip_t *)event_data;
         ESP_LOGI(TAG, "Got IP: " IPSTR, IP2STR(&event->ip_info.ip));
         s_wifi_connected = true;
+        if (s_wifi_state_callback) s_wifi_state_callback(true);
     }
 }
 
@@ -130,4 +137,42 @@ const char* getMacAddress() {
         return mac_str;
     }
     return "";
+}
+
+const char* getSubnetMask() {
+    static char mask_str[16] = "";
+    if (!isWiFiConnected() || s_sta_netif == NULL) return "";
+    esp_netif_ip_info_t ip_info;
+    if (esp_netif_get_ip_info(s_sta_netif, &ip_info) == ESP_OK) {
+        esp_ip4addr_ntoa(&ip_info.netmask, mask_str, sizeof(mask_str));
+        return mask_str;
+    }
+    return "";
+}
+
+const char* getDefaultGateway() {
+    static char gw_str[16] = "";
+    if (!isWiFiConnected() || s_sta_netif == NULL) return "";
+    esp_netif_ip_info_t ip_info;
+    if (esp_netif_get_ip_info(s_sta_netif, &ip_info) == ESP_OK) {
+        esp_ip4addr_ntoa(&ip_info.gw, gw_str, sizeof(gw_str));
+        return gw_str;
+    }
+    return "";
+}
+
+const char* getWiFiSSID() {
+    static wifi_ap_record_t ap_info;
+    if (esp_wifi_sta_get_ap_info(&ap_info) == ESP_OK) {
+        return (const char*)ap_info.ssid;
+    }
+    return "";
+}
+
+int getWiFiRSSI() {
+    wifi_ap_record_t ap_info;
+    if (esp_wifi_sta_get_ap_info(&ap_info) == ESP_OK) {
+        return (int)ap_info.rssi;
+    }
+    return 0;
 }

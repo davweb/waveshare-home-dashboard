@@ -365,6 +365,7 @@ extern "C" void app_main(void)
     }
 
     //Start wifi before LVGL so SRAM is available
+    setWiFiStateCallback(update_network_information);
     startWiFi();
     startHttpServer();
 
@@ -422,10 +423,10 @@ extern "C" void app_main(void)
             if (lastStatsTime == 0 || (currentTime - lastStatsTime >= statsInterval)) {
                 lastStatsTime = currentTime;
                 ArrayOfMemoryUsageValue memory = buildMemoryUsage();
-                CPUStatsValue cpu_stats = buildCPUStats();
+                HardwareStatsValue hw_stats = buildHardwareStats();
                 if (lvgl_port_lock(portMAX_DELAY)) {
                     flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_MEMORY_USAGE, memory);
-                    flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_CPU_STATISTICS, cpu_stats);
+                    flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_HW_STATISTICS, hw_stats);
                     lvgl_port_unlock();
                 }
             }

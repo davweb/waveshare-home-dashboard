@@ -19,6 +19,7 @@
 #include <eez-flow.h>
 
 #include "time_utils.h"
+#include <Wireless.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -38,9 +39,10 @@ inline void init_cpu_statistics() {
     temperature_sensor_enable(s_temp_sensor);
 }
 
-inline CPUStatsValue buildCPUStats() {
-    CPUStatsValue stats;
+inline HardwareStatsValue buildHardwareStats() {
+    HardwareStatsValue stats;
     stats.frequency_mhz(CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ);
+    stats.network_rssi(getWiFiRSSI());
 
     if (s_temp_sensor) {
         float temp;
@@ -132,6 +134,22 @@ inline void set_system_information() {
     info.mqtt(mqtt_info);
 
     flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_SYSTEM_INFO, info);
+}
+
+inline void update_network_information(bool /*connected*/) {
+    NetworkInformationValue net;
+    net.wireless_ssid(getWiFiSSID());
+    net.mac_address(getMacAddress());
+    net.ip_address(getLocalIpAddress());
+    net.subnet_mask(getSubnetMask());
+    net.default_gatway(getDefaultGateway());
+
+    if (lvgl_port_lock(portMAX_DELAY)) {
+        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_NETWORK_INFO, net);
+        lvgl_port_unlock();
+    } else {
+        ESP_LOGE("system_info", "Failed to lock LVGL mutex to update network info");
+    }
 }
 
 inline void update_mqtt_broker_version(const char *version) {
