@@ -53,6 +53,10 @@ icons:
     input: bootstrap/person.svg
     size: medium
 
+  - output: png/reboot.png
+    input: bootstrap/arrow-clockwise.svg
+    size: medium
+
   - output: png/recycling.png
     input: bootstrap/recycle.svg
     size: medium

@@ -921,6 +921,16 @@
       "userProperties": [],
       "name": "Reset About Scroll",
       "implementationType": "native"
+    },
+    {
+      "objID": "4f0aa798-a2a6-4ef7-e26a-01ef1e770c80",
+      "components": [],
+      "connectionLines": [],
+      "localVariables": [],
+      "componentGroups": [],
+      "userProperties": [],
+      "name": "Reboot",
+      "implementationType": "native"
     }
   ],
   "userPages": [
@@ -8893,7 +8903,7 @@
                       "heightUnit": "%",
                       "children": [
                         {
-                          "objID": "3aa6dcdb-098a-44f6-9f45-df0bfea1fb62",
+                          "objID": "85f4d939-9ba7-4d45-a37a-dcf8267ece1a",
                           "type": "LVGLImageWidget",
                           "left": 0,
                           "top": 35,
@@ -8902,7 +8912,7 @@
                           "customInputs": [],
                           "customOutputs": [],
                           "style": {
-                            "objID": "da58ec2c-efc5-45e7-a9e4-6086513a11bc",
+                            "objID": "d91a7abc-8c6b-4126-cb00-bab76709297b",
                             "useStyle": "default",
                             "conditionalStyles": [],
                             "childStyles": []
@@ -8926,7 +8936,7 @@
                           "disabledStateType": "literal",
                           "states": "",
                           "localStyles": {
-                            "objID": "fd0e0548-3f65-4902-ae54-2d34eb113445",
+                            "objID": "1e9a1ca7-31c2-4db1-af4a-b6dc61921217",
                             "definition": {
                               "MAIN": {
                                 "DEFAULT": {
@@ -8941,7 +8951,7 @@
                           },
                           "group": "",
                           "groupIndex": 0,
-                          "image": "person-in",
+                          "image": "reboot",
                           "setPivot": false,
                           "pivotX": 0,
                           "pivotY": 0,
@@ -8958,7 +8968,7 @@
                           "type": "LVGLLabelWidget",
                           "left": 0,
                           "top": 125,
-                          "width": 132,
+                          "width": 109,
                           "height": 39,
                           "customInputs": [],
                           "customOutputs": [],
@@ -9000,7 +9010,7 @@
                           },
                           "group": "",
                           "groupIndex": 0,
-                          "text": "At Home",
+                          "text": "Reboot",
                           "textType": "literal",
                           "longMode": "WRAP",
                           "recolor": false,
@@ -9430,32 +9440,6 @@
           ]
         },
         {
-          "objID": "4d2d0bc0-52ac-47bc-faa1-5af92c674d09",
-          "type": "LVGLActionComponent",
-          "left": 574,
-          "top": 549,
-          "width": 292,
-          "height": 53,
-          "customInputs": [],
-          "customOutputs": [],
-          "actions": [
-            {
-              "objID": "06fe337d-7976-4559-8634-67336a9a92e0",
-              "action": "changeScreen",
-              "screen": "Presence",
-              "screenType": "literal",
-              "fadeMode": "NONE",
-              "fadeModeType": "literal",
-              "speed": 200,
-              "speedType": "literal",
-              "delay": 0,
-              "delayType": "literal",
-              "useStack": true,
-              "useStackType": "literal"
-            }
-          ]
-        },
-        {
           "objID": "e4ba282c-4431-4454-965b-021e8fc67d54",
           "type": "LVGLActionComponent",
           "left": 931,
@@ -9506,6 +9490,21 @@
               "useStackType": "literal"
             }
           ]
+        },
+        {
+          "objID": "97e5765a-ba76-4033-a464-b9790bcb8884",
+          "type": "CallActionActionComponent",
+          "left": 607,
+          "top": 597,
+          "width": 87,
+          "height": 24,
+          "customInputs": [],
+          "customOutputs": [],
+          "action": "Reboot",
+          "userPropertyValues": {
+            "objID": "54ac2900-75a8-45df-8b87-68f04a6755ca",
+            "values": {}
+          }
         }
       ],
       "connectionLines": [
@@ -9531,13 +9530,6 @@
           "input": "@seqin"
         },
         {
-          "objID": "bc46d3ba-631d-446d-f0ae-27a4d1f17689",
-          "source": "8fcd645d-b76c-49b1-bf65-39d8295a5774",
-          "output": "CLICKED",
-          "target": "4d2d0bc0-52ac-47bc-faa1-5af92c674d09",
-          "input": "@seqin"
-        },
-        {
           "objID": "ff012660-e26d-47cd-ed5c-f70f51c50fcc",
           "source": "db9a53a3-a35d-422c-bcf7-b4b5f88713a5",
           "output": "CLICKED",
@@ -9549,6 +9541,13 @@
           "source": "ba2a5baf-4f0d-4685-94f4-1880a55fd8f2",
           "output": "CLICKED",
           "target": "26104dfe-fae3-43dd-fdad-7187de5099b1",
+          "input": "@seqin"
+        },
+        {
+          "objID": "77756a6f-3637-4612-d457-d613c9685063",
+          "source": "8fcd645d-b76c-49b1-bf65-39d8295a5774",
+          "output": "CLICKED",
+          "target": "97e5765a-ba76-4033-a464-b9790bcb8884",
           "input": "@seqin"
         }
       ],
@@ -20240,6 +20239,15 @@
       "objID": "d94b2f1f-9beb-4779-fa64-0b1a8c1b52a0",
       "name": "memory",
       "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAABmJLR0QA/wD/AP+gvaeTAAABj0lEQVR4nO3bMUoDQRxG8ZfEwjMIuYdRS7EUhRxHwVYsRFtvoo2KnUcw3kLUylgkAQmzEv0im13fDwZkWf0PLwsWmwFJkiRJkiSpkYbAA/AOjF3F9Q7cA4fz8c5XYHNNW2ezeMMV2ExT10EPuAL66Dc2OsAbsF73ThrqFcqP5hMwADrBH+8CW8Co5TOKFzeDgfO2Wz6jeLG7xMG9Ns/oTH+YlzzyJa2dscxP6F8yYMiAIQOGDBgyYMiAIQOGDBgyYMiAIQOGDBgyYMiAIQOGDBgyYKgq4LLfJbR2RtWAZb7NGrR8RvFt1ojJa7zkE+wCO8Bzm2dUvZXTgvwnEjJgyIAhA4bWKq6XvhKx6FcnkvtWaS8L3ecTGDJgyIAhA4YMGDJgyIAhA4YMGPKgTea1CzzWvQvggslxsz5wWfNefuIRJkc36zywd1LY2EnNe1p07c82fFbD8A/gqBBv5nh6T92Rqtbp/IYPgDsmB+j+cvALcA3sfhNvZg+4mf5O3cHG0za3fHnyJEmSJEmSpAb5BD6wJ4mS/nS+AAAAAElFTkSuQmCC",
+      "bpp": 4,
+      "alwaysBuild": false,
+      "lvglBinaryOutputFormat": 3,
+      "lvglDither": false
+    },
+    {
+      "objID": "bbdde0bd-b92a-47b4-c4a2-ef6746224f63",
+      "name": "reboot",
+      "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAABmJLR0QA/wD/AP+gvaeTAAAE60lEQVR4nO2cy48VRRSHvwuYQZHHgBp0xslIIo/AgkRI0IQgDCJgohhDNBA1YpgFcQPxsXBh4sL/wMVIACWACzHxhRtNFIlOUIYEAhICDGrMzA4YeU4GaRd1L0Lf032r7nQ9uukv6c25qTq/c9LVVXWq+0JJ4VkNfAC0+haSVy4DEXASmOlZSy6JbrnOAcv9yskfUey6DrzjVVHOiCewdvUAd3nUlRuSEhgBPwH3+ZOWD9ISGAGngDne1OWARgmMgCHgGV8CQ0cngd4ml4prhwJTgCeAhcBcYAbwEGrhPL6J/j4C3gBGshIYIh3A20Av6s7Rvct0r++Bu51F45AVwLfAv2SftPjV5SgmJ6wAfsN+0mrXdzQ3/IOjA/gSd4mLKNAC+1XU8kIn6JPAVmAjsBiV+AnVfoKehW0wHthB44BPA+8CjzboTyd5hVkHTgN+Jj3YX4E1wBjNPhslrzA7kenAMZID/Rt4CfO1Z1ryCrMXnkZ68j4GJjfZd+EnixbgAHKQ14ANo+y/sJNFje3IybsALMmg/1v7LFxF+hWSk7cwIx+X+H+pU6gzkQ7kdd4w8GSGflYB71PAU7kvkO++132KygvLkZO306eovFBBLgwMoGp7eWIt0AccAV5z5fRp5LtvnSsBGTGf+rLaMheO91GfvEOEUd02YTP1ceyz7fRh5GLoGtuOLbASeZHebtPpW4LTfvQLAyExBlURisfzpmknJjwr2LYDNwz7CYEbwCeC3dpomoJ8ADTLlkMHzKI+nhGaL3ykslpwdsaGI8dIw3iVbmOTIfyYYPvBoH2o/CjYFug2NkngPMHWZ9A+VA4Jtrm6jU0SOEOw/W7QPlROCDYpVhGTBD4o2P4yaB8qUgxSrKPmCvUP24k2HDnmXurjuqTb2GT7FQm2caidSZ6pUL+OjdAcnSZDWEqgZCsC2nGZJPCqYLvHoH2oSDFc021sksDzgu1+g/ahIsVwTrexSQIHBFunQftQ6RRsg7qNTRLYL9hmG7QPFem1EO0tqkkCjws27S1PwEgxHLPhSComnLbhyDFSMWGlDUeTkctZeR7GSeWsSbodmAzhIeCgYH/RoI/QkLT3Av/Ycli0kv4Z6uPZYtNpO/Iwft6mU0s8h3yo1Gbb8TeC4z7ydaxZQdUB43F87cL5U4LjCFjvwnlGrEOOwdmrcwcF5wPk4w2qVpTWuP5elyK6BAERsNuliCbZhax9iWshnycI6XYtxIBuZM2f+RDTjnoTNS5mGEcv6RiyDKUtrvc86utQL7wsCIpQi+5FvkQJLCL5qynvk982kpMYwp24FLWzkDT2eNR1k7TPHIbx+0zsRh62EeojnRZ/0m5nKnAUWWgE7MHtEqe16jNJzxHHerR4gPQkDqKemTZ3LBXUM20wRcdRAj6KmErycK5dh4EXgLEZ+h1b7fNwA98HCPDOi9OC+vY3LZAI+AN4j9F9aTm72sdZDX89WHjm2RxO64EP0XvXrh/Yj3r7/wTwJ+pkbKj6+yTUsOtEJW0BaufwiEbfF4BNwKf60sOhDdhL47vD1rUXj4vkLFmK2qy7Slxv1Wfh6AK+ws5/xVyv9h3C4t06bajS+X7UIU6zSRtBzaxbcFBJlgihijwReBw1McxDTQxtqMmndjo2BFxE/W3AWdS5bR/wS9VeUlJSUlJSUlJSUlJyB/EfWMH+8aLLDO0AAAAASUVORK5CYII=",
       "bpp": 4,
       "alwaysBuild": false,
       "lvglBinaryOutputFormat": 3,

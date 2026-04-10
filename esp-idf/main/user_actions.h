@@ -4,6 +4,7 @@
 #include <ui.h>
 #include <actions.h>
 #include <DisplayPanel.h>
+#include "esp_system.h"
 
 extern Board *g_panel;
 
@@ -78,6 +79,10 @@ void action_wind_speed_to_color(lv_event_t *e) {
     else               color = 0xb01010;
 
     flow::setUserProperty(ACTION_WIND_SPEED_TO_COLOR_PROPERTY_COLOR, IntegerValue(color));
+}
+
+void action_reboot(lv_event_t *e) {
+    esp_restart();
 }
 
 void action_rain_chance_to_color(lv_event_t *e) {
