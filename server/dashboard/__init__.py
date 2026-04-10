@@ -46,7 +46,7 @@ class BusDataSource(DataSource):
         bus_times = []
 
         for bus_stop_id in CONFIG.bus_stop_ids:
-            name, _, buses = oxontime.extract_bus_information(bus_stop_id)
+            name, buses = oxontime.extract_bus_information(bus_stop_id)
             bus_times.append((name, buses))
 
         return bus_times
@@ -220,16 +220,3 @@ def initialise_data_fetching() -> None:
     # Run the scheduler in a background thread
     scheduler_thread = threading.Thread(target=run_scheduler, daemon=True)
     scheduler_thread.start()
-
-
-def get_data() -> dict:
-    """Return the data to be displayed on the dashboard"""
-    result = {}
-
-    for data_source in DATA_SOURCES:
-        name = data_source.get_name()
-
-        if name in DATA:
-            result[name] = data_source.format_data(DATA[name])
-
-    return result

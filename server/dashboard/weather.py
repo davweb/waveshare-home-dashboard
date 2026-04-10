@@ -1,7 +1,6 @@
 """Fetch Weather data from Pirate Weather API"""
 
 from datetime import datetime, timezone
-import json
 import requests
 from .config import CONFIG
 
@@ -13,7 +12,8 @@ def get_weather_data() -> dict:
         CONFIG.pirate_api_key}/{
         CONFIG.lat_long}?units=uk&exclude=minutely,alerts'
     response = requests.get(url, timeout=5)
-    data = json.loads(response.content)
+    response.raise_for_status()
+    data = response.json()
 
     now = datetime.now(timezone.utc)
     current_hour = now.replace(minute=0, second=0, microsecond=0)

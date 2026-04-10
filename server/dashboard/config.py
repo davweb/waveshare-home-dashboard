@@ -43,7 +43,7 @@ class Config:
     def port(self) -> int:
         """Return the port to listen on"""
 
-        if self._args.port:
+        if self._args.port is not None:
             return self._args.port
 
         if 'DASHBOARD_PORT' in os.environ:

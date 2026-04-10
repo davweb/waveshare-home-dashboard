@@ -14,6 +14,7 @@ def get_next_recycling_collections(count: int = 4) -> list[RecyclingCollection]:
     """Return the next recycling collections"""
 
     response = requests.get(CONFIG.recycling_calendar_url, timeout=5)
+    response.raise_for_status()
     calendar = Calendar.from_ical(response.text)
     start_date = date.today()
     end_date = start_date + timedelta(days=90)
@@ -33,5 +34,5 @@ def get_next_recycling_collections(count: int = 4) -> list[RecyclingCollection]:
             }
             collections.append(collection)
 
-    collections.sort(key=lambda event: event['date'])
+    collections.sort(key=lambda e: e['date'])
     return collections[:count]

@@ -7,6 +7,8 @@ from .config import CONFIG
 
 logger = logging.getLogger(__name__)
 
+# UniFi controllers use self-signed certs; suppress the resulting warnings globally.
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 def get_connected_macs() -> list[dict]:
     """Return the set of MAC addresses currently connected to the network.
@@ -15,8 +17,6 @@ def get_connected_macs() -> list[dict]:
     UniFi OS (UDM / UDM-Pro / Cloud Key Gen2).
     SSL verification is disabled because UniFi controllers use self-signed certs.
     """
-
-    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
     session = requests.Session()
     credentials = {'username': CONFIG.unifi_username, 'password': CONFIG.unifi_password}

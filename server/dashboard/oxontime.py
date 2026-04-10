@@ -2,7 +2,6 @@
 
 from datetime import datetime, timezone
 from functools import cache
-import json
 import requests
 from dateutil import parser, tz
 from .config import CONFIG
@@ -20,7 +19,8 @@ def _bus_stop_name(bus_stop_id) -> str:
         return overrides[bus_stop_id]
 
     page = requests.get(_LOCATIONS_URL, timeout=60)
-    locations = json.loads(page.content)
+    page.raise_for_status()
+    locations = page.json()
 
     for location in locations:
         if location['location_code'] == bus_stop_id:
@@ -44,15 +44,15 @@ def _bus_details(bus) -> tuple[str, str, datetime]:
     return (route, destination, departure_time)
 
 
-def extract_bus_information(bus_stop_id) -> tuple[str, datetime, list[tuple[str, str, datetime]]]:
+def extract_bus_information(bus_stop_id) -> tuple[str, list[tuple[str, str, datetime]]]:
     """Download bus time information page and return the data"""
 
     url = _TIMES_URL.format(bus_stop_id)
-    page = requests.get(url, timeout=60)
-    data = json.loads(page.content)[bus_stop_id]
+    page = requests.get(url, timeout=20)
+    page.raise_for_status()
+    data = page.json()[bus_stop_id]
 
     stop_name = _bus_stop_name(bus_stop_id)
-    refresh_time = _to_utc(data['time'])
     buses = [_bus_details(bus) for bus in data['calls']]
 
-    return (stop_name, refresh_time, buses)
+    return (stop_name, buses)
