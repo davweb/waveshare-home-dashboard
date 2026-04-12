@@ -3,9 +3,9 @@
 # Set otherwise build time is wrong
 export TZ=Europe/London
 
-if (( ! $+aliases[idf.pf] ));
+if ! command -v idf.py &>/dev/null;
 then
-    source ~/.espressif/tools/activate_idf_v5.5.3.sh
+    source ~/.espressif/v5.5.3/esp-idf/export.sh
 fi
 
 export "SDKCONFIG_DEFAULTS=sdkconfig.defaults;sdkconfig.local"
