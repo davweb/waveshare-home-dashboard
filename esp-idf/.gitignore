@@ -1,12 +1,13 @@
 # ESP-IDF build artifacts
 build/
 build_release/
+.cache
 sdkconfig
 sdkconfig.old
 
-
 # Local settings not for committing (WiFi credentials, etc.)
 sdkconfig.local
+sdkconfig.release_local
 
 # IDF Component Manager downloads
 managed_components/
@@ -19,10 +20,3 @@ components/eez-framework/
 components/ui/*.h
 components/ui/*.c
 
-# Claude Code local settings (personal tool permissions)
-.claude/settings.local.json
-
-# IDE
-.vscode
-.cache
-build_cli

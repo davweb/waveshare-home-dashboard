@@ -1,13 +1,7 @@
 .vscode
 .DS_Store
-eez-studio/src
 .history
-eez-studio/waveshare-dashboard.eez-project-ui-state
-.venv
-__pycache__
 .claude
-server/run.sh
-TODO.md
-esp-idf/sdkconfig.release_local
 fonts
 firmware
+TODO.md
