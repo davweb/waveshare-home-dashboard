@@ -81,6 +81,9 @@ void startWiFi() {
         ESP_LOGD(TAG, "Using DHCP IP address");
     #endif
 
+    esp_log_level_set("wifi", ESP_LOG_WARN);
+    esp_log_level_set("wifi_init", ESP_LOG_WARN);
+
     wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
 
     ESP_ERROR_CHECK(esp_wifi_init(&cfg));
