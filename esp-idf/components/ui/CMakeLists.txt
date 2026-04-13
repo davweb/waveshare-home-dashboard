@@ -13,7 +13,7 @@ if(NOT COPY_UI_RESULT EQUAL 0)
     message(WARNING "copy-ui.sh failed with code ${COPY_UI_RESULT}")
 endif()
 
-file(GLOB UI_SRCS "*.c")
+file(GLOB UI_SRCS "ui_image_weather_partly_cloudy_night.c" "images.c" "*.c")
 
 idf_component_register(
     SRCS ${UI_SRCS}

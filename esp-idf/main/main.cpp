@@ -24,6 +24,8 @@
 #include "global_vars.h"
 #include "data_fetcher.h"
 #include "system_info.h"
+#include "http_data_handlers.h"
+#include <LogBuffer.h>
 
 static const char *TAG = "main";
 
@@ -92,6 +94,7 @@ static SemaphoreHandle_t s_bus_mutex = nullptr;
 // Set by the MQTT callback when new bus data arrives so the main loop
 // recalculates immediately rather than waiting for the next 5-second tick.
 static std::atomic<bool> s_bus_updated{false};
+std::atomic<bool> g_server_connected{false};
 
 // ---------------------------------------------------------------------------
 // Bus due-time recalculation — only called from the main loop task.
@@ -333,6 +336,7 @@ static void onMqttMessage(MqttTopic topic, const char *data, int len)
             cJSON *json = parse_json(); if (!json) break;
             bool is_connected = cJSON_IsTrue(cJSON_GetObjectItem(json, "connected"));
             cJSON_Delete(json);
+            g_server_connected = is_connected;
 
             if (lvgl_port_lock(portMAX_DELAY)) {
                 flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_STATE,
@@ -352,6 +356,8 @@ static void onMqttMessage(MqttTopic topic, const char *data, int len)
 
 extern "C" void app_main(void)
 {
+    log_buffer_init();
+
     g_panel = initialiseDisplayPanel();
 
     ESP_LOGD(TAG, "Initializing LVGL");
@@ -367,7 +373,7 @@ extern "C" void app_main(void)
     //Start wifi before LVGL so SRAM is available
     setWiFiStateCallback(update_network_information);
     startWiFi();
-    startHttpServer();
+    httpd_handle_t server = startHttpServer();
 
     ota_set_callbacks(on_ota_start, on_ota_progress, on_ota_complete);
 
@@ -378,6 +384,8 @@ extern "C" void app_main(void)
     init_cpu_statistics();
 
     s_bus_mutex = xSemaphoreCreateMutex();
+
+    register_data_handlers(server);
 
     mqtt_init(onMqttMessage);
 
