@@ -127,7 +127,7 @@
         "objID": "48285f7e-f959-4223-92ac-28e6d6a16879",
         "name": "recycling",
         "type": "array:struct:Recycling",
-        "defaultValue": "[\n{is_sunrise: RecyclingType.RECYCLING, date: \"Thursday 26 February\", short_date: \"Wednesday\"},\n{is_sunrise: RecyclingType.GENERAL_WASTE, date: \"Thursday 26 February\", short_date: \"Wednesday\"},\n{is_sunrise: RecyclingType.RECYCLING, date: \"Thursday 26 February\", short_date: \"Wednesday\"},\n{is_sunrise: RecyclingType.GENERAL_WASTE, date: \"Thursday 26 February\", short_date: \"Wednesday\"}\n]",
+        "defaultValue": "[\n{type: RecyclingType.RECYCLING, date: \"Thursday 16 April\", short_date: \"Thursday\", lead_time: \"2 days\"},\n{type: RecyclingType.GENERAL_WASTE, date: \"Thursday 23 April\", short_date: \"23 April\", lead_time: \"9 days\"},\n{type: RecyclingType.RECYCLING, date: \"Thursday 30 April\", short_date: \"30 April\", lead_time: \"16 days\"},\n{type: RecyclingType.GENERAL_WASTE, date: \"Friday 8 May\", short_date: \"8 May\", lead_time: \"24 days\"},\n{type: RecyclingType.RECYCLING, date: \"Thursday 14 May\", short_date: \"14 May\", lead_time: \"30 days\"},\n{type: RecyclingType.GENERAL_WASTE, date: \"Thursday 21 May\", short_date: \"21 May\", lead_time: \"30 days\"},\n]",
         "persistent": false,
         "native": false
       },
@@ -6815,16 +6815,16 @@
               "heightUnit": "px",
               "children": [
                 {
-                  "objID": "2befef95-1e24-40c1-ba1f-6e1851bb6f24",
-                  "type": "LVGLLabelWidget",
+                  "objID": "cafe12a3-bcd2-47ab-9ff1-e1c938a9e664",
+                  "type": "LVGLContainerWidget",
                   "left": 0,
-                  "top": 5,
+                  "top": 0,
                   "width": 100,
-                  "height": 39,
+                  "height": 611,
                   "customInputs": [],
                   "customOutputs": [],
                   "style": {
-                    "objID": "1e826d81-4afa-40d6-bdc7-80bc739de103",
+                    "objID": "acdf4f6e-2b8b-4c9e-c6fa-3ca1b63e38db",
                     "useStyle": "default",
                     "conditionalStyles": [],
                     "childStyles": []
@@ -6835,65 +6835,67 @@
                   "topUnit": "px",
                   "widthUnit": "%",
                   "heightUnit": "content",
-                  "children": [],
-                  "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
-                  "hiddenFlagType": "literal",
-                  "clickableFlagType": "literal",
-                  "flagScrollbarMode": "",
-                  "flagScrollDirection": "",
-                  "scrollSnapX": "",
-                  "scrollSnapY": "",
-                  "checkedStateType": "literal",
-                  "disabledStateType": "literal",
-                  "states": "",
-                  "localStyles": {
-                    "objID": "3a03e932-d1c4-48a8-ec8e-a36fa27794d5",
-                    "definition": {
-                      "MAIN": {
-                        "DEFAULT": {
-                          "text_font": "INTER_32",
-                          "text_align": "CENTER",
-                          "text_color": "Secondary"
-                        }
-                      }
-                    }
-                  },
-                  "group": "",
-                  "groupIndex": 0,
-                  "text": "Upcoming Collections",
-                  "textType": "literal",
-                  "longMode": "WRAP",
-                  "recolor": false
-                },
-                {
-                  "objID": "352b4358-83db-40a5-b1a4-dfb3815a3243",
-                  "type": "LVGLContainerWidget",
-                  "left": 0,
-                  "top": 52,
-                  "width": 100,
-                  "height": 428,
-                  "customInputs": [],
-                  "customOutputs": [],
-                  "style": {
-                    "objID": "d2685702-b1cf-487c-b2fa-ef6b466e22f4",
-                    "useStyle": "default",
-                    "conditionalStyles": [],
-                    "childStyles": []
-                  },
-                  "timeline": [],
-                  "eventHandlers": [],
-                  "leftUnit": "px",
-                  "topUnit": "px",
-                  "widthUnit": "%",
-                  "heightUnit": "px",
                   "children": [
+                    {
+                      "objID": "2befef95-1e24-40c1-ba1f-6e1851bb6f24",
+                      "type": "LVGLLabelWidget",
+                      "left": 0,
+                      "top": 5,
+                      "width": 100,
+                      "height": 42,
+                      "customInputs": [],
+                      "customOutputs": [],
+                      "style": {
+                        "objID": "1e826d81-4afa-40d6-bdc7-80bc739de103",
+                        "useStyle": "default",
+                        "conditionalStyles": [],
+                        "childStyles": []
+                      },
+                      "timeline": [],
+                      "eventHandlers": [],
+                      "leftUnit": "px",
+                      "topUnit": "px",
+                      "widthUnit": "%",
+                      "heightUnit": "content",
+                      "children": [],
+                      "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+                      "hiddenFlagType": "literal",
+                      "clickableFlagType": "literal",
+                      "flagScrollbarMode": "",
+                      "flagScrollDirection": "",
+                      "scrollSnapX": "",
+                      "scrollSnapY": "",
+                      "checkedStateType": "literal",
+                      "disabledStateType": "literal",
+                      "states": "",
+                      "localStyles": {
+                        "objID": "3a03e932-d1c4-48a8-ec8e-a36fa27794d5",
+                        "definition": {
+                          "MAIN": {
+                            "DEFAULT": {
+                              "text_font": "INTER_20",
+                              "text_color": "Secondary",
+                              "pad_top": 10,
+                              "pad_left": 10,
+                              "pad_bottom": 8
+                            }
+                          }
+                        }
+                      },
+                      "group": "",
+                      "groupIndex": 0,
+                      "text": "Upcoming Collections",
+                      "textType": "literal",
+                      "longMode": "WRAP",
+                      "recolor": false
+                    },
                     {
                       "objID": "07374db1-3d1c-4cbc-cd4a-dc92cc7f1726",
                       "type": "LVGLUserWidgetWidget",
                       "left": 0,
                       "top": 0,
                       "width": 100,
-                      "height": 98,
+                      "height": 80,
                       "customInputs": [],
                       "customOutputs": [],
                       "style": {
@@ -6939,7 +6941,7 @@
                       "left": 0,
                       "top": 0,
                       "width": 100,
-                      "height": 98,
+                      "height": 80,
                       "customInputs": [],
                       "customOutputs": [],
                       "style": {
@@ -6985,7 +6987,7 @@
                       "left": 0,
                       "top": 0,
                       "width": 100,
-                      "height": 98,
+                      "height": 80,
                       "customInputs": [],
                       "customOutputs": [],
                       "style": {
@@ -7031,7 +7033,7 @@
                       "left": 0,
                       "top": 0,
                       "width": 100,
-                      "height": 98,
+                      "height": 80,
                       "customInputs": [],
                       "customOutputs": [],
                       "style": {
@@ -7070,6 +7072,98 @@
                           "025338f9-0b15-45fb-a6d6-1cab04be35fc": "recycling[3]"
                         }
                       }
+                    },
+                    {
+                      "objID": "9b832030-e5d5-443d-9d16-a26fc5ec2180",
+                      "type": "LVGLUserWidgetWidget",
+                      "left": 0,
+                      "top": 0,
+                      "width": 100,
+                      "height": 80,
+                      "customInputs": [],
+                      "customOutputs": [],
+                      "style": {
+                        "objID": "79e9e74c-2bb4-472e-9951-a22abed72a57",
+                        "useStyle": "default",
+                        "conditionalStyles": [],
+                        "childStyles": []
+                      },
+                      "timeline": [],
+                      "eventHandlers": [],
+                      "leftUnit": "px",
+                      "topUnit": "px",
+                      "widthUnit": "%",
+                      "heightUnit": "content",
+                      "children": [],
+                      "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+                      "hiddenFlagType": "literal",
+                      "clickableFlag": true,
+                      "clickableFlagType": "literal",
+                      "flagScrollbarMode": "",
+                      "flagScrollDirection": "",
+                      "scrollSnapX": "",
+                      "scrollSnapY": "",
+                      "checkedStateType": "literal",
+                      "disabledStateType": "literal",
+                      "states": "",
+                      "localStyles": {
+                        "objID": "5813a2a4-2056-4389-f81a-0d4f94c093d7"
+                      },
+                      "group": "",
+                      "groupIndex": 0,
+                      "userWidgetPageName": "RecyclingCollection",
+                      "userPropertyValues": {
+                        "objID": "bf996832-eee5-4a83-a76f-02cf27e5d14c",
+                        "values": {
+                          "025338f9-0b15-45fb-a6d6-1cab04be35fc": "recycling[4]"
+                        }
+                      }
+                    },
+                    {
+                      "objID": "35fd5d1d-5a28-4b58-85d9-568340596388",
+                      "type": "LVGLUserWidgetWidget",
+                      "left": 0,
+                      "top": 0,
+                      "width": 100,
+                      "height": 80,
+                      "customInputs": [],
+                      "customOutputs": [],
+                      "style": {
+                        "objID": "1ee622b7-f26c-432e-efb4-5c6293150838",
+                        "useStyle": "default",
+                        "conditionalStyles": [],
+                        "childStyles": []
+                      },
+                      "timeline": [],
+                      "eventHandlers": [],
+                      "leftUnit": "px",
+                      "topUnit": "px",
+                      "widthUnit": "%",
+                      "heightUnit": "content",
+                      "children": [],
+                      "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+                      "hiddenFlagType": "literal",
+                      "clickableFlag": true,
+                      "clickableFlagType": "literal",
+                      "flagScrollbarMode": "",
+                      "flagScrollDirection": "",
+                      "scrollSnapX": "",
+                      "scrollSnapY": "",
+                      "checkedStateType": "literal",
+                      "disabledStateType": "literal",
+                      "states": "",
+                      "localStyles": {
+                        "objID": "507d4ec4-f71e-418b-894a-dd482a114ca5"
+                      },
+                      "group": "",
+                      "groupIndex": 0,
+                      "userWidgetPageName": "RecyclingCollection",
+                      "userPropertyValues": {
+                        "objID": "6ddcdd30-730b-4013-bfea-8659adda4eca",
+                        "values": {
+                          "025338f9-0b15-45fb-a6d6-1cab04be35fc": "recycling[5]"
+                        }
+                      }
                     }
                   ],
                   "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
@@ -7084,15 +7178,17 @@
                   "disabledStateType": "literal",
                   "states": "",
                   "localStyles": {
-                    "objID": "546e3369-5ea6-4319-a609-dab0ca7fe6dc",
+                    "objID": "95f04122-2a7d-418b-d524-3ac32c1085a2",
                     "definition": {
                       "MAIN": {
                         "DEFAULT": {
+                          "bg_color": "Card Background",
+                          "bg_opa": 255,
+                          "radius": 15,
                           "layout": "FLEX",
                           "flex_flow": "COLUMN",
-                          "pad_left": 10,
-                          "pad_right": 10,
-                          "pad_row": 9
+                          "pad_bottom": 11,
+                          "pad_row": 13
                         }
                       }
                     }
@@ -7101,11 +7197,12 @@
                   "groupIndex": 0
                 }
               ],
-              "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+              "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE|SCROLLABLE",
+              "hiddenFlag": false,
               "hiddenFlagType": "literal",
               "clickableFlag": true,
               "clickableFlagType": "literal",
-              "flagScrollbarMode": "",
+              "flagScrollbarMode": "off",
               "flagScrollDirection": "",
               "scrollSnapX": "",
               "scrollSnapY": "",
@@ -7121,7 +7218,12 @@
                       "grid_row_dsc_array": "480 ",
                       "grid_column_dsc_array": "FR(1)",
                       "bg_color": "Main Background",
-                      "pad_column": 0
+                      "pad_column": 0,
+                      "pad_top": 10,
+                      "pad_bottom": 10,
+                      "pad_left": 10,
+                      "pad_right": 10,
+                      "pad_row": 11
                     }
                   }
                 }
@@ -14105,7 +14207,7 @@
           "type": "CallActionActionComponent",
           "left": 348,
           "top": 519,
-          "width": 405,
+          "width": 404,
           "height": 77,
           "customInputs": [
             {
@@ -14135,8 +14237,8 @@
           "type": "LVGLActionComponent",
           "left": 862,
           "top": 519,
-          "width": 388,
-          "height": 71,
+          "width": 387,
+          "height": 70,
           "customInputs": [
             {
               "objID": "0acd2346-55f7-4893-b553-a89e4b4d5c51",
@@ -14217,16 +14319,16 @@
       "objID": "cbeb5202-0300-44d5-b88d-06e63c7096ce",
       "components": [
         {
-          "objID": "b2698ac2-6037-4100-caa7-7e46b8bca2d1",
-          "type": "LVGLContainerWidget",
-          "left": 0,
+          "objID": "a7dc99cf-9347-43e0-c0c4-6037fe30f26b",
+          "type": "LVGLUserWidgetWidget",
+          "left": 18,
           "top": 0,
-          "width": 100,
-          "height": 98,
+          "width": 80,
+          "height": 80,
           "customInputs": [],
           "customOutputs": [],
           "style": {
-            "objID": "9f406eb2-6a44-4535-92df-5cfff25c4312",
+            "objID": "d11f0e36-146c-4851-b4d0-9affa9aab22c",
             "useStyle": "default",
             "conditionalStyles": [],
             "childStyles": []
@@ -14235,79 +14337,131 @@
           "eventHandlers": [],
           "leftUnit": "px",
           "topUnit": "px",
-          "widthUnit": "%",
+          "widthUnit": "px",
+          "heightUnit": "px",
+          "children": [],
+          "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+          "hiddenFlagType": "literal",
+          "clickableFlag": true,
+          "clickableFlagType": "literal",
+          "flagScrollbarMode": "",
+          "flagScrollDirection": "",
+          "scrollSnapX": "",
+          "scrollSnapY": "",
+          "checkedStateType": "literal",
+          "disabledStateType": "literal",
+          "states": "",
+          "localStyles": {
+            "objID": "f758314b-7a92-4959-bea3-5e6f1c202256"
+          },
+          "group": "",
+          "groupIndex": 0,
+          "userWidgetPageName": "RecyclingIcon",
+          "userPropertyValues": {
+            "objID": "72f4ba77-afcc-4889-c655-e5fb8c8dc6d3",
+            "values": {
+              "79dbbebe-f4c7-49a3-a8ca-34b3321fcab6": "collection.type"
+            }
+          }
+        },
+        {
+          "objID": "d3464f75-4359-4b86-8e8d-b1f83a90a3ba",
+          "type": "LVGLLabelWidget",
+          "left": 117,
+          "top": 1,
+          "width": 329,
+          "height": 39,
+          "customInputs": [],
+          "customOutputs": [],
+          "style": {
+            "objID": "d9ad1f58-2dd8-4601-8b99-f6aad09594e9",
+            "useStyle": "default",
+            "conditionalStyles": [],
+            "childStyles": []
+          },
+          "timeline": [],
+          "eventHandlers": [],
+          "identifier": "Recycling Day_1",
+          "leftUnit": "px",
+          "topUnit": "px",
+          "widthUnit": "content",
+          "heightUnit": "content",
+          "children": [],
+          "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE|EVENT_BUBBLE",
+          "hiddenFlagType": "literal",
+          "clickableFlagType": "literal",
+          "flagScrollbarMode": "",
+          "flagScrollDirection": "",
+          "scrollSnapX": "",
+          "scrollSnapY": "",
+          "checkedStateType": "literal",
+          "disabledStateType": "literal",
+          "states": "",
+          "localStyles": {
+            "objID": "d6816e49-6b12-4dcb-9b3d-0a0bb650d0a5",
+            "definition": {
+              "MAIN": {
+                "DEFAULT": {
+                  "text_font": "INTER_32",
+                  "text_color": "Primary"
+                }
+              }
+            }
+          },
+          "group": "",
+          "groupIndex": 0,
+          "text": "collection.date",
+          "textType": "expression",
+          "longMode": "WRAP",
+          "recolor": false,
+          "previewValue": "Wednesday 31 March"
+        },
+        {
+          "objID": "99596378-84e0-4a37-cf08-1da12eee0542",
+          "type": "LVGLContainerWidget",
+          "left": 118,
+          "top": 44,
+          "width": 300,
+          "height": 34,
+          "customInputs": [],
+          "customOutputs": [],
+          "style": {
+            "objID": "3e6be307-b62a-4d44-c272-8bd9784cf061",
+            "useStyle": "default",
+            "conditionalStyles": [],
+            "childStyles": []
+          },
+          "timeline": [],
+          "eventHandlers": [],
+          "leftUnit": "px",
+          "topUnit": "px",
+          "widthUnit": "px",
           "heightUnit": "px",
           "children": [
             {
-              "objID": "a7dc99cf-9347-43e0-c0c4-6037fe30f26b",
-              "type": "LVGLUserWidgetWidget",
-              "left": 18,
-              "top": 12,
-              "width": 80,
-              "height": 80,
-              "customInputs": [],
-              "customOutputs": [],
-              "style": {
-                "objID": "d11f0e36-146c-4851-b4d0-9affa9aab22c",
-                "useStyle": "default",
-                "conditionalStyles": [],
-                "childStyles": []
-              },
-              "timeline": [],
-              "eventHandlers": [],
-              "leftUnit": "px",
-              "topUnit": "px",
-              "widthUnit": "px",
-              "heightUnit": "px",
-              "children": [],
-              "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
-              "hiddenFlagType": "literal",
-              "clickableFlag": true,
-              "clickableFlagType": "literal",
-              "flagScrollbarMode": "",
-              "flagScrollDirection": "",
-              "scrollSnapX": "",
-              "scrollSnapY": "",
-              "checkedStateType": "literal",
-              "disabledStateType": "literal",
-              "states": "",
-              "localStyles": {
-                "objID": "f758314b-7a92-4959-bea3-5e6f1c202256"
-              },
-              "group": "",
-              "groupIndex": 0,
-              "userWidgetPageName": "RecyclingIcon",
-              "userPropertyValues": {
-                "objID": "72f4ba77-afcc-4889-c655-e5fb8c8dc6d3",
-                "values": {
-                  "79dbbebe-f4c7-49a3-a8ca-34b3321fcab6": "collection.type"
-                }
-              }
-            },
-            {
-              "objID": "d3464f75-4359-4b86-8e8d-b1f83a90a3ba",
+              "objID": "8a1bb227-9ac0-49c4-d873-c8c20c66d1ad",
               "type": "LVGLLabelWidget",
-              "left": 117,
-              "top": 13,
-              "width": 329,
-              "height": 39,
+              "left": 0,
+              "top": 0,
+              "width": 92,
+              "height": 24,
               "customInputs": [],
               "customOutputs": [],
               "style": {
-                "objID": "d9ad1f58-2dd8-4601-8b99-f6aad09594e9",
+                "objID": "5248ccd2-67dc-4083-ffc9-5ac5b5ca0893",
                 "useStyle": "default",
                 "conditionalStyles": [],
                 "childStyles": []
               },
               "timeline": [],
               "eventHandlers": [],
-              "identifier": "Recycling Day",
+              "identifier": "Collection Type",
               "leftUnit": "px",
               "topUnit": "px",
               "widthUnit": "content",
               "heightUnit": "content",
               "children": [],
-              "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE|EVENT_BUBBLE",
+              "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
               "hiddenFlagType": "literal",
               "clickableFlagType": "literal",
               "flagScrollbarMode": "",
@@ -14318,35 +14472,35 @@
               "disabledStateType": "literal",
               "states": "",
               "localStyles": {
-                "objID": "d6816e49-6b12-4dcb-9b3d-0a0bb650d0a5",
+                "objID": "1efb9b2c-5acf-4c49-b0cc-f7bc382bc54d",
                 "definition": {
                   "MAIN": {
                     "DEFAULT": {
-                      "text_font": "INTER_32",
-                      "text_color": "Primary"
+                      "text_font": "INTER_20",
+                      "text_color": "Accent"
                     }
                   }
                 }
               },
               "group": "",
               "groupIndex": 0,
-              "text": "collection.date",
+              "text": "collection.type == RecyclingType.RECYCLING ? \"Recycling\" : \"General Waste\"",
               "textType": "expression",
               "longMode": "WRAP",
               "recolor": false,
-              "previewValue": "Wednesday 31 March"
+              "previewValue": "Recycling"
             },
             {
-              "objID": "99596378-84e0-4a37-cf08-1da12eee0542",
-              "type": "LVGLContainerWidget",
-              "left": 118,
-              "top": 56,
-              "width": 300,
-              "height": 34,
+              "objID": "d1c8f68b-b4a1-428b-c8cd-6c7faf548878",
+              "type": "LVGLLabelWidget",
+              "left": 0,
+              "top": 0,
+              "width": 67,
+              "height": 24,
               "customInputs": [],
               "customOutputs": [],
               "style": {
-                "objID": "3e6be307-b62a-4d44-c272-8bd9784cf061",
+                "objID": "50a0451c-9de1-4cff-bd0d-3c7f5b0412b8",
                 "useStyle": "default",
                 "conditionalStyles": [],
                 "childStyles": []
@@ -14355,116 +14509,11 @@
               "eventHandlers": [],
               "leftUnit": "px",
               "topUnit": "px",
-              "widthUnit": "px",
-              "heightUnit": "px",
-              "children": [
-                {
-                  "objID": "8a1bb227-9ac0-49c4-d873-c8c20c66d1ad",
-                  "type": "LVGLLabelWidget",
-                  "left": 0,
-                  "top": 0,
-                  "width": 92,
-                  "height": 24,
-                  "customInputs": [],
-                  "customOutputs": [],
-                  "style": {
-                    "objID": "5248ccd2-67dc-4083-ffc9-5ac5b5ca0893",
-                    "useStyle": "default",
-                    "conditionalStyles": [],
-                    "childStyles": []
-                  },
-                  "timeline": [],
-                  "eventHandlers": [],
-                  "identifier": "Collection Type",
-                  "leftUnit": "px",
-                  "topUnit": "px",
-                  "widthUnit": "content",
-                  "heightUnit": "content",
-                  "children": [],
-                  "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
-                  "hiddenFlagType": "literal",
-                  "clickableFlagType": "literal",
-                  "flagScrollbarMode": "",
-                  "flagScrollDirection": "",
-                  "scrollSnapX": "",
-                  "scrollSnapY": "",
-                  "checkedStateType": "literal",
-                  "disabledStateType": "literal",
-                  "states": "",
-                  "localStyles": {
-                    "objID": "1efb9b2c-5acf-4c49-b0cc-f7bc382bc54d",
-                    "definition": {
-                      "MAIN": {
-                        "DEFAULT": {
-                          "text_font": "INTER_20",
-                          "text_color": "Accent"
-                        }
-                      }
-                    }
-                  },
-                  "group": "",
-                  "groupIndex": 0,
-                  "text": "collection.type == RecyclingType.RECYCLING ? \"Recycling\" : \"General Waste\"",
-                  "textType": "expression",
-                  "longMode": "WRAP",
-                  "recolor": false,
-                  "previewValue": "Recycling"
-                },
-                {
-                  "objID": "d1c8f68b-b4a1-428b-c8cd-6c7faf548878",
-                  "type": "LVGLLabelWidget",
-                  "left": 0,
-                  "top": 0,
-                  "width": 67,
-                  "height": 24,
-                  "customInputs": [],
-                  "customOutputs": [],
-                  "style": {
-                    "objID": "50a0451c-9de1-4cff-bd0d-3c7f5b0412b8",
-                    "useStyle": "default",
-                    "conditionalStyles": [],
-                    "childStyles": []
-                  },
-                  "timeline": [],
-                  "eventHandlers": [],
-                  "leftUnit": "px",
-                  "topUnit": "px",
-                  "widthUnit": "content",
-                  "heightUnit": "content",
-                  "children": [],
-                  "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
-                  "hiddenFlagType": "literal",
-                  "clickableFlagType": "literal",
-                  "flagScrollbarMode": "",
-                  "flagScrollDirection": "",
-                  "scrollSnapX": "",
-                  "scrollSnapY": "",
-                  "checkedStateType": "literal",
-                  "disabledStateType": "literal",
-                  "states": "",
-                  "localStyles": {
-                    "objID": "2428e30e-dfe0-4f14-b140-09da641351df",
-                    "definition": {
-                      "MAIN": {
-                        "DEFAULT": {
-                          "text_font": "INTER_20",
-                          "text_color": "Secondary"
-                        }
-                      }
-                    }
-                  },
-                  "group": "",
-                  "groupIndex": 0,
-                  "text": "collection.lead_time",
-                  "textType": "expression",
-                  "longMode": "WRAP",
-                  "recolor": false,
-                  "previewValue": "11 days"
-                }
-              ],
+              "widthUnit": "content",
+              "heightUnit": "content",
+              "children": [],
               "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
               "hiddenFlagType": "literal",
-              "clickableFlag": true,
               "clickableFlagType": "literal",
               "flagScrollbarMode": "",
               "flagScrollDirection": "",
@@ -14474,18 +14523,23 @@
               "disabledStateType": "literal",
               "states": "",
               "localStyles": {
-                "objID": "b69a1ed1-8845-42b2-aa68-155ded4e24ff",
+                "objID": "2428e30e-dfe0-4f14-b140-09da641351df",
                 "definition": {
                   "MAIN": {
                     "DEFAULT": {
-                      "layout": "FLEX",
-                      "flex_flow": "ROW"
+                      "text_font": "INTER_20",
+                      "text_color": "Secondary"
                     }
                   }
                 }
               },
               "group": "",
-              "groupIndex": 0
+              "groupIndex": 0,
+              "text": "collection.lead_time",
+              "textType": "expression",
+              "longMode": "WRAP",
+              "recolor": false,
+              "previewValue": "11 days"
             }
           ],
           "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
@@ -14500,13 +14554,12 @@
           "disabledStateType": "literal",
           "states": "",
           "localStyles": {
-            "objID": "e1b4a179-3444-4f44-c4f2-ed7ae72476a4",
+            "objID": "b69a1ed1-8845-42b2-aa68-155ded4e24ff",
             "definition": {
               "MAIN": {
                 "DEFAULT": {
-                  "bg_color": "Card Background",
-                  "bg_opa": 255,
-                  "radius": 15
+                  "layout": "FLEX",
+                  "flex_flow": "ROW"
                 }
               }
             }
@@ -14633,7 +14686,7 @@
       "left": 0,
       "top": 0,
       "width": 700,
-      "height": 100,
+      "height": 80,
       "isUsedAsUserWidget": true,
       "createAtStart": true,
       "deleteOnScreenUnload": false

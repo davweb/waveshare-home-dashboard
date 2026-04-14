@@ -66,7 +66,7 @@ struct PresenceData {
     PresenceItemData items[PRESENCE_COUNT];
 };
 
-#define RECYCLING_COUNT 4
+#define RECYCLING_COUNT 6
 
 struct RecyclingItemData {
     char type[32];

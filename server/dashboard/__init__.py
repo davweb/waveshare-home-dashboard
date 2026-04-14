@@ -132,7 +132,7 @@ class RecyclingDataSource(DataSource):
         return 'recycling'
 
     def get_data(self) -> list[recycling.RecyclingCollection]:
-        return recycling.get_next_recycling_collections()
+        return recycling.get_next_recycling_collections(count=6)
 
     def format_data(self, data: list[recycling.RecyclingCollection]) -> list[dict]:
         return [
