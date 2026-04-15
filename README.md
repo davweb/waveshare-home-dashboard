@@ -2,6 +2,10 @@
 
 This is a home dashboard running on a [Waveshare ESP32-S3-Touch-LCD-4.3B][waveshare] 4.3" touchscreen display. It shows live bus times, weather forecasts, bin collection dates and other data.
 
+![photo](docs/photo.jpeg)
+
+![screens](docs/screens.gif)
+
 ## Table of Contents
 
 - [Directory Layout](#directory-layout)
