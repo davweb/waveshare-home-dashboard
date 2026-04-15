@@ -32,6 +32,9 @@ CONFIG_ESP_MAIN_TASK_STACK_SIZE=16384
 # CONFIG_LOG_DEFAULT_LEVEL_DEBUG=y
 CONFIG_LOG_DEFAULT_LEVEL_INFO=y
 
+# NTP sync interval (milliseconds). Default is 3600000 (1 hour); 86400000 = 24 hours.
+CONFIG_LWIP_SNTP_UPDATE_DELAY=86400000
+
 # Timezone (POSIX TZ string — see components/ClockTools/Kconfig for examples)
 CONFIG_CLOCK_POSIX_TZ="GMT0BST,M3.5.0/1,M10.5.0"
 
