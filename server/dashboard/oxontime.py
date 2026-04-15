@@ -53,6 +53,6 @@ def extract_bus_information(bus_stop_id) -> tuple[str, list[tuple[str, str, date
     data = page.json()[bus_stop_id]
 
     stop_name = _bus_stop_name(bus_stop_id)
-    buses = [_bus_details(bus) for bus in data['calls']]
+    buses = sorted([_bus_details(bus) for bus in data['calls']], key=lambda b: b[2])
 
     return (stop_name, buses)
