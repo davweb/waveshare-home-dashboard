@@ -73,8 +73,19 @@ int main() {
     CHECK("365 days apart",
         days_between(make_time(2026, 1, 1), make_time(2025, 1, 1)) == 365);
 
-    CHECK("DST Boundary",
+    CHECK("DST boundary, 2 days across clock-forward",
         days_between(make_time(2026, 3, 29, 9, 13, 59), make_time(2026, 3, 27, 17, 13, 0)) == 2);
+
+    // UK BST transition: 2026-03-29 01:00 GMT → 02:00 BST (clocks go forward).
+    // Midnight 2026-03-30 (BST) minus midnight 2026-03-29 (GMT) = 82800s not 86400s.
+    // Without rounding, 82800 / 86400 truncates to 0 — must return 1.
+    // Requires TZ=Europe/London to be meaningful.
+    CHECK("DST clock-forward: day after transition is 1 day ahead, not 0",
+        days_between(make_time(2026, 3, 30), make_time(2026, 3, 29)) == 1);
+
+    // Reverse: the day before the transition is 1 day behind.
+    CHECK("DST clock-forward: day before transition is 1 day behind",
+        days_between(make_time(2026, 3, 29), make_time(2026, 3, 30)) == -1);
 
     printf("\n%d passed, %d failed\n", passed, failed);
     return failed > 0 ? 1 : 0;

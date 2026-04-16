@@ -43,7 +43,12 @@ inline int days_between(time_t a, time_t b) {
     localtime_r(&b, &b_midnight);
     a_midnight.tm_hour = 0; a_midnight.tm_min = 0; a_midnight.tm_sec = 0; a_midnight.tm_isdst = -1;
     b_midnight.tm_hour = 0; b_midnight.tm_min = 0; b_midnight.tm_sec = 0; b_midnight.tm_isdst = -1;
-    return (int)((mktime(&a_midnight) - mktime(&b_midnight)) / 86400);
+    // Round to nearest whole day instead of truncating, so that DST transitions
+    // (where a calendar day spans 82800s or 90000s) still count as 1 day.
+    // Simple +43200 bias fails for negative differences because C truncates toward
+    // zero, so we apply the bias in the direction of the sign.
+    time_t diff = mktime(&a_midnight) - mktime(&b_midnight);
+    return (int)((diff + (diff >= 0 ? 43200 : -43200)) / 86400);
 }
 
 // Formats a short date relative to now: "Today", "Tomorrow", day-of-week (within 7 days),
@@ -71,10 +76,10 @@ inline void format_short_date(char *buf, size_t buf_size, time_t epoch, time_t n
 }
 
 // Formats a last-seen timestamp:
-//   same calendar day       → "H:MM"         e.g. "19:34"
+//   same calendar day       → "H:MM"      e.g. "19:34"
 //   1 calendar day ago      → "Yesterday"
-//   2–7 calendar days ago   → "Last Weekday"  e.g. "Last Wednesday"
-//   >7 calendar days ago    → "D Mon"         e.g. "24 Mar"
+//   2–7 calendar days ago   → "Weekday"   e.g. "Wednesday"
+//   >7 calendar days ago    → "D Mon"     e.g. "24 Mar"
 // epoch=0 → empty string.
 inline void format_last_seen(char *buf, size_t buf_size, time_t epoch, time_t now) {
     if (epoch == 0) {

@@ -3,6 +3,9 @@ set -euo pipefail
 
 cd "$(dirname "$0")"
 
+# Time-zone tests are written for Europe/London (BST DST transitions).
+export TZ=Europe/London
+
 BUILD_DIR="build"
 mkdir -p "$BUILD_DIR"
 

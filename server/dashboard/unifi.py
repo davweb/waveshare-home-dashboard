@@ -38,7 +38,7 @@ def get_connected_macs() -> list[dict]:
 
     all_resp = session.get(f'{api_base}/stat/alluser', verify=False, timeout=10)
     all_resp.raise_for_status()
-    last_seen = {client['mac'].lower(): client.get('last_seen') for client in all_resp.json().get('data', [])}
+    last_seen = {client['mac'].lower(): client.get('last_seen', 0) for client in all_resp.json().get('data', [])}
 
     return [
         {
