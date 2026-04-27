@@ -11,7 +11,12 @@ export SDKCONFIG_DEFAULTS="sdkconfig.defaults;sdkconfig.release;sdkconfig.local;
 BUILD_DIR=build_release
 
 idf.py -DPROJECT_VER="${PROJECT_VER}" -B ${BUILD_DIR} set-target esp32s3
-idf.py -DPROJECT_VER="${PROJECT_VER}" -p /dev/cu.usbmodem* -B ${BUILD_DIR} flash
+idf.py -DPROJECT_VER="${PROJECT_VER}" -B ${BUILD_DIR} build
+
+if ls /dev/cu.usbmodem* &>/dev/null
+then
+    idf.py -DPROJECT_VER="${PROJECT_VER}" -p /dev/cu.usbmodem* -B ${BUILD_DIR} flash
+fi
 
 # Copy firmware with versioned filename
 mkdir -p ${FIRMWARE_DIR}

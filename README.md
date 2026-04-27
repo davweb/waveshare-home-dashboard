@@ -210,9 +210,7 @@ The server configuration values are as follows:
 | Pirate Weather API key | `PIRATE_API_KEY` | `-k`<br>`--pirate-api-key` | API key for the Pirate Weather service | Yes | — |
 | Recycling calendar URL | `RECYCLING_CALENDAR_URL` | `-r`<br>`--recycling-calendar-url` | iCal URL for bin collection dates | Yes | — |
 | UniFi controller URL | `UNIFI_URL` | `--unifi-url` | Base URL of the UniFi controller, e.g. `https://192.168.1.1` | Yes | — |
-| UniFi username | `UNIFI_USERNAME` | `--unifi-username` | UniFi controller login username | Yes | — |
-| UniFi password | `UNIFI_PASSWORD` | `--unifi-password` | UniFi controller login password | Yes | — |
-| UniFi site | `UNIFI_SITE` | `--unifi-site` | UniFi site name | No | `default` |
+| UniFi API key | `UNIFI_API_KEY` | `--unifi-api-key` | UniFi Network API key | Yes | — |
 | UniFi clients | `UNIFI_CLIENT_NAMES` | `--unifi-client` | Comma-separated `mac=name` pairs of devices to track (repeatable flag) | No | — |
 | MQTT broker host | `MQTT_BROKER_HOST` | `--mqtt-broker-host` | Hostname of the MQTT broker | No | `mosquitto.home.arpa` |
 | MQTT broker port | `MQTT_BROKER_PORT` | `--mqtt-broker-port` | Port of the MQTT broker | No | `1883` |

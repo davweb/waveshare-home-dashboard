@@ -10,41 +10,25 @@ logger = logging.getLogger(__name__)
 # UniFi controllers use self-signed certs; suppress the resulting warnings globally.
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
+_API_BASE = f'{CONFIG.unifi_url}/proxy/network/v2/api/site/default/clients'
+_HEADERS = {'X-API-KEY': CONFIG.unifi_api_key}
+
+
 def get_connected_macs() -> list[dict]:
-    """Return the set of MAC addresses currently connected to the network.
+    """Return presence info for watched clients using the UniFi Network API v1."""
+    active_clients = requests.get(f'{_API_BASE}/active', headers=_HEADERS, verify=False, timeout=10)
+    active_clients.raise_for_status()
+    connected = {client['mac'].lower() for client in active_clients.json()}
 
-    Tries the legacy standalone controller endpoint first, then falls back to
-    UniFi OS (UDM / UDM-Pro / Cloud Key Gen2).
-    SSL verification is disabled because UniFi controllers use self-signed certs.
-    """
-
-    session = requests.Session()
-    credentials = {'username': CONFIG.unifi_username, 'password': CONFIG.unifi_password}
-
-    # Legacy standalone UniFi controller
-    login_resp = session.post(f'{CONFIG.unifi_url}/api/login', json=credentials, verify=False, timeout=10)
-
-    if login_resp.ok:
-        api_base = f'{CONFIG.unifi_url}/api/s/{CONFIG.unifi_site}'
-    else:
-        # UniFi OS (UDM, UDM-Pro, UCK-G2-Plus running UniFi OS)
-        login_resp = session.post(f'{CONFIG.unifi_url}/api/auth/login', json=credentials, verify=False, timeout=10)
-        login_resp.raise_for_status()
-        api_base = f'{CONFIG.unifi_url}/proxy/network/api/s/{CONFIG.unifi_site}'
-
-    sta_resp = session.get(f'{api_base}/stat/sta', verify=False, timeout=10)
-    sta_resp.raise_for_status()
-    connected_macs = {client['mac'].lower() for client in sta_resp.json().get('data', [])}
-
-    all_resp = session.get(f'{api_base}/stat/alluser', verify=False, timeout=10)
-    all_resp.raise_for_status()
-    last_seen = {client['mac'].lower(): client.get('last_seen', 0) for client in all_resp.json().get('data', [])}
+    client_history = requests.get(f'{_API_BASE}/history?withinHours=0', headers=_HEADERS, verify=False, timeout=10)
+    client_history.raise_for_status()
+    last_seen = {entry['mac'].lower(): entry.get('last_seen') for entry in client_history.json()   }
 
     return [
         {
             'name': name,
-            'connected': mac in connected_macs,
-            'last_seen': last_seen.get(mac)
+            'connected': mac in connected,
+            'last_seen': last_seen.get(mac),
         }
         for mac, name in CONFIG.unifi_client_names.items()
     ]
