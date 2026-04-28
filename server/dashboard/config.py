@@ -20,6 +20,8 @@ def _get_arguments() -> argparse.Namespace:
     parser.add_argument('--unifi-url', action='store',
                         help='Base URL of the UniFi controller (e.g. https://192.168.1.1)')
     parser.add_argument('--unifi-api-key', action='store', help='UniFi API key')
+    parser.add_argument('--unifi-username', action='store', help='UniFi controller username')
+    parser.add_argument('--unifi-password', action='store', help='UniFi controller password')
     parser.add_argument('--unifi-client', action='append', help='Client to watch, format: mac=name')
     parser.add_argument('--mqtt-broker-host', action='store', help='MQTT broker hostname')
     parser.add_argument('--mqtt-broker-port', action='store', type=int, help='MQTT broker port')
@@ -120,7 +122,7 @@ class Config:
         raise ValueError('No UniFi controller URL provided')
 
     @property
-    def unifi_api_key(self) -> str:
+    def unifi_api_key(self) -> str | None:
         """UniFi API key"""
 
         if self._args.unifi_api_key:
@@ -129,7 +131,31 @@ class Config:
         if 'UNIFI_API_KEY' in os.environ:
             return os.environ['UNIFI_API_KEY']
 
-        raise ValueError('No UniFi API key provided')
+        return None
+
+    @property
+    def unifi_username(self) -> str:
+        """UniFi controller username"""
+
+        if self._args.unifi_username:
+            return self._args.unifi_username
+
+        if 'UNIFI_USERNAME' in os.environ:
+            return os.environ['UNIFI_USERNAME']
+
+        raise ValueError('No UniFi username provided')
+
+    @property
+    def unifi_password(self) -> str:
+        """UniFi controller password"""
+
+        if self._args.unifi_password:
+            return self._args.unifi_password
+
+        if 'UNIFI_PASSWORD' in os.environ:
+            return os.environ['UNIFI_PASSWORD']
+
+        raise ValueError('No UniFi password provided')
 
     @property
     def unifi_client_names(self) -> dict[str, str]:
