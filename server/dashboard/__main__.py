@@ -16,7 +16,9 @@ class DashboardHandler(BaseHTTPRequestHandler):
     def do_GET(self) -> None:  # pylint: disable=invalid-name
         """Handle GET requests"""
         path = urlparse(self.path).path
-        if path == FIRMWARE_PATH:
+        if path == '/':
+            self._handle_health_check()
+        elif path == FIRMWARE_PATH:
             self._handle_ota_firmware_download()
         else:
             self.send_error(404)
@@ -32,6 +34,14 @@ class DashboardHandler(BaseHTTPRequestHandler):
     # ------------------------------------------------------------------
     # OTA: firmware download (device pulls this via HTTP)
     # ------------------------------------------------------------------
+
+    def _handle_health_check(self) -> None:
+        body = b'OK'
+        self.send_response(200)
+        self.send_header('Content-Type', 'text/plain')
+        self.send_header('Content-Length', str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
 
     def _handle_ota_firmware_download(self) -> None:
         firmware_path = ota.get_firmware_path()
