@@ -5,7 +5,7 @@ source ./start.sh
 
 PROJECT_VER=$(date +"%Y-%m-%d-%H-%M")
 FIRMWARE_DIR="../firmware"
-SERVER="http://192.168.1.17"
+SERVER="http://dashboard.home.arpa"
 
 export SDKCONFIG_DEFAULTS="sdkconfig.defaults;sdkconfig.release;sdkconfig.local;sdkconfig.release_local"
 BUILD_DIR=build_release

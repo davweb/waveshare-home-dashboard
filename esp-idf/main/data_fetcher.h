@@ -118,12 +118,15 @@ inline bool parse_weather(cJSON *root, SunData &sun, WeatherData &weather)
     weather.day_precip_chance   = cjson_int(day, "precip_chance");
     strlcpy(weather.day_precip_type, cjson_str(day, "precip_type", "Rain"), sizeof(weather.day_precip_type));
 
+    int offset_hours = utc_offset_hours();
+
     cJSON *hours = cJSON_GetObjectItem(root, "hours");
     weather.num_hours = hours ? cJSON_GetArraySize(hours) : 0;
     if (weather.num_hours > 24) weather.num_hours = 24;
     for (int i = 0; i < weather.num_hours; i++) {
         cJSON *hour = cJSON_GetArrayItem(hours, i);
-        weather.hours[i].hour          = cjson_int(hour, "hour");
+        int utc_hour = cjson_int(hour, "hour");
+        weather.hours[i].hour          = (utc_hour + offset_hours + 24) % 24;
         weather.hours[i].temperature   = cjson_int(hour, "temperature");
         weather.hours[i].feels_like    = cjson_int(hour, "feels_like");
         weather.hours[i].precip_chance = cjson_int(hour, "precip_chance");

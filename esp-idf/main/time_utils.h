@@ -116,6 +116,15 @@ inline void format_date_time(char *buf, size_t buf_size, time_t epoch) {
         t.tm_mday, month, t.tm_year + 1900, t.tm_hour, t.tm_min, t.tm_sec);
 }
 
+// Returns the local UTC offset in whole hours (e.g. +1 for UTC+1, -5 for UTC-5).
+inline int utc_offset_hours() {
+    time_t now = time(nullptr);
+    struct tm gm_now;
+    gmtime_r(&now, &gm_now);
+    gm_now.tm_isdst = -1;
+    return (int)(now - mktime(&gm_now)) / 3600;
+}
+
 // Formats a  lead time relative to now: "Today", "Tomorrow", or the number of days in the future (e.g. "3 days"). lead_epoch=0 → empty string.
 inline void format_lead_time(char *buf, size_t buf_size, time_t epoch, time_t now) {
     if (epoch == 0) {
