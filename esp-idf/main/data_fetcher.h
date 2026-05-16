@@ -58,7 +58,7 @@ struct WeatherData {
 struct PresenceItemData {
     char name[32];
     bool connected;
-    char last_seen[16];
+    time_t last_seen_epoch;
 };
 
 struct PresenceData {
@@ -71,9 +71,6 @@ struct PresenceData {
 struct RecyclingItemData {
     char type[32];
     time_t date_epoch;
-    char date[64];
-    char short_date[16];
-    char lead_time[16];
 };
 
 struct RecyclingData {
@@ -139,49 +136,33 @@ inline bool parse_weather(cJSON *root, SunData &sun, WeatherData &weather)
 }
 
 // Parse a recycling JSON array (the payload of the dashboard/recycling MQTT topic).
+// Only stores raw data; call format_recycling_display() afterwards to fill display strings.
 inline bool parse_recycling(cJSON *root, RecyclingData &recycling)
 {
     recycling.num_collections = cJSON_GetArraySize(root);
     if (recycling.num_collections > RECYCLING_COUNT) recycling.num_collections = RECYCLING_COUNT;
 
-    time_t now = time(nullptr);
     for (int i = 0; i < recycling.num_collections; i++) {
         cJSON *item = cJSON_GetArrayItem(root, i);
         strlcpy(recycling.items[i].type, cjson_str(item, "type"), sizeof(recycling.items[i].type));
         recycling.items[i].date_epoch = cjson_epoch(item, "date_epoch");
-        if (recycling.items[i].date_epoch > 0) {
-            struct tm recycling_tm;
-            localtime_r(&recycling.items[i].date_epoch, &recycling_tm);
-            format_long_date(recycling.items[i].date,       sizeof(recycling.items[i].date),       &recycling_tm);
-            format_short_date(recycling.items[i].short_date, sizeof(recycling.items[i].short_date), recycling.items[i].date_epoch, now);
-            format_lead_time(recycling.items[i].lead_time,  sizeof(recycling.items[i].lead_time),  recycling.items[i].date_epoch, now);
-        } else {
-            recycling.items[i].date[0]       = '\0';
-            recycling.items[i].short_date[0] = '\0';
-            recycling.items[i].lead_time[0]  = '\0';
-        }
     }
 
     return true;
 }
 
 // Parse a presence JSON array (the payload of the dashboard/presence MQTT topic).
+// Only stores raw data; call format_presence_display() afterwards to fill display strings.
 inline bool parse_presence(cJSON *root, PresenceData &presence)
 {
     presence.num_people = cJSON_GetArraySize(root);
     if (presence.num_people > PRESENCE_COUNT) presence.num_people = PRESENCE_COUNT;
 
-    time_t now = time(nullptr);
     for (int i = 0; i < presence.num_people; i++) {
         cJSON *item = cJSON_GetArrayItem(root, i);
         strlcpy(presence.items[i].name, cjson_str(item, "name"), sizeof(presence.items[i].name));
         presence.items[i].connected = cjson_bool(item, "connected");
-        if (presence.items[i].connected) {
-            presence.items[i].last_seen[0] = '\0';
-        } else {
-            format_last_seen(presence.items[i].last_seen, sizeof(presence.items[i].last_seen),
-                             cjson_epoch(item, "last_seen"), now);
-        }
+        presence.items[i].last_seen_epoch = cjson_epoch(item, "last_seen");
     }
 
     return true;

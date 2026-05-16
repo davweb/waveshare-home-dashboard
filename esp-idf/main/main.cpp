@@ -96,6 +96,67 @@ static SemaphoreHandle_t s_bus_mutex = nullptr;
 static std::atomic<bool> s_bus_updated{false};
 std::atomic<bool> g_server_connected{false};
 
+static void update_recycling()
+{
+    time_t now = time(nullptr);
+    ArrayOfRecyclingValue recycling(g_recycling_data.num_collections);
+
+    for (int i = 0; i < g_recycling_data.num_collections; i++) {
+        char date[64] = {}, short_date[16] = {}, lead_time[16] = {};
+        time_t epoch = g_recycling_data.items[i].date_epoch;
+        if (epoch > 0) {
+            struct tm tm;
+            localtime_r(&epoch, &tm);
+            format_long_date(date,        sizeof(date),        &tm);
+            format_short_date(short_date, sizeof(short_date),  epoch, now);
+            format_lead_time(lead_time,   sizeof(lead_time),   epoch, now);
+        }
+        RecyclingValue item;
+        item.type(strcmp(g_recycling_data.items[i].type, "Recycling") == 0
+            ? RecyclingType_RECYCLING
+            : RecyclingType_GENERAL_WASTE);
+        item.date(date);
+        item.short_date(short_date);
+        item.lead_time(lead_time);
+        recycling.at(i, item);
+    }
+
+    if (lvgl_port_lock(portMAX_DELAY)) {
+        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_RECYCLING, recycling);
+        lvgl_port_unlock();
+    }
+    else {
+        ESP_LOGE(TAG, "Failed to lock LVGL mutex to update recycling");
+    }
+}
+
+static void update_presence()
+{
+    time_t now = time(nullptr);
+    ArrayOfPresenceValue presence(g_presence_data.num_people);
+
+    for (int i = 0; i < g_presence_data.num_people; i++) {
+        char last_seen[16] = {};
+        if (!g_presence_data.items[i].connected) {
+            format_last_seen(last_seen, sizeof(last_seen),
+                             g_presence_data.items[i].last_seen_epoch, now);
+        }
+        PresenceValue item;
+        item.name(g_presence_data.items[i].name);
+        item.connected(g_presence_data.items[i].connected);
+        item.last_seen(last_seen);
+        presence.at(i, item);
+    }
+
+    if (lvgl_port_lock(portMAX_DELAY)) {
+        flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_PRESENCE, presence);
+        lvgl_port_unlock();
+    }
+    else {
+        ESP_LOGE(TAG, "Failed to lock LVGL mutex to update presence");
+    }
+}
+
 // ---------------------------------------------------------------------------
 // Bus due-time recalculation — only called from the main loop task.
 // ---------------------------------------------------------------------------
@@ -257,26 +318,7 @@ static void onMqttMessage(MqttTopic topic, const char *data, int len)
             cJSON *json = parse_json(); if (!json) break;
             parse_recycling(json, g_recycling_data);
             cJSON_Delete(json);
-
-            ArrayOfRecyclingValue recycling(g_recycling_data.num_collections);
-            for (int i = 0; i < g_recycling_data.num_collections; i++) {
-                RecyclingValue item;
-                item.type(strcmp(g_recycling_data.items[i].type, "Recycling") == 0
-                    ? RecyclingType_RECYCLING
-                    : RecyclingType_GENERAL_WASTE);
-                item.date(g_recycling_data.items[i].date);
-                item.short_date(g_recycling_data.items[i].short_date);
-                item.lead_time(g_recycling_data.items[i].lead_time);
-                recycling.at(i, item);
-            }
-
-            if (lvgl_port_lock(portMAX_DELAY)) {
-                flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_RECYCLING, recycling);
-                lvgl_port_unlock();
-            }
-            else {
-                ESP_LOGE(TAG, "Failed to lock LVGL mutex to update recycling");
-            }
+            update_recycling();
             break;
         }
 
@@ -284,23 +326,7 @@ static void onMqttMessage(MqttTopic topic, const char *data, int len)
             cJSON *json = parse_json(); if (!json) break;
             parse_presence(json, g_presence_data);
             cJSON_Delete(json);
-
-            ArrayOfPresenceValue presence(g_presence_data.num_people);
-            for (int i = 0; i < g_presence_data.num_people; i++) {
-                PresenceValue item;
-                item.name(g_presence_data.items[i].name);
-                item.connected(g_presence_data.items[i].connected);
-                item.last_seen(g_presence_data.items[i].last_seen);
-                presence.at(i, item);
-            }
-
-            if (lvgl_port_lock(portMAX_DELAY)) {
-                flow::setGlobalVariable(FLOW_GLOBAL_VARIABLE_PRESENCE, presence);
-                lvgl_port_unlock();
-            }
-            else {
-                ESP_LOGE(TAG, "Failed to lock LVGL mutex to update presence");
-            }
+            update_presence();
             break;
         }
 
@@ -394,6 +420,7 @@ extern "C" void app_main(void)
     static uint64_t lastRecalculateTime = 0;
     static uint64_t statsInterval = 5000;
     static uint64_t lastStatsTime = 0;
+    static int last_mday = -1;
 
     while (true) {
         uint64_t currentTime = esp_timer_get_time() / 1000ULL;
@@ -426,6 +453,18 @@ extern "C" void app_main(void)
                 s_bus_updated = false;
                 lastRecalculateTime = currentTime;
                 recalculateDueTimes();
+            }
+
+            {
+                struct tm t;
+                time_t now = time(nullptr);
+                localtime_r(&now, &t);
+                if (last_mday >= 0 && t.tm_mday != last_mday) {
+                    ESP_LOGD(TAG, "Day changed, recalculating presence/recycling");
+                    update_recycling();
+                    update_presence();
+                }
+                last_mday = t.tm_mday;
             }
 
             if (lastStatsTime == 0 || (currentTime - lastStatsTime >= statsInterval)) {
