@@ -74,6 +74,10 @@ int main() {
     CHECK("far past → 1 Jan",                    fmt(make_datetime(2025, 1,  1, 12,  0), now) == "1 Jan");
     CHECK("year boundary → 31 Dec",              fmt(make_datetime(2024, 12, 31, 12,  0), now) == "31 Dec");
 
+    // >365 days ago → "Long ago"
+    CHECK("366 days ago → Long ago",             fmt(make_datetime(2024, 6,  9, 12,  0), now) == "Long ago");
+    CHECK("2 years ago → Long ago",              fmt(make_datetime(2023, 6, 10, 12,  0), now) == "Long ago");
+
     printf("\n%d passed, %d failed\n", passed, failed);
     return failed > 0 ? 1 : 0;
 }

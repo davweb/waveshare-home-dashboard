@@ -79,7 +79,8 @@ inline void format_short_date(char *buf, size_t buf_size, time_t epoch, time_t n
 //   same calendar day       → "H:MM"      e.g. "19:34"
 //   1 calendar day ago      → "Yesterday"
 //   2–7 calendar days ago   → "Weekday"   e.g. "Wednesday"
-//   >7 calendar days ago    → "D Mon"     e.g. "24 Mar"
+//   8–365 calendar days ago → "D Mon"     e.g. "24 Mar"
+//   >365 calendar days ago  → "Long ago"
 // epoch=0 → empty string.
 inline void format_last_seen(char *buf, size_t buf_size, time_t epoch, time_t now) {
     if (epoch == 0) {
@@ -95,6 +96,8 @@ inline void format_last_seen(char *buf, size_t buf_size, time_t epoch, time_t no
         strlcpy(buf, "Yesterday", buf_size);
     } else if (days_ago >= 2 && days_ago <= 7) {
         strftime(buf, buf_size, "%A", &t);
+    } else if (days_ago > 365) {
+        strlcpy(buf, "Long ago", buf_size);
     } else {
         char month_abbr[8];
         strftime(month_abbr, sizeof(month_abbr), "%b", &t);
