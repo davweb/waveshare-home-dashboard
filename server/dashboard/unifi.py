@@ -34,7 +34,7 @@ def get_connected_macs() -> list[dict]:
 
     client_history = session.get(f'{_API_BASE}/history?withinHours=0', verify=False, timeout=10)
     client_history.raise_for_status()
-    last_seen = {entry['mac'].lower(): entry.get('last_seen') for entry in client_history.json()   }
+    last_seen = {entry['mac'].lower(): entry.get('last_seen') for entry in client_history.json() if 'mac' in entry}
 
     return [
         {
