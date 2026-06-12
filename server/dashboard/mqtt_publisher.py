@@ -10,6 +10,7 @@ import logging
 import threading
 import paho.mqtt.client as mqtt
 
+from . import telegram
 from .config import CONFIG
 
 logger = logging.getLogger(__name__)
@@ -53,6 +54,7 @@ def publish(topic_suffix: str, payload: object) -> None:
     try:
         if not _connected.wait(timeout=10):
             logger.warning('MQTT not connected after 10s, skipping publish to %s', topic)
+            telegram.report('mqtt', ok=False, detail='MQTT broker unreachable')
             return
         with _publish_lock:
             if _last_published.get(topic) == data:
@@ -61,8 +63,14 @@ def publish(topic_suffix: str, payload: object) -> None:
             result = _CLIENT.publish(topic, data, retain=True, qos=1)
             if result.rc != mqtt.MQTT_ERR_SUCCESS:
                 logger.warning('MQTT publish to %s returned rc=%d', topic, result.rc)
-            else:
-                _last_published[topic] = data
-                logger.debug('Published to %s', topic)
+                telegram.report(f'mqtt:{topic}', ok=False,
+                                detail=f'MQTT publish to {topic} failed (rc={result.rc})')
+                return
+            _last_published[topic] = data
+            logger.debug('Published to %s', topic)
+        telegram.report('mqtt', ok=True)
+        telegram.report(f'mqtt:{topic}', ok=True)
     except Exception:  # pylint: disable=broad-exception-caught
         logger.exception('Failed to publish to MQTT topic %s', topic)
+        telegram.report(f'mqtt:{topic}', ok=False,
+                        detail=f'MQTT publish to {topic} raised an exception')

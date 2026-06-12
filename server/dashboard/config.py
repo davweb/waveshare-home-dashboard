@@ -29,6 +29,10 @@ def _get_arguments() -> argparse.Namespace:
     parser.add_argument('--server-base-url', action='store',
                         help='Publicly accessible base URL of this server '
                              '(e.g. http://dashboard-server:8000), used in OTA MQTT messages')
+    parser.add_argument('--telegram-bot-token', action='store',
+                        help='Telegram bot token for error notifications (optional)')
+    parser.add_argument('--telegram-chat-id', action='store',
+                        help='Telegram chat ID to send error notifications to (optional)')
 
     return parser.parse_args()
 
@@ -206,6 +210,24 @@ class Config:
             return self._args.server_base_url
 
         return os.environ.get('SERVER_BASE_URL', 'http://dashboard.home.arpa')
+
+    @property
+    def telegram_bot_token(self) -> str | None:
+        """Telegram bot token for error notifications (optional)"""
+
+        if self._args.telegram_bot_token:
+            return self._args.telegram_bot_token
+
+        return os.environ.get('TELEGRAM_BOT_TOKEN') or None
+
+    @property
+    def telegram_chat_id(self) -> str | None:
+        """Telegram chat ID to send error notifications to (optional)"""
+
+        if self._args.telegram_chat_id:
+            return self._args.telegram_chat_id
+
+        return os.environ.get('TELEGRAM_CHAT_ID') or None
 
     @property
     def log_level(self) -> int:

@@ -10,6 +10,7 @@ from typing import Any
 import schedule
 from . import oxontime
 from . import recycling
+from . import telegram
 from . import unifi
 from . import weather
 from .config import CONFIG
@@ -194,12 +195,16 @@ def _publish_data_source(data_source: DataSource) -> None:
 
 
 def _update_data_source(data_source: DataSource) -> None:
+    name = data_source.get_name()
     try:
-        logging.info('Updating %s', data_source.get_name())
-        DATA[data_source.get_name()] = data_source.get_data()
+        logging.info('Updating %s', name)
+        DATA[name] = data_source.get_data()
         _publish_data_source(data_source)
-    except Exception:  # pylint: disable=broad-exception-caught
-        logging.exception('Failed to update %s', data_source.get_name())
+        telegram.report(name, ok=True)
+    except Exception as exc:  # pylint: disable=broad-exception-caught
+        logging.exception('Failed to update %s', name)
+        telegram.report(name, ok=False,
+                        detail=f'{name} fetch failed: {type(exc).__name__}: {exc}')
 
 
 def run_scheduler():
