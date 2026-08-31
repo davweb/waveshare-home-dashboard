@@ -30,7 +30,7 @@ def get_connected_macs() -> list[dict]:
 
     active_clients = session.get(f'{_API_BASE}/active', verify=False, timeout=10)
     active_clients.raise_for_status()
-    connected = {client['mac'].lower() for client in active_clients.json()}
+    connected = {client['mac'].lower() for client in active_clients.json() if 'mac' in client}
 
     client_history = session.get(f'{_API_BASE}/history?withinHours=0', verify=False, timeout=10)
     client_history.raise_for_status()
