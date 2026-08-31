@@ -1,8 +1,9 @@
 FROM alpine:edge
 
 # Install python and uv
-RUN apk add --no-cache python3 uv
-
+# Use the Python installed UV for compatibility reasons
+RUN apk add --no-cache python3 py3-pip
+RUN pip install uv --break-system-packages
 WORKDIR /app
 
 # Install dependencies from lockfile
