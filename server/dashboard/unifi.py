@@ -19,7 +19,7 @@ def get_connected_macs() -> list[dict]:
 
     session = requests.Session()
 
-    if (CONFIG.unifi_api_key):
+    if CONFIG.unifi_api_key:
         # Unifi OS
         session.headers.update({'X-API-KEY': CONFIG.unifi_api_key})
     else:
