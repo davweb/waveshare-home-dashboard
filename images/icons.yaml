@@ -132,3 +132,7 @@ icons:
   - output: png/weather-wind.png
     input: bootstrap/wind.svg
     size: medium
+
+  - output: png/live-location.png
+    input: bootstrap/live-location.svg
+    size: small

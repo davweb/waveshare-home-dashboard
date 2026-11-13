@@ -14,11 +14,14 @@
       "displayWidth": 800,
       "displayHeight": 480,
       "displayBorderRadius": 0,
-      "colorFormat": "BGR",
+      "colorBpp": "16",
+      "bitmapColorFormat": "BGR",
       "resourceFiles": [],
       "hiddenWidgetLines": "dimmed",
       "dimmedLinesOpacity": "20",
-      "embedFonts": true
+      "embedBitmaps": true,
+      "embedFonts": true,
+      "cacheFonts": false
     },
     "build": {
       "objID": "72794a43-a0fc-13c2-7eb5-67dd952141a4",
@@ -241,6 +244,11 @@
             "objID": "3ab41497-9cfa-40b3-e9b2-707197d3a528",
             "name": "due_seconds",
             "type": "integer"
+          },
+          {
+            "objID": "e02980a5-28df-41ce-9b88-cf45a0976aac",
+            "name": "live_location",
+            "type": "boolean"
           }
         ]
       },
@@ -1007,7 +1015,8 @@
               "text": "Waiting for Wi-Fi...",
               "textType": "literal",
               "longMode": "WRAP",
-              "recolor": false
+              "recolor": false,
+              "useStaticText": true
             },
             {
               "objID": "0ebead21-71a6-4f31-ccfe-1cc2d40fa34c",
@@ -1427,7 +1436,8 @@
               "text": "Waiting for Data...",
               "textType": "literal",
               "longMode": "WRAP",
-              "recolor": false
+              "recolor": false,
+              "useStaticText": true
             },
             {
               "objID": "54533c92-8174-4eaa-dbd3-1c4c7193e0c1",
@@ -1592,7 +1602,8 @@
               "text": "Updating Firmware...",
               "textType": "literal",
               "longMode": "WRAP",
-              "recolor": false
+              "recolor": false,
+              "useStaticText": true
             },
             {
               "objID": "76316829-b3b9-47c8-f5e9-d273d59e234d",
@@ -1640,7 +1651,9 @@
               "group": "",
               "groupIndex": 0,
               "min": 0,
+              "minType": "literal",
               "max": 100,
+              "maxType": "literal",
               "mode": "NORMAL",
               "value": "firmware_progress",
               "valueType": "expression",
@@ -1833,7 +1846,8 @@
                   "textType": "expression",
                   "longMode": "WRAP",
                   "recolor": false,
-                  "previewValue": "Saturday 28 February"
+                  "previewValue": "Saturday 28 February",
+                  "useStaticText": true
                 },
                 {
                   "objID": "b69f8418-2ce7-42ac-ae01-caffe7065943",
@@ -1892,7 +1906,8 @@
                   "textType": "expression",
                   "longMode": "WRAP",
                   "recolor": false,
-                  "previewValue": "8:41"
+                  "previewValue": "8:41",
+                  "useStaticText": true
                 }
               ],
               "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
@@ -2166,7 +2181,8 @@
                       "text": "Temperature",
                       "textType": "literal",
                       "longMode": "WRAP",
-                      "recolor": false
+                      "recolor": false,
+                      "useStaticText": true
                     },
                     {
                       "objID": "74b10c93-a3f6-432f-b5d5-b4e996ba2d37",
@@ -2219,7 +2235,8 @@
                       "textType": "expression",
                       "longMode": "WRAP",
                       "recolor": false,
-                      "previewValue": "14°"
+                      "previewValue": "14°",
+                      "useStaticText": true
                     },
                     {
                       "objID": "ba6fc136-7d8c-49c2-f173-ebc2fbf98131",
@@ -2352,7 +2369,8 @@
                           "textType": "expression",
                           "longMode": "WRAP",
                           "recolor": false,
-                          "previewValue": "20°"
+                          "previewValue": "20°",
+                          "useStaticText": true
                         },
                         {
                           "objID": "1e6c0d32-a1d9-4f1c-b210-9781b0bb853b",
@@ -2464,7 +2482,8 @@
                           "textType": "expression",
                           "longMode": "WRAP",
                           "recolor": false,
-                          "previewValue": "6°"
+                          "previewValue": "6°",
+                          "useStaticText": true
                         }
                       ],
                       "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
@@ -2635,7 +2654,8 @@
                           "textType": "expression",
                           "longMode": "WRAP",
                           "recolor": false,
-                          "previewValue": "50"
+                          "previewValue": "50",
+                          "useStaticText": true
                         },
                         {
                           "objID": "3eec7d7a-9529-4940-836e-e377910da6d2",
@@ -2685,7 +2705,8 @@
                           "text": "%",
                           "textType": "literal",
                           "longMode": "WRAP",
-                          "recolor": false
+                          "recolor": false,
+                          "useStaticText": true
                         }
                       ],
                       "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE|EVENT_BUBBLE",
@@ -2772,7 +2793,8 @@
                       "textType": "expression",
                       "longMode": "WRAP",
                       "recolor": false,
-                      "previewValue": "Rain Chance"
+                      "previewValue": "Rain Chance",
+                      "useStaticText": true
                     },
                     {
                       "objID": "0bfe3082-740c-4e95-8073-98332c2d9d0d",
@@ -3268,7 +3290,8 @@
                       "textType": "expression",
                       "longMode": "WRAP",
                       "recolor": false,
-                      "previewValue": "17:59"
+                      "previewValue": "17:59",
+                      "useStaticText": true
                     },
                     {
                       "objID": "b4738303-5031-42f3-f56b-f6eb8b3f70a4",
@@ -3324,7 +3347,8 @@
                       "textType": "literal",
                       "longMode": "WRAP",
                       "recolor": false,
-                      "previewValue": "Sunset"
+                      "previewValue": "Sunset",
+                      "useStaticText": true
                     }
                   ],
                   "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
@@ -3447,7 +3471,8 @@
                       "text": "Bin Collection",
                       "textType": "literal",
                       "longMode": "WRAP",
-                      "recolor": false
+                      "recolor": false,
+                      "useStaticText": true
                     },
                     {
                       "objID": "e3d761ef-d82e-4563-caf8-9c9df0f666f4",
@@ -3603,7 +3628,8 @@
                       "textType": "expression",
                       "longMode": "WRAP",
                       "recolor": false,
-                      "previewValue": "Wednesday"
+                      "previewValue": "Wednesday",
+                      "useStaticText": true
                     }
                   ],
                   "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
@@ -3727,7 +3753,7 @@
           "type": "CallActionActionComponent",
           "left": 297,
           "top": 602,
-          "width": 405,
+          "width": 406,
           "height": 77,
           "customInputs": [
             {
@@ -3852,7 +3878,7 @@
           "type": "WatchVariableActionComponent",
           "left": 36,
           "top": 721,
-          "width": 227,
+          "width": 228,
           "height": 53,
           "customInputs": [],
           "customOutputs": [],
@@ -3864,7 +3890,7 @@
           "left": 817,
           "top": 721,
           "width": 455,
-          "height": 70,
+          "height": 71,
           "customInputs": [
             {
               "objID": "2dcd6c2a-cfac-4b28-c387-953e60c88100",
@@ -3909,7 +3935,7 @@
           "type": "CallActionActionComponent",
           "left": 315,
           "top": 721,
-          "width": 404,
+          "width": 405,
           "height": 77,
           "customInputs": [
             {
@@ -3950,8 +3976,8 @@
           "type": "IsTrueActionComponent",
           "left": 382,
           "top": 870,
-          "width": 257,
-          "height": 68,
+          "width": 258,
+          "height": 69,
           "customInputs": [],
           "customOutputs": [],
           "value": "recycling[0].short_date == \"Today\""
@@ -3962,7 +3988,7 @@
           "left": 540,
           "top": 1024,
           "width": 276,
-          "height": 68,
+          "height": 69,
           "customInputs": [],
           "customOutputs": [],
           "value": "recycling[0].short_date == \"Tomorrow\""
@@ -3998,7 +4024,7 @@
           "type": "LVGLActionComponent",
           "left": 915,
           "top": 1005,
-          "width": 341,
+          "width": 342,
           "height": 53,
           "customInputs": [],
           "customOutputs": [],
@@ -4024,7 +4050,7 @@
           "type": "LVGLActionComponent",
           "left": 915,
           "top": 1092,
-          "width": 341,
+          "width": 342,
           "height": 53,
           "customInputs": [],
           "customOutputs": [],
@@ -4050,7 +4076,7 @@
           "type": "CallActionActionComponent",
           "left": 337,
           "top": 1303,
-          "width": 405,
+          "width": 406,
           "height": 77,
           "customInputs": [
             {
@@ -4092,7 +4118,7 @@
           "left": 817,
           "top": 1303,
           "width": 412,
-          "height": 70,
+          "height": 71,
           "customInputs": [
             {
               "objID": "c1cef01c-8d7e-4a63-eaa1-60a1375effc6",
@@ -4137,7 +4163,7 @@
           "type": "CallActionActionComponent",
           "left": 374,
           "top": 1480,
-          "width": 405,
+          "width": 406,
           "height": 77,
           "customInputs": [
             {
@@ -4179,7 +4205,7 @@
           "left": 847,
           "top": 1480,
           "width": 412,
-          "height": 70,
+          "height": 71,
           "customInputs": [
             {
               "objID": "1f9a2a73-dd1e-425d-c80d-815c7a75e826",
@@ -4224,7 +4250,7 @@
           "type": "LVGLActionComponent",
           "left": 943,
           "top": 18,
-          "width": 341,
+          "width": 342,
           "height": 53,
           "customInputs": [],
           "customOutputs": [],
@@ -4262,7 +4288,7 @@
           "left": 339,
           "top": 1623,
           "width": 98,
-          "height": 68,
+          "height": 69,
           "customInputs": [
             {
               "objID": "4ebe97ce-354a-4bab-bf6a-ace6fbaf21ee",
@@ -4279,7 +4305,7 @@
           "left": 596,
           "top": 1621,
           "width": 348,
-          "height": 88,
+          "height": 89,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -4320,8 +4346,8 @@
           "type": "LVGLActionComponent",
           "left": 595,
           "top": 1719,
-          "width": 341,
-          "height": 88,
+          "width": 342,
+          "height": 89,
           "customInputs": [],
           "customOutputs": [],
           "actions": [
@@ -5033,7 +5059,8 @@
                           "textType": "literal",
                           "longMode": "WRAP",
                           "recolor": false,
-                          "previewValue": "20°"
+                          "previewValue": "20°",
+                          "useStaticText": true
                         },
                         {
                           "objID": "6bbcf364-3948-43f7-81dc-dc3b4b162ece",
@@ -5092,7 +5119,8 @@
                           "textType": "literal",
                           "longMode": "WRAP",
                           "recolor": false,
-                          "previewValue": "20°"
+                          "previewValue": "20°",
+                          "useStaticText": true
                         },
                         {
                           "objID": "c3334306-b813-460f-9656-869e864cff13",
@@ -5151,7 +5179,8 @@
                           "textType": "literal",
                           "longMode": "WRAP",
                           "recolor": false,
-                          "previewValue": "20°"
+                          "previewValue": "20°",
+                          "useStaticText": true
                         },
                         {
                           "objID": "f574238a-96c6-413f-c4a6-0e2df87ff5e5",
@@ -5210,7 +5239,8 @@
                           "textType": "literal",
                           "longMode": "WRAP",
                           "recolor": false,
-                          "previewValue": "18°"
+                          "previewValue": "18°",
+                          "useStaticText": true
                         },
                         {
                           "objID": "337ff8e8-71a0-4d27-a83d-25f4649fc53f",
@@ -5269,7 +5299,8 @@
                           "textType": "expression",
                           "longMode": "WRAP",
                           "recolor": false,
-                          "previewValue": "Rain\\nChance"
+                          "previewValue": "Rain\\nChance",
+                          "useStaticText": true
                         },
                         {
                           "objID": "d42a1b39-e195-4355-d41b-38d38c357e8e",
@@ -5330,7 +5361,8 @@
                           "textType": "literal",
                           "longMode": "WRAP",
                           "recolor": false,
-                          "previewValue": "30"
+                          "previewValue": "30",
+                          "useStaticText": true
                         },
                         {
                           "objID": "c745754d-63db-4832-aa2b-a8cba7170743",
@@ -5389,7 +5421,8 @@
                           "textType": "literal",
                           "longMode": "WRAP",
                           "recolor": false,
-                          "previewValue": "12"
+                          "previewValue": "12",
+                          "useStaticText": true
                         }
                       ],
                       "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SNAPPABLE|SCROLL_WITH_ARROW",
@@ -6887,7 +6920,8 @@
                       "text": "Upcoming Collections",
                       "textType": "literal",
                       "longMode": "WRAP",
-                      "recolor": false
+                      "recolor": false,
+                      "useStaticText": true
                     },
                     {
                       "objID": "07374db1-3d1c-4cbc-cd4a-dc92cc7f1726",
@@ -8135,7 +8169,8 @@
                           "textType": "literal",
                           "longMode": "WRAP",
                           "recolor": false,
-                          "previewValue": "Vicky"
+                          "previewValue": "Vicky",
+                          "useStaticText": true
                         },
                         {
                           "objID": "60614a73-3947-447a-d6d5-497d354f66be",
@@ -8426,7 +8461,8 @@
                           "textType": "literal",
                           "longMode": "WRAP",
                           "recolor": false,
-                          "previewValue": "Vicky"
+                          "previewValue": "Vicky",
+                          "useStaticText": true
                         }
                       ],
                       "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE|EVENT_BUBBLE",
@@ -8656,7 +8692,8 @@
                           "textType": "literal",
                           "longMode": "WRAP",
                           "recolor": false,
-                          "previewValue": "Vicky"
+                          "previewValue": "Vicky",
+                          "useStaticText": true
                         }
                       ],
                       "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE|EVENT_BUBBLE",
@@ -8886,7 +8923,8 @@
                           "textType": "literal",
                           "longMode": "WRAP",
                           "recolor": false,
-                          "previewValue": "Vicky"
+                          "previewValue": "Vicky",
+                          "useStaticText": true
                         }
                       ],
                       "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE|EVENT_BUBBLE",
@@ -9116,7 +9154,8 @@
                           "textType": "literal",
                           "longMode": "WRAP",
                           "recolor": false,
-                          "previewValue": "Vicky"
+                          "previewValue": "Vicky",
+                          "useStaticText": true
                         }
                       ],
                       "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE|EVENT_BUBBLE",
@@ -9346,7 +9385,8 @@
                           "textType": "literal",
                           "longMode": "WRAP",
                           "recolor": false,
-                          "previewValue": "Vicky"
+                          "previewValue": "Vicky",
+                          "useStaticText": true
                         }
                       ],
                       "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE|EVENT_BUBBLE",
@@ -10231,7 +10271,7 @@
                       "type": "LVGLLabelWidget",
                       "left": 0,
                       "top": 1,
-                      "width": 324,
+                      "width": 660,
                       "height": 24,
                       "customInputs": [],
                       "customOutputs": [],
@@ -10283,7 +10323,8 @@
                       "text": "Memory Usage",
                       "textType": "literal",
                       "longMode": "WRAP",
-                      "recolor": false
+                      "recolor": false,
+                      "useStaticText": true
                     },
                     {
                       "objID": "ab9e2fb9-5c88-4cc6-fe24-12660485e22e",
@@ -10583,14 +10624,15 @@
               "textType": "expression",
               "longMode": "WRAP",
               "recolor": false,
-              "previewValue": "4A"
+              "previewValue": "4A",
+              "useStaticText": true
             },
             {
               "objID": "a8125cf6-0666-4349-c3b0-644ba6c571d8",
               "type": "LVGLLabelWidget",
               "left": 0,
               "top": 0,
-              "width": 545,
+              "width": 543,
               "height": 39,
               "customInputs": [],
               "customOutputs": [],
@@ -10642,7 +10684,8 @@
               "textType": "expression",
               "longMode": "CLIP",
               "recolor": false,
-              "previewValue": "Oxford Osney Island"
+              "previewValue": "Oxford Osney Island",
+              "useStaticText": true
             },
             {
               "objID": "1c207801-5f56-4c61-e2d9-ab729cd4743d",
@@ -10699,7 +10742,72 @@
               "textType": "expression",
               "longMode": "CLIP",
               "recolor": false,
-              "previewValue": "54 mins"
+              "previewValue": "54 mins",
+              "useStaticText": true
+            },
+            {
+              "objID": "14c7392f-6a50-409c-9413-4dad86f82153",
+              "type": "LVGLImageWidget",
+              "left": 0,
+              "top": 0,
+              "width": 24,
+              "height": 24,
+              "customInputs": [],
+              "customOutputs": [],
+              "style": {
+                "objID": "3b7258e5-3e13-47ad-98f3-53798e461ea8",
+                "useStyle": "default",
+                "conditionalStyles": [],
+                "childStyles": []
+              },
+              "timeline": [],
+              "eventHandlers": [],
+              "leftUnit": "px",
+              "topUnit": "px",
+              "widthUnit": "content",
+              "heightUnit": "content",
+              "children": [],
+              "widgetFlags": "ADV_HITTEST|CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+              "hiddenFlag": "!bus_arrival.live_location",
+              "hiddenFlagType": "expression",
+              "clickableFlagType": "literal",
+              "flagScrollbarMode": "",
+              "flagScrollDirection": "",
+              "scrollSnapX": "",
+              "scrollSnapY": "",
+              "checkedStateType": "literal",
+              "disabledStateType": "literal",
+              "states": "",
+              "localStyles": {
+                "objID": "f284a81f-9bbe-40fd-9bfb-e02920df4e51",
+                "definition": {
+                  "MAIN": {
+                    "DEFAULT": {
+                      "img_recolor": "#FFFFFF",
+                      "grid_cell_column_pos": 3,
+                      "grid_cell_column_span": 1,
+                      "grid_cell_x_align": "CENTER",
+                      "grid_cell_row_span": 1,
+                      "grid_cell_y_align": "CENTER",
+                      "img_recolor_opa": 255,
+                      "grid_cell_row_pos": 0
+                    }
+                  }
+                }
+              },
+              "group": "",
+              "groupIndex": 0,
+              "image": "live-location",
+              "setPivot": false,
+              "pivotX": 0,
+              "pivotY": 0,
+              "zoom": 256,
+              "angle": 0,
+              "innerAlign": "CENTER",
+              "sizeMode": "VIRTUAL",
+              "value": 0,
+              "valueType": "literal",
+              "previewValue": 0
             }
           ],
           "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE|EVENT_BUBBLE",
@@ -10722,7 +10830,7 @@
                   "text_color": "Primary",
                   "layout": "GRID",
                   "grid_row_dsc_array": "CONTENT",
-                  "grid_column_dsc_array": "CONTENT,FR(1),CONTENT"
+                  "grid_column_dsc_array": "CONTENT,FR(1),CONTENT,CONTENT"
                 }
               }
             }
@@ -10747,7 +10855,7 @@
           "left": 346,
           "top": -270,
           "width": 227,
-          "height": 68,
+          "height": 69,
           "customInputs": [],
           "customOutputs": [],
           "value": "bus_arrival.due_seconds < 300"
@@ -10757,7 +10865,7 @@
           "type": "LVGLActionComponent",
           "left": 624,
           "top": -253,
-          "width": 292,
+          "width": 293,
           "height": 53,
           "customInputs": [],
           "customOutputs": [],
@@ -10784,7 +10892,7 @@
           "left": 548,
           "top": -148,
           "width": 227,
-          "height": 68,
+          "height": 69,
           "customInputs": [],
           "customOutputs": [],
           "value": "bus_arrival.due_seconds < 600"
@@ -11201,7 +11309,8 @@
               "textType": "expression",
               "longMode": "WRAP",
               "recolor": false,
-              "previewValue": "Laburnum Road"
+              "previewValue": "Laburnum Road",
+              "useStaticText": true
             }
           ],
           "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE|EVENT_BUBBLE",
@@ -12237,7 +12346,8 @@
                   "textType": "expression",
                   "longMode": "WRAP",
                   "recolor": false,
-                  "previewValue": "23"
+                  "previewValue": "23",
+                  "useStaticText": true
                 },
                 {
                   "objID": "27001e0f-8f3d-4dfb-d716-485b75474f25",
@@ -12354,7 +12464,8 @@
                   "textType": "expression",
                   "longMode": "WRAP",
                   "recolor": false,
-                  "previewValue": "20°"
+                  "previewValue": "20°",
+                  "useStaticText": true
                 },
                 {
                   "objID": "f559ba3a-8920-46a8-9ea1-ae1fb22b553f",
@@ -12413,7 +12524,8 @@
                   "textType": "expression",
                   "longMode": "WRAP",
                   "recolor": false,
-                  "previewValue": "18°"
+                  "previewValue": "18°",
+                  "useStaticText": true
                 },
                 {
                   "objID": "332e5d04-62fa-4050-d7ea-ca1588a87d6b",
@@ -12494,7 +12606,8 @@
                       "textType": "expression",
                       "longMode": "WRAP",
                       "recolor": false,
-                      "previewValue": "55"
+                      "previewValue": "55",
+                      "useStaticText": true
                     },
                     {
                       "objID": "b3af4e2c-7b48-4716-c523-c227319f510b",
@@ -12547,7 +12660,8 @@
                       "text": "%",
                       "textType": "literal",
                       "longMode": "WRAP",
-                      "recolor": false
+                      "recolor": false,
+                      "useStaticText": true
                     }
                   ],
                   "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
@@ -12662,7 +12776,8 @@
                       "textType": "expression",
                       "longMode": "WRAP",
                       "recolor": false,
-                      "previewValue": "30"
+                      "previewValue": "30",
+                      "useStaticText": true
                     },
                     {
                       "objID": "8216afc8-54c7-49a8-e8a1-354e4ee8bc3c",
@@ -12715,7 +12830,8 @@
                       "text": "mph",
                       "textType": "literal",
                       "longMode": "WRAP",
-                      "recolor": false
+                      "recolor": false,
+                      "useStaticText": true
                     }
                   ],
                   "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
@@ -12812,7 +12928,8 @@
                   "textType": "expression",
                   "longMode": "WRAP",
                   "recolor": false,
-                  "previewValue": "12"
+                  "previewValue": "12",
+                  "useStaticText": true
                 }
               ],
               "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SNAPPABLE|SCROLL_WITH_ARROW",
@@ -12890,7 +13007,7 @@
           "type": "CallActionActionComponent",
           "left": 207,
           "top": -538,
-          "width": 405,
+          "width": 406,
           "height": 77,
           "customInputs": [
             {
@@ -12963,7 +13080,7 @@
           "type": "CallActionActionComponent",
           "left": 218,
           "top": -416,
-          "width": 405,
+          "width": 406,
           "height": 77,
           "customInputs": [
             {
@@ -13025,7 +13142,7 @@
           "type": "WatchVariableActionComponent",
           "left": -125,
           "top": -87,
-          "width": 184,
+          "width": 185,
           "height": 53,
           "customInputs": [],
           "customOutputs": [],
@@ -13036,8 +13153,8 @@
           "type": "LVGLActionComponent",
           "left": 730,
           "top": -80,
-          "width": 387,
-          "height": 70,
+          "width": 388,
+          "height": 71,
           "customInputs": [
             {
               "objID": "071234c4-f944-43ce-9f35-50fed8ef6221",
@@ -13082,7 +13199,7 @@
           "type": "CallActionActionComponent",
           "left": 199,
           "top": -87,
-          "width": 404,
+          "width": 405,
           "height": 77,
           "customInputs": [
             {
@@ -13196,8 +13313,8 @@
           "type": "LVGLActionComponent",
           "left": 693,
           "top": 527,
-          "width": 381,
-          "height": 70,
+          "width": 382,
+          "height": 71,
           "customInputs": [
             {
               "objID": "22ce03be-9df8-4654-900e-b5edb1e3b7d8",
@@ -14103,7 +14220,9 @@
               "group": "",
               "groupIndex": 0,
               "min": 0,
+              "minType": "literal",
               "max": 100,
+              "maxType": "literal",
               "mode": "NORMAL",
               "value": "weather_hour.precip_chance",
               "valueType": "expression",
@@ -14162,7 +14281,8 @@
               "textType": "expression",
               "longMode": "WRAP",
               "recolor": false,
-              "previewValue": "05"
+              "previewValue": "05",
+              "useStaticText": true
             }
           ],
           "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
@@ -14414,7 +14534,8 @@
           "textType": "expression",
           "longMode": "WRAP",
           "recolor": false,
-          "previewValue": "Wednesday 31 March"
+          "previewValue": "Wednesday 31 March",
+          "useStaticText": true
         },
         {
           "objID": "99596378-84e0-4a37-cf08-1da12eee0542",
@@ -14488,7 +14609,8 @@
               "textType": "expression",
               "longMode": "WRAP",
               "recolor": false,
-              "previewValue": "Recycling"
+              "previewValue": "Recycling",
+              "useStaticText": true
             },
             {
               "objID": "d1c8f68b-b4a1-428b-c8cd-6c7faf548878",
@@ -14539,7 +14661,8 @@
               "textType": "expression",
               "longMode": "WRAP",
               "recolor": false,
-              "previewValue": "11 days"
+              "previewValue": "11 days",
+              "useStaticText": true
             }
           ],
           "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
@@ -15050,7 +15173,8 @@
                   "textType": "expression",
                   "longMode": "WRAP",
                   "recolor": false,
-                  "previewValue": "Vicky"
+                  "previewValue": "Vicky",
+                  "useStaticText": true
                 },
                 {
                   "objID": "ec426f40-35ea-4113-fbcf-e06d33ef433e",
@@ -15102,7 +15226,8 @@
                   "textType": "expression",
                   "longMode": "WRAP",
                   "recolor": false,
-                  "previewValue": "Last Seen"
+                  "previewValue": "Last Seen",
+                  "useStaticText": true
                 },
                 {
                   "objID": "03119818-a641-4b85-e6a9-500d475f118b",
@@ -15155,7 +15280,8 @@
                   "textType": "expression",
                   "longMode": "WRAP",
                   "recolor": false,
-                  "previewValue": "16:57"
+                  "previewValue": "16:57",
+                  "useStaticText": true
                 }
               ],
               "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
@@ -15514,7 +15640,8 @@
               "textType": "expression",
               "longMode": "WRAP",
               "recolor": false,
-              "previewValue": "4192"
+              "previewValue": "4192",
+              "useStaticText": true
             },
             {
               "objID": "1194266f-7f1c-4acf-e5ce-ab521ef72efb",
@@ -15564,7 +15691,8 @@
               "text": "KB",
               "textType": "literal",
               "longMode": "WRAP",
-              "recolor": false
+              "recolor": false,
+              "useStaticText": true
             }
           ],
           "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
@@ -15643,7 +15771,8 @@
           "textType": "expression",
           "longMode": "WRAP",
           "recolor": false,
-          "previewValue": "8192 KB total"
+          "previewValue": "8192 KB total",
+          "useStaticText": true
         },
         {
           "objID": "b34fdf5c-42bf-4dbe-bff3-6c5ad57ac922",
@@ -15695,7 +15824,8 @@
           "textType": "expression",
           "longMode": "WRAP",
           "recolor": false,
-          "previewValue": "PSRAM"
+          "previewValue": "PSRAM",
+          "useStaticText": true
         }
       ],
       "connectionLines": [],
@@ -15832,7 +15962,8 @@
                   "text": "Hardware Information",
                   "textType": "literal",
                   "longMode": "WRAP",
-                  "recolor": false
+                  "recolor": false,
+                  "useStaticText": true
                 },
                 {
                   "objID": "4a86568b-2c00-489c-ed9c-f22060d44cf1",
@@ -15888,7 +16019,8 @@
                   "text": "Board",
                   "textType": "literal",
                   "longMode": "WRAP",
-                  "recolor": false
+                  "recolor": false,
+                  "useStaticText": true
                 },
                 {
                   "objID": "2a4f55d8-3dda-43e2-9af4-dfd7178caf72",
@@ -15947,7 +16079,8 @@
                   "textType": "expression",
                   "longMode": "WRAP",
                   "recolor": false,
-                  "previewValue": "WAVESHARE_ESP32_S3_TOUCH_LCD_4_3_B"
+                  "previewValue": "WAVESHARE_ESP32_S3_TOUCH_LCD_4_3_B",
+                  "useStaticText": true
                 },
                 {
                   "objID": "7c07c995-c359-4230-ebad-d6bdc1c893e1",
@@ -16003,7 +16136,8 @@
                   "text": "CPU Model",
                   "textType": "literal",
                   "longMode": "WRAP",
-                  "recolor": false
+                  "recolor": false,
+                  "useStaticText": true
                 },
                 {
                   "objID": "359e7028-47da-4803-a9b0-28d1b9382e9c",
@@ -16061,7 +16195,8 @@
                   "textType": "expression",
                   "longMode": "WRAP",
                   "recolor": false,
-                  "previewValue": "ESP32S3 Rev 2"
+                  "previewValue": "ESP32S3 Rev 2",
+                  "useStaticText": true
                 },
                 {
                   "objID": "7c2828d3-5de6-4865-9a02-d7c6969ca6ae",
@@ -16117,7 +16252,8 @@
                   "text": "CPU Core Count",
                   "textType": "literal",
                   "longMode": "WRAP",
-                  "recolor": false
+                  "recolor": false,
+                  "useStaticText": true
                 },
                 {
                   "objID": "5ba50a4d-5fde-46ec-c132-9175446d5434",
@@ -16175,7 +16311,8 @@
                   "textType": "expression",
                   "longMode": "WRAP",
                   "recolor": false,
-                  "previewValue": "2"
+                  "previewValue": "2",
+                  "useStaticText": true
                 },
                 {
                   "objID": "8be9d65f-48c2-45f6-9881-f7e74dc08fca",
@@ -16231,7 +16368,8 @@
                   "text": "CPU Frequency",
                   "textType": "literal",
                   "longMode": "WRAP",
-                  "recolor": false
+                  "recolor": false,
+                  "useStaticText": true
                 },
                 {
                   "objID": "da37dd97-587f-44c9-eb44-bd75b06b318f",
@@ -16289,7 +16427,8 @@
                   "textType": "expression",
                   "longMode": "WRAP",
                   "recolor": false,
-                  "previewValue": "40 MHz"
+                  "previewValue": "40 MHz",
+                  "useStaticText": true
                 },
                 {
                   "objID": "37c24f09-742b-4873-dece-d4b6d8f6c245",
@@ -16345,7 +16484,8 @@
                   "text": "CPU Temperature",
                   "textType": "literal",
                   "longMode": "WRAP",
-                  "recolor": false
+                  "recolor": false,
+                  "useStaticText": true
                 },
                 {
                   "objID": "ee1d2054-c27d-4002-e1ae-b1e3a2c92015",
@@ -16403,7 +16543,8 @@
                   "textType": "expression",
                   "longMode": "WRAP",
                   "recolor": false,
-                  "previewValue": "30°"
+                  "previewValue": "30°",
+                  "useStaticText": true
                 },
                 {
                   "objID": "0387c989-8aae-41d3-a952-43678a776d66",
@@ -16459,7 +16600,8 @@
                   "text": "SRAM Size",
                   "textType": "literal",
                   "longMode": "WRAP",
-                  "recolor": false
+                  "recolor": false,
+                  "useStaticText": true
                 },
                 {
                   "objID": "5289d0c3-e6b1-44f2-fda7-778959c5b50c",
@@ -16517,7 +16659,8 @@
                   "textType": "expression",
                   "longMode": "WRAP",
                   "recolor": false,
-                  "previewValue": "2026-04-01-19-57"
+                  "previewValue": "2026-04-01-19-57",
+                  "useStaticText": true
                 },
                 {
                   "objID": "411d9855-7adf-43fb-cda9-4e0b6158c1e3",
@@ -16573,7 +16716,8 @@
                   "text": "PSRAM Size",
                   "textType": "literal",
                   "longMode": "WRAP",
-                  "recolor": false
+                  "recolor": false,
+                  "useStaticText": true
                 },
                 {
                   "objID": "20d5b663-d1fd-4002-8d42-6e466543dcd5",
@@ -16631,7 +16775,8 @@
                   "textType": "expression",
                   "longMode": "WRAP",
                   "recolor": false,
-                  "previewValue": "Apr  1 2026 19:57:32"
+                  "previewValue": "Apr  1 2026 19:57:32",
+                  "useStaticText": true
                 },
                 {
                   "objID": "4f7062db-82df-49ec-c142-0e93c48da3ca",
@@ -16687,7 +16832,8 @@
                   "text": "Flash Size",
                   "textType": "literal",
                   "longMode": "WRAP",
-                  "recolor": false
+                  "recolor": false,
+                  "useStaticText": true
                 },
                 {
                   "objID": "8e5ca531-d3a6-4358-b8ad-ed102873f2a0",
@@ -16745,7 +16891,8 @@
                   "textType": "expression",
                   "longMode": "WRAP",
                   "recolor": false,
-                  "previewValue": "GMT0BST,M3.5.0/1,M10.5.0"
+                  "previewValue": "GMT0BST,M3.5.0/1,M10.5.0",
+                  "useStaticText": true
                 }
               ],
               "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
@@ -16959,7 +17106,8 @@
                   "text": "Software Information",
                   "textType": "literal",
                   "longMode": "WRAP",
-                  "recolor": false
+                  "recolor": false,
+                  "useStaticText": true
                 },
                 {
                   "objID": "c1c43645-8416-4bcf-f599-8f4aff50d65b",
@@ -17015,7 +17163,8 @@
                   "text": "App Version",
                   "textType": "literal",
                   "longMode": "WRAP",
-                  "recolor": false
+                  "recolor": false,
+                  "useStaticText": true
                 },
                 {
                   "objID": "f30fd725-1c91-49a1-8f82-1ab5cf88fea2",
@@ -17073,7 +17222,8 @@
                   "textType": "expression",
                   "longMode": "WRAP",
                   "recolor": false,
-                  "previewValue": "2026-04-01-19-57"
+                  "previewValue": "2026-04-01-19-57",
+                  "useStaticText": true
                 },
                 {
                   "objID": "1225db10-96e2-4be3-c489-af503c6e3fea",
@@ -17129,7 +17279,8 @@
                   "text": "Build Date",
                   "textType": "literal",
                   "longMode": "WRAP",
-                  "recolor": false
+                  "recolor": false,
+                  "useStaticText": true
                 },
                 {
                   "objID": "b2ebc4ff-21ce-4dc8-8199-20a811b76f46",
@@ -17187,7 +17338,8 @@
                   "textType": "expression",
                   "longMode": "WRAP",
                   "recolor": false,
-                  "previewValue": "Apr  1 2026 19:57:32"
+                  "previewValue": "Apr  1 2026 19:57:32",
+                  "useStaticText": true
                 },
                 {
                   "objID": "cef268c3-f8e2-4c79-e82b-3736d0438719",
@@ -17243,7 +17395,8 @@
                   "text": "SDK Version",
                   "textType": "literal",
                   "longMode": "WRAP",
-                  "recolor": false
+                  "recolor": false,
+                  "useStaticText": true
                 },
                 {
                   "objID": "fdb390de-91a8-409a-877b-ef9c406b995b",
@@ -17301,7 +17454,8 @@
                   "textType": "expression",
                   "longMode": "WRAP",
                   "recolor": false,
-                  "previewValue": "2026-04-01-19-57"
+                  "previewValue": "2026-04-01-19-57",
+                  "useStaticText": true
                 },
                 {
                   "objID": "683f7ba7-ca8c-4105-b7f6-03a7b7ac4060",
@@ -17357,7 +17511,8 @@
                   "text": "LVGL Version",
                   "textType": "literal",
                   "longMode": "WRAP",
-                  "recolor": false
+                  "recolor": false,
+                  "useStaticText": true
                 },
                 {
                   "objID": "5c1a070a-fb03-42b7-ddad-cb4fffbd353d",
@@ -17415,7 +17570,8 @@
                   "textType": "expression",
                   "longMode": "WRAP",
                   "recolor": false,
-                  "previewValue": "8.4.0"
+                  "previewValue": "8.4.0",
+                  "useStaticText": true
                 },
                 {
                   "objID": "98c383de-3577-4c69-ac3e-918be9cf37e9",
@@ -17471,7 +17627,8 @@
                   "text": "ESP Panel Version",
                   "textType": "literal",
                   "longMode": "WRAP",
-                  "recolor": false
+                  "recolor": false,
+                  "useStaticText": true
                 },
                 {
                   "objID": "10572150-1016-4665-ea47-f05a5d8eb0e6",
@@ -17529,7 +17686,8 @@
                   "textType": "expression",
                   "longMode": "WRAP",
                   "recolor": false,
-                  "previewValue": "1.2.0"
+                  "previewValue": "1.2.0",
+                  "useStaticText": true
                 }
               ],
               "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
@@ -17736,7 +17894,8 @@
                   "text": "Updates",
                   "textType": "literal",
                   "longMode": "WRAP",
-                  "recolor": false
+                  "recolor": false,
+                  "useStaticText": true
                 },
                 {
                   "objID": "c22d2091-1ed9-44ab-8d37-5a5d19e3e1c3",
@@ -17794,7 +17953,8 @@
                   "textType": "expression",
                   "longMode": "WRAP",
                   "recolor": false,
-                  "previewValue": "ota1 Version"
+                  "previewValue": "ota1 Version",
+                  "useStaticText": true
                 },
                 {
                   "objID": "7afd1da7-6690-4e67-b44f-12b02d9549eb",
@@ -17851,7 +18011,8 @@
                   "textType": "expression",
                   "longMode": "WRAP",
                   "recolor": false,
-                  "previewValue": "1.2"
+                  "previewValue": "1.2",
+                  "useStaticText": true
                 },
                 {
                   "objID": "fe228936-8d32-45b4-f66f-6735a234a6ab",
@@ -17909,7 +18070,8 @@
                   "textType": "expression",
                   "longMode": "WRAP",
                   "recolor": false,
-                  "previewValue": "ota2 Version"
+                  "previewValue": "ota2 Version",
+                  "useStaticText": true
                 },
                 {
                   "objID": "f2fa167e-9c40-40ee-9316-508f8c79dfc0",
@@ -17967,7 +18129,8 @@
                   "textType": "expression",
                   "longMode": "WRAP",
                   "recolor": false,
-                  "previewValue": "1.2"
+                  "previewValue": "1.2",
+                  "useStaticText": true
                 },
                 {
                   "objID": "f7964d8e-5340-46f9-de3d-b2e119352c6d",
@@ -18023,7 +18186,8 @@
                   "text": "Server Version",
                   "textType": "literal",
                   "longMode": "WRAP",
-                  "recolor": false
+                  "recolor": false,
+                  "useStaticText": true
                 },
                 {
                   "objID": "b9f45483-8df6-4641-eaf9-2b3f91a09e17",
@@ -18081,7 +18245,8 @@
                   "textType": "expression",
                   "longMode": "WRAP",
                   "recolor": false,
-                  "previewValue": "2026-04-01-19-57"
+                  "previewValue": "2026-04-01-19-57",
+                  "useStaticText": true
                 }
               ],
               "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
@@ -18426,7 +18591,8 @@
                   "text": "MQTT Information",
                   "textType": "literal",
                   "longMode": "WRAP",
-                  "recolor": false
+                  "recolor": false,
+                  "useStaticText": true
                 },
                 {
                   "objID": "c34619fa-420b-4215-f8f8-4fbecade24e3",
@@ -18484,7 +18650,8 @@
                   "textType": "literal",
                   "longMode": "WRAP",
                   "recolor": false,
-                  "previewValue": "ota1 Version"
+                  "previewValue": "ota1 Version",
+                  "useStaticText": true
                 },
                 {
                   "objID": "66fdd444-a2f0-412d-bdab-216c7dd89e30",
@@ -18541,7 +18708,8 @@
                   "textType": "expression",
                   "longMode": "WRAP",
                   "recolor": false,
-                  "previewValue": "mosquitto.home.arpa"
+                  "previewValue": "mosquitto.home.arpa",
+                  "useStaticText": true
                 },
                 {
                   "objID": "d0623a06-0555-4cc0-d425-db4af728bf8b",
@@ -18599,7 +18767,8 @@
                   "textType": "literal",
                   "longMode": "WRAP",
                   "recolor": false,
-                  "previewValue": "ota2 Version"
+                  "previewValue": "ota2 Version",
+                  "useStaticText": true
                 },
                 {
                   "objID": "4b18d981-6224-4650-c430-fc587bfebd80",
@@ -18657,7 +18826,8 @@
                   "textType": "expression",
                   "longMode": "WRAP",
                   "recolor": false,
-                  "previewValue": "mosquitto 1.2"
+                  "previewValue": "mosquitto 1.2",
+                  "useStaticText": true
                 },
                 {
                   "objID": "8c19af33-f81c-44e9-c5c0-0aa20a663f61",
@@ -18713,7 +18883,8 @@
                   "text": "Topic Prefix",
                   "textType": "literal",
                   "longMode": "WRAP",
-                  "recolor": false
+                  "recolor": false,
+                  "useStaticText": true
                 },
                 {
                   "objID": "a9038191-de8b-4dd4-da27-54448a9b5432",
@@ -18771,7 +18942,8 @@
                   "textType": "expression",
                   "longMode": "WRAP",
                   "recolor": false,
-                  "previewValue": "dashboard"
+                  "previewValue": "dashboard",
+                  "useStaticText": true
                 }
               ],
               "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
@@ -18979,7 +19151,8 @@
                   "text": "Network Information",
                   "textType": "literal",
                   "longMode": "WRAP",
-                  "recolor": false
+                  "recolor": false,
+                  "useStaticText": true
                 },
                 {
                   "objID": "39b2c8c3-8d0b-48e3-b7ee-5df66818ba65",
@@ -19035,7 +19208,8 @@
                   "text": "Network Name",
                   "textType": "literal",
                   "longMode": "WRAP",
-                  "recolor": false
+                  "recolor": false,
+                  "useStaticText": true
                 },
                 {
                   "objID": "3efe45df-424a-4918-c338-1301b03d4286",
@@ -19093,7 +19267,8 @@
                   "textType": "expression",
                   "longMode": "WRAP",
                   "recolor": false,
-                  "previewValue": "2026-04-01-19-57"
+                  "previewValue": "2026-04-01-19-57",
+                  "useStaticText": true
                 },
                 {
                   "objID": "14e3bf5e-22d9-42cc-fc8c-af59162c8991",
@@ -19149,7 +19324,8 @@
                   "text": "Signal Strength",
                   "textType": "literal",
                   "longMode": "WRAP",
-                  "recolor": false
+                  "recolor": false,
+                  "useStaticText": true
                 },
                 {
                   "objID": "ba857202-0b81-4f60-bf12-b9fcde0ea7b8",
@@ -19207,7 +19383,8 @@
                   "textType": "expression",
                   "longMode": "WRAP",
                   "recolor": false,
-                  "previewValue": "Apr  1 2026 19:57:32"
+                  "previewValue": "Apr  1 2026 19:57:32",
+                  "useStaticText": true
                 },
                 {
                   "objID": "21c691ad-1972-40cc-9d1e-66abe9606112",
@@ -19263,7 +19440,8 @@
                   "text": "MAC Address",
                   "textType": "literal",
                   "longMode": "WRAP",
-                  "recolor": false
+                  "recolor": false,
+                  "useStaticText": true
                 },
                 {
                   "objID": "771e0644-e89d-4b3e-99b3-1026f1b9833e",
@@ -19321,7 +19499,8 @@
                   "textType": "expression",
                   "longMode": "WRAP",
                   "recolor": false,
-                  "previewValue": "2026-04-01-19-57"
+                  "previewValue": "2026-04-01-19-57",
+                  "useStaticText": true
                 },
                 {
                   "objID": "40dafc92-0e07-4001-9f19-bff40ca03067",
@@ -19377,7 +19556,8 @@
                   "text": "IP Address",
                   "textType": "literal",
                   "longMode": "WRAP",
-                  "recolor": false
+                  "recolor": false,
+                  "useStaticText": true
                 },
                 {
                   "objID": "abc6e030-b043-4c5b-d012-8006b7a91df9",
@@ -19435,7 +19615,8 @@
                   "textType": "expression",
                   "longMode": "WRAP",
                   "recolor": false,
-                  "previewValue": "8.4.0"
+                  "previewValue": "8.4.0",
+                  "useStaticText": true
                 },
                 {
                   "objID": "21b73ab0-5b4c-4dd0-9546-fd92c33639f9",
@@ -19491,7 +19672,8 @@
                   "text": "Subnet Mask",
                   "textType": "literal",
                   "longMode": "WRAP",
-                  "recolor": false
+                  "recolor": false,
+                  "useStaticText": true
                 },
                 {
                   "objID": "d8c42dbd-9747-426f-fafe-5584e4812b98",
@@ -19549,7 +19731,8 @@
                   "textType": "expression",
                   "longMode": "WRAP",
                   "recolor": false,
-                  "previewValue": "1.2.0"
+                  "previewValue": "1.2.0",
+                  "useStaticText": true
                 },
                 {
                   "objID": "4a40f62b-96bb-4f9e-cfff-3c0d9115373e",
@@ -19605,7 +19788,8 @@
                   "text": "Default Gateway",
                   "textType": "literal",
                   "longMode": "WRAP",
-                  "recolor": false
+                  "recolor": false,
+                  "useStaticText": true
                 },
                 {
                   "objID": "c37a955e-a6d8-4dbf-8baa-b1c45110fff7",
@@ -19663,7 +19847,8 @@
                   "textType": "expression",
                   "longMode": "WRAP",
                   "recolor": false,
-                  "previewValue": "1.2.0"
+                  "previewValue": "1.2.0",
+                  "useStaticText": true
                 }
               ],
               "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
@@ -19800,6 +19985,7 @@
       "glyphs": [],
       "lvglRanges": "32-127",
       "lvglSymbols": "°%",
+      "lvglAdditionalSources": [],
       "lvglGlyphs": {
         "encodings": [
           {
@@ -19827,6 +20013,7 @@
       "glyphs": [],
       "lvglRanges": "32-127",
       "lvglSymbols": "°%",
+      "lvglAdditionalSources": [],
       "lvglGlyphs": {
         "encodings": [
           {
@@ -19855,6 +20042,7 @@
       "glyphs": [],
       "lvglRanges": "32-127",
       "lvglSymbols": "°%",
+      "lvglAdditionalSources": [],
       "lvglGlyphs": {
         "encodings": [
           {
@@ -19883,6 +20071,7 @@
       "glyphs": [],
       "lvglRanges": "32-127",
       "lvglSymbols": "°%",
+      "lvglAdditionalSources": [],
       "lvglGlyphs": {
         "encodings": [
           {
@@ -19911,6 +20100,7 @@
       "glyphs": [],
       "lvglRanges": "32-127",
       "lvglSymbols": "°%",
+      "lvglAdditionalSources": [],
       "lvglGlyphs": {
         "encodings": [
           {
@@ -19939,6 +20129,7 @@
       "glyphs": [],
       "lvglRanges": "32-127",
       "lvglSymbols": "°%",
+      "lvglAdditionalSources": [],
       "lvglGlyphs": {
         "encodings": [
           {
@@ -19967,6 +20158,7 @@
       "glyphs": [],
       "lvglRanges": "32-127",
       "lvglSymbols": "°%",
+      "lvglAdditionalSources": [],
       "lvglGlyphs": {
         "encodings": [
           {
@@ -19995,6 +20187,7 @@
       "glyphs": [],
       "lvglRanges": "32-127",
       "lvglSymbols": "°%",
+      "lvglAdditionalSources": [],
       "lvglGlyphs": {
         "encodings": [
           {
@@ -20024,6 +20217,7 @@
       "glyphs": [],
       "lvglRanges": "32-127",
       "lvglSymbols": "",
+      "lvglAdditionalSources": [],
       "lvglGlyphs": {
         "encodings": [
           {
@@ -20301,6 +20495,15 @@
       "objID": "bbdde0bd-b92a-47b4-c4a2-ef6746224f63",
       "name": "reboot",
       "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAABmJLR0QA/wD/AP+gvaeTAAAE60lEQVR4nO2cy48VRRSHvwuYQZHHgBp0xslIIo/AgkRI0IQgDCJgohhDNBA1YpgFcQPxsXBh4sL/wMVIACWACzHxhRtNFIlOUIYEAhICDGrMzA4YeU4GaRd1L0Lf032r7nQ9uukv6c25qTq/c9LVVXWq+0JJ4VkNfAC0+haSVy4DEXASmOlZSy6JbrnOAcv9yskfUey6DrzjVVHOiCewdvUAd3nUlRuSEhgBPwH3+ZOWD9ISGAGngDne1OWARgmMgCHgGV8CQ0cngd4ml4prhwJTgCeAhcBcYAbwEGrhPL6J/j4C3gBGshIYIh3A20Av6s7Rvct0r++Bu51F45AVwLfAv2SftPjV5SgmJ6wAfsN+0mrXdzQ3/IOjA/gSd4mLKNAC+1XU8kIn6JPAVmAjsBiV+AnVfoKehW0wHthB44BPA+8CjzboTyd5hVkHTgN+Jj3YX4E1wBjNPhslrzA7kenAMZID/Rt4CfO1Z1ryCrMXnkZ68j4GJjfZd+EnixbgAHKQ14ANo+y/sJNFje3IybsALMmg/1v7LFxF+hWSk7cwIx+X+H+pU6gzkQ7kdd4w8GSGflYB71PAU7kvkO++132KygvLkZO306eovFBBLgwMoGp7eWIt0AccAV5z5fRp5LtvnSsBGTGf+rLaMheO91GfvEOEUd02YTP1ceyz7fRh5GLoGtuOLbASeZHebtPpW4LTfvQLAyExBlURisfzpmknJjwr2LYDNwz7CYEbwCeC3dpomoJ8ADTLlkMHzKI+nhGaL3ykslpwdsaGI8dIw3iVbmOTIfyYYPvBoH2o/CjYFug2NkngPMHWZ9A+VA4Jtrm6jU0SOEOw/W7QPlROCDYpVhGTBD4o2P4yaB8qUgxSrKPmCvUP24k2HDnmXurjuqTb2GT7FQm2caidSZ6pUL+OjdAcnSZDWEqgZCsC2nGZJPCqYLvHoH2oSDFc021sksDzgu1+g/ahIsVwTrexSQIHBFunQftQ6RRsg7qNTRLYL9hmG7QPFem1EO0tqkkCjws27S1PwEgxHLPhSComnLbhyDFSMWGlDUeTkctZeR7GSeWsSbodmAzhIeCgYH/RoI/QkLT3Av/Ycli0kv4Z6uPZYtNpO/Iwft6mU0s8h3yo1Gbb8TeC4z7ydaxZQdUB43F87cL5U4LjCFjvwnlGrEOOwdmrcwcF5wPk4w2qVpTWuP5elyK6BAERsNuliCbZhax9iWshnycI6XYtxIBuZM2f+RDTjnoTNS5mGEcv6RiyDKUtrvc86utQL7wsCIpQi+5FvkQJLCL5qynvk982kpMYwp24FLWzkDT2eNR1k7TPHIbx+0zsRh62EeojnRZ/0m5nKnAUWWgE7MHtEqe16jNJzxHHerR4gPQkDqKemTZ3LBXUM20wRcdRAj6KmErycK5dh4EXgLEZ+h1b7fNwA98HCPDOi9OC+vY3LZAI+AN4j9F9aTm72sdZDX89WHjm2RxO64EP0XvXrh/Yj3r7/wTwJ+pkbKj6+yTUsOtEJW0BaufwiEbfF4BNwKf60sOhDdhL47vD1rUXj4vkLFmK2qy7Slxv1Wfh6AK+ws5/xVyv9h3C4t06bajS+X7UIU6zSRtBzaxbcFBJlgihijwReBw1McxDTQxtqMmndjo2BFxE/W3AWdS5bR/wS9VeUlJSUlJSUlJSUlJyB/EfWMH+8aLLDO0AAAAASUVORK5CYII=",
+      "bpp": 4,
+      "alwaysBuild": false,
+      "lvglBinaryOutputFormat": 3,
+      "lvglDither": false
+    },
+    {
+      "objID": "13099557-fb86-41d2-8244-9bf21605685c",
+      "name": "live-location",
+      "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABmJLR0QA/wD/AP+gvaeTAAAB10lEQVRIie3Vu2uUQRQF8J9rJDZ2JpFEk03szCIi4p8iBKKNksLWQtROEQtRYgwWIhqDxOB/oCFqr6CFiA+CWMSAVj6Ib2Mxs3D3lV13Wy8MM3POfOd+39wz8/E/msTGqvlR7MejNvWOYW+j5w9hDZNtisN01hivJkbwBQvo6iBBF+7jM4qRuIOP6A9YCRMtiE5gNMx35ATzZWAEv3E6LNqGFbxsIcFrvENvwM5mzWE4lScDYcEsVrGrhQQlfMWNgA3iD07AIh4Hsg8/cT5gm6UCfsrtMroDfxE/0BOwJ7hH2oqrgRiTnLAnYFcyFtulwO/L2IGAXcdyIWd9H4jh3D8PWI3tcDCMn+V+Z8BW0FPIk7U6AhvqYI348rhGp4APkmvK8Sb3scCzdRLcDONS7pcC1i/vzILKIvdKBbsQsG5MSW5ZlU57LPIkvmNrwJ7iLpyUbLo9kDNZrKQyHuQWYze+4VrAhiSbHicV9RfOhAV90uF51UKCJSyrtOi5rFksA/OSv+NhG8XhFhIcUVmvQelem4uLitL9sWj9y65eghib8DC/7FA1OS7ZbKqDBNPS3o+Vgfi2t7BFc/+vFy+kn9btdgWafUFNFJov6Sz+9e/1Vv1rpWH8BeVDbb/afSbHAAAAAElFTkSuQmCC",
       "bpp": 4,
       "alwaysBuild": false,
       "lvglBinaryOutputFormat": 3,

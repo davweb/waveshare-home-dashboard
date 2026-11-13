@@ -195,6 +195,7 @@ static void recalculateDueTimes()
             arrival.destination(bus.stops[j].arrivals[i].destination);
             arrival.due_label(bus_due_labels[j][i]);
             arrival.due_seconds(bus_due_seconds[j][i]);
+            arrival.live_location(bus.stops[j].arrivals[i].live_location);
             arrivals.at(i, arrival);
         }
         BusStopValue bus_stop;
@@ -397,7 +398,6 @@ extern "C" void app_main(void)
     }
 
     //Start wifi before LVGL so SRAM is available
-    setWiFiStateCallback(update_network_information);
     startWiFi();
     httpd_handle_t server = startHttpServer();
 
@@ -434,6 +434,8 @@ extern "C" void app_main(void)
                     lvgl_port_unlock();
                     prevWifiConnected = false;
                 }
+
+                update_network_information(false);
             }
         }
         else {
@@ -445,6 +447,8 @@ extern "C" void app_main(void)
                     lvgl_port_unlock();
                     prevWifiConnected = true;
                 }
+
+                update_network_information(true);
 
                 setRtcClock();
             }

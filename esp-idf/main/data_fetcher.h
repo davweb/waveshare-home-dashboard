@@ -13,6 +13,7 @@ struct BusArrivalData {
     char route[4];
     char destination[32];
     time_t due_epoch;
+    bool live_location;
 };
 
 struct BusStopData {
@@ -90,6 +91,7 @@ inline bool parse_bus_stops(cJSON *root, BusData &bus)
             strlcpy(bus.stops[j].arrivals[i].route,       cjson_str(arrival, "route"),       sizeof(bus.stops[j].arrivals[i].route));
             strlcpy(bus.stops[j].arrivals[i].destination, cjson_str(arrival, "destination"), sizeof(bus.stops[j].arrivals[i].destination));
             bus.stops[j].arrivals[i].due_epoch = cjson_epoch(arrival, "due_time");
+            bus.stops[j].arrivals[i].live_location = cjson_bool(arrival, "live_location");
         }
     }
 

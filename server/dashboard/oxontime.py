@@ -36,15 +36,16 @@ def _to_utc(time_str: str) -> datetime:
     return dt.astimezone(timezone.utc)
 
 
-def _bus_details(bus) -> tuple[str, str, datetime]:
+def _bus_details(bus) -> tuple[str, str, datetime, bool]:
     route = bus['route_code']
     destination = bus['destination']
     departure_time = _to_utc(bus['expected_arrival_time'] or bus['aimed_arrival_time'])
+    live_location = bool(bus.get('monitored'))
 
-    return (route, destination, departure_time)
+    return (route, destination, departure_time, live_location)
 
 
-def extract_bus_information(bus_stop_id) -> tuple[str, list[tuple[str, str, datetime]]]:
+def extract_bus_information(bus_stop_id) -> tuple[str, list[tuple[str, str, datetime, bool]]]:
     """Download bus time information page and return the data"""
 
     url = _TIMES_URL.format(bus_stop_id)

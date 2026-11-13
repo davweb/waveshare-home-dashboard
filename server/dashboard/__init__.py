@@ -47,7 +47,7 @@ class BusDataSource(DataSource):
     def get_name(self) -> str:
         return 'bus_stops'
 
-    def get_data(self) -> list[tuple[str, list[tuple[str, str, datetime]]]]:
+    def get_data(self) -> list[tuple[str, list[tuple[str, str, datetime, bool]]]]:
         bus_times = []
 
         for bus_stop_id in CONFIG.bus_stop_ids:
@@ -63,9 +63,11 @@ class BusDataSource(DataSource):
             bus_times.append({'name': name,
                               'buses': [{'route': route,
                                          'destination': dest,
-                                         'due_time': int(due.timestamp())} for route,
+                                         'due_time': int(due.timestamp()),
+                                         'live_location': live} for route,
                                         dest,
-                                        due in buses]})
+                                        due,
+                                        live in buses]})
 
         return bus_times
 
