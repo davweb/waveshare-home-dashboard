@@ -6,7 +6,8 @@ function here is a silent no-op and the server behaves exactly as before.
 
 ``report`` adds uptime-monitor-style deduplication on top of ``notify`` so that
 a sustained outage produces a single alert (and a single recovery message),
-rather than one message per failed attempt.
+rather than one message per failed attempt. A per-key threshold delays the
+alert until that many consecutive failures, so brief blips stay silent.
 """
 
 import logging
@@ -18,10 +19,12 @@ from .config import CONFIG
 
 logger = logging.getLogger(__name__)
 
-# Keys currently in a failed state, guarded by a lock because the scheduler and
-# the MQTT loop call report() from background threads.
-_failing: set[str] = set()
-_failing_lock = threading.Lock()
+# Consecutive failure counts and keys that have been alerted on, guarded by a
+# lock because the scheduler and the MQTT loop call report() from background
+# threads.
+_consecutive_failures: dict[str, int] = {}
+_alerted: set[str] = set()
+_state_lock = threading.Lock()
 
 
 def notify(message: str) -> None:
@@ -47,24 +50,30 @@ def notify(message: str) -> None:
         logger.exception('Failed to send Telegram notification')
 
 
-def report(key: str, ok: bool, detail: str = '') -> None:
+def report(key: str, ok: bool, detail: str = '', threshold: int = 1) -> None:
     """Report the health of *key*, alerting only on state changes.
 
-    The first failure for a key sends a ``🔴`` alert; the first success after a
-    failure sends a ``✅`` recovery message. Repeated failures or repeated
-    successes are silent.
+    A ``🔴`` alert is sent when *key* reaches *threshold* consecutive failures;
+    the first success after that alert sends a ``✅`` recovery message. Failures
+    below the threshold, repeated failures after the alert, and successes with
+    no outstanding alert are silent.
     """
-    with _failing_lock:
+    with _state_lock:
         if ok:
-            if key not in _failing:
+            _consecutive_failures.pop(key, None)
+            if key not in _alerted:
                 return
-            _failing.discard(key)
+            _alerted.discard(key)
         else:
-            if key in _failing:
+            failures = _consecutive_failures.get(key, 0) + 1
+            _consecutive_failures[key] = failures
+            if failures < threshold or key in _alerted:
                 return
-            _failing.add(key)
+            _alerted.add(key)
 
     if ok:
         notify(f'✅ {key} recovered')
+    elif threshold > 1:
+        notify(f'🔴 {detail or key} ({threshold} in a row)')
     else:
         notify(f'🔴 {detail or key}')

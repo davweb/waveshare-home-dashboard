@@ -36,6 +36,10 @@ class DataSource(ABC):
     def get_schedule(self) -> schedule.Job:
         """Return a schedule job to run the data source"""
 
+    def get_alert_threshold(self) -> int:
+        """Consecutive fetch failures before a Telegram alert is sent"""
+        return 1
+
 
 class BusDataSource(DataSource):
     """DataSource for bus times"""
@@ -67,6 +71,9 @@ class BusDataSource(DataSource):
 
     def get_schedule(self) -> schedule.Job:
         return schedule.every(1).minutes
+
+    def get_alert_threshold(self) -> int:
+        return 3
 
 
 class WeatherDataSource(DataSource):
@@ -125,6 +132,9 @@ class WeatherDataSource(DataSource):
     def get_schedule(self) -> schedule.Job:
         return schedule.every(15).minutes
 
+    def get_alert_threshold(self) -> int:
+        return 2
+
 
 class RecyclingDataSource(DataSource):
     """DataSource to Return day and date as String"""
@@ -173,6 +183,9 @@ class UnifiDataSource(DataSource):
     def get_schedule(self) -> schedule.Job:
         return schedule.every(1).minutes
 
+    def get_alert_threshold(self) -> int:
+        return 3
+
 
 DATA_SOURCES = [
     BusDataSource(),
@@ -196,15 +209,17 @@ def _publish_data_source(data_source: DataSource) -> None:
 
 def _update_data_source(data_source: DataSource) -> None:
     name = data_source.get_name()
+    threshold = data_source.get_alert_threshold()
     try:
         logging.info('Updating %s', name)
         DATA[name] = data_source.get_data()
         _publish_data_source(data_source)
-        telegram.report(name, ok=True)
+        telegram.report(name, ok=True, threshold=threshold)
     except Exception as exc:  # pylint: disable=broad-exception-caught
         logging.exception('Failed to update %s', name)
         telegram.report(name, ok=False,
-                        detail=f'{name} fetch failed: {type(exc).__name__}: {exc}')
+                        detail=f'{name} fetch failed: {type(exc).__name__}: {exc}',
+                        threshold=threshold)
 
 
 def run_scheduler():
